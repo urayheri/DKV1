@@ -1,0 +1,1461 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Pendakian Soal: Malam Berkabut - SMKN 1 Semparuk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800&display=swap">
+<style>
+:root{
+  --ink:#0d1b2a; --ink-2:#27475f; --snow:#f0f6fc; --sky:#070e1a; --pine:#2d7a55;
+  --sun:#ffb62b; --sun-d:#c98400; --berry:#e5383b; --paper:#fffdf5; --line:#d7e3ee; --glass:rgba(8,16,28,.88);
+  --display:"Baloo 2",system-ui,sans-serif; --body:"Nunito",system-ui,sans-serif;
+  color-scheme: light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html,body{height:100%;margin:0;padding:0}
+body{background:var(--sky);color:var(--ink);font-family:var(--body);overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none}
+[hidden]:not([hidden=until-found i]){display:none!important}
+#gl{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+button{font-family:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+
+#fearVignette{
+  position:fixed;inset:0;pointer-events:none;z-index:4;
+  background:radial-gradient(circle, transparent 42%, rgba(180,15,25,0.68) 100%);
+  opacity:0;transition:opacity .18s ease;
+}
+
+/* ---------- HUD ---------- */
+#hud{position:fixed;inset:0;pointer-events:none;color:var(--snow);z-index:5}
+#hud>*{pointer-events:auto}
+.row-top{position:absolute;left:0;right:0;top:calc(env(safe-area-inset-top,0px) + 10px);display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:flex-start;padding:0 max(12px,env(safe-area-inset-left,0px)) 0 max(12px,env(safe-area-inset-right,0px));pointer-events:none}
+.row-top>*{pointer-events:auto}
+.panel{background:var(--glass);border-radius:12px;padding:8px 12px;backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.14)}
+.who{display:flex;gap:10px;align-items:baseline;min-width:0}
+.who b{font-family:var(--display);font-size:1.05rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:34vw}
+.who span{font-size:.85rem;opacity:.85}
+.who .clock{font-variant-numeric:tabular-nums;font-weight:800}
+.who .warn-badge{background:var(--berry);color:#fff;padding:2px 7px;border-radius:6px;font-size:.75rem;font-weight:800}
+.alt{flex:1 1 160px;max-width:280px;min-width:140px}
+.alt .lbl{display:flex;justify-content:space-between;font-size:.8rem;font-weight:800;margin-bottom:5px;letter-spacing:.03em;text-transform:uppercase}
+.altbar{height:10px;border-radius:6px;background:rgba(255,255,255,.16);overflow:hidden}
+.altbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#4cc9f0,#ffd25a,#fff);border-radius:6px}
+.btns{display:flex;gap:7px;flex-wrap:wrap}
+.btn{border:0;border-radius:10px;padding:9px 13px;font-weight:800;font-size:.9rem;color:var(--ink);background:var(--snow);box-shadow:0 4px 0 rgba(0,0,0,.35);transition:transform .08s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.35)}
+.btn.sun{background:var(--sun)}
+.btn.go{background:#7bd88f}
+.btn.dark{background:#1b263b;color:#f0f6fc;border:1px solid rgba(255,255,255,.2)}
+.btn.dark.off{opacity:.65}
+.btn.ghost{background:transparent;box-shadow:none;border:2px solid var(--line);color:var(--ink)}
+.btn b{font-variant-numeric:tabular-nums}
+.compass{position:absolute;left:max(12px,env(safe-area-inset-left,0px));top:calc(env(safe-area-inset-top,0px) + 78px);display:flex;gap:10px;align-items:center;pointer-events:none}
+.compass .dial{width:44px;height:44px;border-radius:50%;background:var(--glass);display:grid;place-items:center;border:1px solid rgba(255,255,255,.18)}
+#arrow{width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;border-bottom:22px solid var(--sun);transition:transform .1s linear}
+.compass span{background:var(--glass);border-radius:10px;padding:6px 12px;font-size:.85rem;font-weight:800;border:1px solid rgba(255,255,255,.14)}
+.alert-banner{position:absolute;left:50%;top:calc(env(safe-area-inset-top,0px) + 78px);transform:translateX(-50%);padding:6px 14px;border-radius:10px;font-size:.82rem;font-weight:800;pointer-events:none;border:1px solid rgba(255,255,255,.3);box-shadow:0 4px 12px rgba(0,0,0,.4);white-space:nowrap}
+.alert-banner.water{background:rgba(14,116,144,.94);color:#fff}
+.alert-banner.ghost{background:rgba(185,28,28,.94);color:#fff;animation:pulseWarn .7s infinite alternate}
+@keyframes pulseWarn{from{transform:translateX(-50%) scale(1)}to{transform:translateX(-50%) scale(1.04)}}
+.hint{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 12px);background:var(--glass);border-radius:10px;padding:6px 12px;font-size:.8rem;font-weight:700;white-space:nowrap;pointer-events:none}
+#stick,#jumpBtn{display:none}
+.touchy #stick{display:block;position:absolute;left:max(18px,env(safe-area-inset-left,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 24px);width:132px;height:132px;border-radius:50%;background:rgba(12,24,40,.55);border:3px solid rgba(255,255,255,.45);touch-action:none}
+.touchy #knob{position:absolute;left:50%;top:50%;width:54px;height:54px;border-radius:50%;background:var(--snow);transform:translate(-50%,-50%);box-shadow:0 3px 0 rgba(0,0,0,.4)}
+.touchy #jumpBtn{display:block;position:absolute;right:max(22px,env(safe-area-inset-right,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 36px);width:88px;height:88px;border-radius:50%;border:3px solid rgba(255,255,255,.6);background:rgba(255,182,43,.9);color:var(--ink);font-weight:800;font-size:1rem;touch-action:none}
+.touchy .hint{display:none}
+
+/* ---------- Kartu & modal ---------- */
+.overlay{position:fixed;inset:0;display:grid;place-items:center;padding:16px;overflow:auto;touch-action:pan-y;-webkit-user-select:auto;user-select:auto;z-index:10}
+.overlay.dim{background:rgba(5,10,20,.72)}
+.overlay.lock{background:rgba(10,18,32,.96);z-index:40}
+.card{background:var(--paper);color:var(--ink);border:3px solid var(--ink);border-radius:16px;box-shadow:0 10px 25px rgba(0,0,0,.55);width:min(100%,520px);padding:22px;box-sizing:border-box;margin:auto}
+.card.wide{width:min(100%,640px)}
+h1,h2{font-family:var(--display);margin:0;line-height:1.05;text-wrap:balance}
+h1{font-size:2.3rem;font-weight:800}
+h2{font-size:1.5rem;font-weight:700}
+.lead{margin:8px 0 16px;font-size:1rem;line-height:1.5;color:var(--ink-2)}
+label.f{display:block;font-weight:800;font-size:.85rem;margin:12px 0 5px;letter-spacing:.03em;text-transform:uppercase}
+input[type=text]{width:100%;box-sizing:border-box;border:2px solid var(--ink);border-radius:10px;padding:11px 12px;font:700 1rem var(--body);background:#fff;color:var(--ink);-webkit-user-select:text;user-select:text}
+.swatches{display:flex;gap:8px;flex-wrap:wrap}
+.sw{width:38px;height:38px;border-radius:10px;border:3px solid transparent;box-shadow:inset 0 0 0 2px rgba(0,0,0,.25)}
+.sw[aria-checked=true]{border-color:var(--ink);box-shadow:0 0 0 3px var(--sun)}
+.err{color:var(--berry);font-weight:800;min-height:1.3em;margin:10px 0 0;font-size:.9rem}
+.start{width:100%;margin-top:6px;padding:13px;font-size:1.15rem;font-family:var(--display)}
+.rules{margin:16px 0 0;padding:12px 14px;background:#eaf5ff;border-radius:10px;font-size:.85rem;line-height:1.55}
+.rules b{font-weight:800}
+
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.chip{background:var(--ink);color:var(--snow);border-radius:8px;padding:4px 10px;font-weight:800;font-size:.85rem;font-variant-numeric:tabular-nums}
+.chip.ok{background:var(--pine)}
+.qtext{font-size:1.15rem;font-weight:800;line-height:1.45;margin:0 0 14px}
+.opts{display:grid;gap:9px}
+.opt{display:flex;gap:12px;align-items:center;text-align:left;width:100%;border:2px solid var(--ink);background:#fff;border-radius:12px;padding:11px 12px;font-size:1rem;font-weight:700;color:var(--ink);box-shadow:0 3px 0 rgba(18,38,58,.25)}
+.opt .ltr{flex:none;width:30px;height:30px;border-radius:8px;background:var(--line);display:grid;place-items:center;font-family:var(--display);font-weight:800}
+.opt[aria-pressed=true]{background:var(--sun);}
+.opt[aria-pressed=true] .ltr{background:var(--ink);color:var(--snow)}
+.qfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:16px;flex-wrap:wrap}
+.qfoot small{color:var(--ink-2);font-weight:700}
+
+.bag{display:grid;grid-template-columns:repeat(8,1fr);gap:7px;margin:14px 0}
+.bag button{aspect-ratio:1;border-radius:9px;border:2px solid var(--ink);font:800 .95rem var(--display);padding:0;background:var(--sun);color:var(--ink);font-variant-numeric:tabular-nums}
+.bag button.done{background:#7bd88f}
+.bag button.lock{background:transparent;border:2px dashed #9fb3c4;color:#9fb3c4;cursor:default}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.82rem;font-weight:700}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:4px;border:2px solid var(--ink);margin-right:5px;vertical-align:-2px}
+@media (max-width:420px){.bag{grid-template-columns:repeat(5,1fr)} h1{font-size:2rem}}
+
+.score{font-family:var(--display);font-weight:800;font-size:4.6rem;line-height:1;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+.stat{background:#eaf5ff;border-radius:10px;padding:9px;text-align:center}
+.stat b{display:block;font-family:var(--display);font-size:1.5rem}
+.stat span{font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--ink-2)}
+.sync-status{padding:10px 12px;border-radius:10px;font-size:.88rem;font-weight:800;margin:10px 0;background:#eaf5ff;color:var(--ink-2)}
+.sync-status.ok{background:#dff7e6;color:var(--pine)}
+.sync-status.err{background:#fde8ea;color:var(--berry)}
+details{margin-top:10px;border:2px solid var(--line);border-radius:10px;padding:8px 12px}
+summary{font-weight:800;cursor:pointer}
+.rev{margin:10px 0 0;padding:0;list-style:none;display:grid;gap:8px;font-size:.88rem;line-height:1.4}
+.rev li{border-bottom:1px solid var(--line);padding-bottom:8px}
+.rev .t{font-weight:800}
+.rev .bad{color:var(--berry);font-weight:800}
+.rev .good{color:var(--pine);font-weight:800}
+textarea#copyBox{width:100%;box-sizing:border-box;height:120px;margin-top:10px;font:600 .8rem/1.4 monospace;border:2px solid var(--line);border-radius:10px;padding:8px;-webkit-user-select:text;user-select:text}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+#toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 124px);transform:translateX(-50%);background:var(--ink);color:var(--snow);padding:10px 16px;border-radius:12px;font-weight:800;font-size:.95rem;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.2);max-width:88vw;text-align:center;z-index:50}
+#nogl{position:fixed;inset:0;display:grid;place-items:center;padding:24px;text-align:center;font-weight:800;color:#fff}
+@media (prefers-reduced-motion:reduce){#arrow{transition:none}}
+</style>
+</head>
+<body>
+
+<canvas id="gl" aria-label="Pemandangan gunung malam 3D"></canvas>
+<div id="fearVignette"></div>
+
+<div id="hud" hidden>
+  <div class="row-top">
+    <div class="panel who">
+      <b id="whoName"></b>
+      <span id="whoClass"></span>
+      <span class="clock" id="clock">00:00</span>
+      <span class="warn-badge" id="warnBadge" hidden>Pelanggaran: 0/3</span>
+    </div>
+    <div class="panel alt"><div class="lbl"><span>Ketinggian</span><span id="altTxt">0 m</span></div><div class="altbar"><i id="altFill"></i></div></div>
+    <div class="btns">
+      <button class="btn dark" id="btnLight" type="button" title="Tekan F">🔦 Senter: ON</button>
+      <button class="btn dark" id="btnSound" type="button">🔊 Suara</button>
+      <button class="btn sun" id="btnBag" type="button">Tas soal <b id="bagCount">0/40</b></button>
+      <button class="btn" id="btnFinish" type="button">Kumpulkan</button>
+    </div>
+  </div>
+  <div class="compass"><div class="dial"><div id="arrow"></div></div><span id="compTxt">Cari kertas soal</span></div>
+  <div class="alert-banner water" id="waterWarn" hidden>🌊 Tercebur sungai malam! Naik ke jembatan batang kayu</div>
+  <div class="alert-banner ghost" id="ghostWarn" hidden>👁️ Sosok berambut panjang mendekat! Matikan senter (F) atau menghindar!</div>
+  <div class="hint">WASD/Panah: jalan · Spasi: lompat · F: senter · B: tas soal · Seret mouse/Q/E: kamera</div>
+  <div id="stick"><div id="knob"></div></div>
+  <button id="jumpBtn" type="button">Lompat</button>
+</div>
+
+<div class="overlay" id="login">
+  <form class="card" id="loginForm" autocomplete="off" novalidate>
+    <h1>Pendakian Malam</h1>
+    <p class="lead">Daki gunung berkabut di malam hari, seberangi sungai lewat jembatan kayu lapuk, hindari sosok berambut panjang di hutan, dan kumpulkan 40 soal di puncak.</p>
+    <label class="f" for="inName">Nama lengkap</label>
+    <input type="text" id="inName" maxlength="32" placeholder="mis. Siti Rahma">
+    <label class="f" for="inClass">Kelas</label>
+    <input type="text" id="inClass" maxlength="16" placeholder="mis. XI DKV 1">
+    <div id="codeWrap" hidden>
+      <label class="f" for="inCode">Kode ujian</label>
+      <input type="text" id="inCode" maxlength="24">
+    </div>
+    <label class="f" id="swLbl">Warna jaketmu</label>
+    <div class="swatches" id="swatches" role="radiogroup" aria-labelledby="swLbl"></div>
+    <p class="err" id="loginErr" role="alert"></p>
+    <button class="btn sun start" type="submit">Mulai Pendakian Malam</button>
+    <div class="rules">
+      <b>Panduan Bertahan & Aturan Ujian:</b><br>
+      1. Gunakan <b>Senter (F)</b> untuk melihat jembatan batang kayu di atas sungai gelap. Matikan senter sejenak jika berpapasan dengan <b>Sosok Berambut Panjang</b> agar tidak terdeteksi.<br>
+      2. Ujian berjalan dalam <b>Mode Layar Penuh (Lockdown)</b>. Dilarang keluar tab/layar penuh (maksimal 3 peringatan).
+    </div>
+  </form>
+</div>
+
+<div class="overlay dim" id="qModal" hidden>
+  <div class="card" role="dialog" aria-modal="true" aria-labelledby="qTitle">
+    <div class="qhead"><span class="chip" id="qTitle">Soal 1 / 40</span><span class="chip" id="qState">Belum dijawab</span></div>
+    <p class="qtext" id="qText"></p>
+    <div class="opts" id="qOpts"></div>
+    <div class="qfoot"><small id="qNote"></small><button class="btn go" id="qClose" type="button">Lanjut mendaki</button></div>
+  </div>
+</div>
+
+<div class="overlay dim" id="bagModal" hidden>
+  <div class="card wide" role="dialog" aria-modal="true" aria-labelledby="bagTitle">
+    <h2 id="bagTitle">Tas soal</h2>
+    <p class="lead" id="bagLead"></p>
+    <div class="bag" id="bagGrid"></div>
+    <div class="legend"><span><i style="background:#ffb62b"></i>Diambil, belum dijawab</span><span><i style="background:#7bd88f"></i>Sudah dijawab</span><span><i style="border-style:dashed;border-color:#9fb3c4"></i>Belum ditemukan</span></div>
+    <div class="actions"><button class="btn go" id="bagClose" type="button">Kembali mendaki</button></div>
+  </div>
+</div>
+
+<div class="overlay dim" id="confirmModal" hidden>
+  <div class="card" role="dialog" aria-modal="true" aria-labelledby="cfTitle">
+    <h2 id="cfTitle">Kumpulkan jawaban?</h2>
+    <p class="lead" id="cfText"></p>
+    <div class="actions"><button class="btn go" id="cfYes" type="button">Ya, kumpulkan</button><button class="btn ghost" id="cfNo" type="button">Kembali mendaki</button></div>
+  </div>
+</div>
+
+<div class="overlay lock" id="lockModal" hidden>
+  <div class="card" role="alertdialog" aria-modal="true" aria-labelledby="lkTitle">
+    <h2 id="lkTitle" style="color:var(--berry)">Peringatan Pengawas!</h2>
+    <p class="lead" id="lkText"></p>
+    <div class="actions">
+      <button class="btn sun" id="lkResume" type="button" style="width:100%">Kembali ke Layar Penuh & Lanjutkan</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="result" hidden>
+  <div class="card wide">
+    <h2 id="rsName"></h2>
+    <p class="lead" id="rsMeta" style="margin-bottom:0"></p>
+    <div class="score" id="rsScore">0</div>
+    <p class="lead" id="rsMsg" style="margin-top:0"></p>
+    <div class="stats">
+      <div class="stat"><b id="rsOk">0</b><span>Benar</span></div>
+      <div class="stat"><b id="rsBad">0</b><span>Salah</span></div>
+      <div class="stat"><b id="rsTime">0</b><span>Waktu</span></div>
+    </div>
+    <div class="sync-status" id="syncStatus" hidden>Mengirim nilai ke server guru...</div>
+    <details id="rsDetails"><summary>Lihat pembahasan jawaban</summary><ul class="rev" id="rsList"></ul></details>
+    <textarea id="copyBox" readonly hidden aria-label="Ringkasan hasil"></textarea>
+    <div class="actions">
+      <button class="btn sun" id="rsCopy" type="button">Salin hasil untuk guru</button>
+      <button class="btn ghost" id="rsRetrySync" type="button" hidden>Kirim ulang nilai</button>
+      <button class="btn ghost" id="rsExit" type="button">Keluar</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+'use strict';
+
+/* =====================================================================
+   PENGATURAN GURU (U. Heri Mukti, S.Tr.Kom - SMKN 1 Semparuk)
+   ===================================================================== */
+var CFG = {
+  ACCESS_CODE: '',
+  GAS_URL: 'https://script.google.com/macros/s/AKfycbyQVKx123WE7mgEFr20B52_ZAmxG53cv5cNVsB6nQBrXe9am2GwESjUEPziNjRnReyj/exec',
+  LOCKDOWN: true,
+  MAX_VIOLATIONS: 3,
+  SHOW_REVIEW: true,
+  R: 200, L: 250, PEAK: 85
+};
+
+function Q(q){ return {q:q,o:Array.prototype.slice.call(arguments,1)}; }
+
+var SOAL = [
+  Q("Mode warna yang paling tepat digunakan untuk kebutuhan desain yang akan dicetak (print design) adalah...", "CMYK", "RGB", "Grayscale", "Indexed Color", "HSB"),
+  Q("Resolusi standar minimal yang direkomendasikan agar hasil cetak gambar tidak pecah atau buram adalah...", "300 dpi", "72 dpi", "96 dpi", "150 dpi", "600 dpi"),
+  Q("Jenis ukuran kertas standar internasional yang memiliki dimensi 210 mm x 297 mm adalah...", "A4", "A3", "A5", "F4", "B5"),
+  Q("Komposisi “Rule of Thirds” digunakan untuk...", "Menentukan posisi objek utama", "Menentukan warna dominan", "Menentukan keseimbangan cahaya", "Menentukan ukuran gambar", "Menentukan kecepatan rana"),
+  Q("Dalam videografi, istilah “frame rate” mengacu pada...", "Jumlah gambar per detik", "Jumlah piksel dalam satu gambar", "Kecepatan shutter", "Resolusi video", "Durasi video"),
+  Q("Format video dengan kualitas tinggi dan ukuran file besar biasanya adalah...", "MOV", "MP4", "AVI", "FLV", "3GP"),
+  Q("Fungsi storyboard dalam proses produksi video adalah...", "Menyusun alur cerita secara visual", "Menentukan durasi video", "Menentukan lokasi pengambilan gambar", "Mengatur pencahayaan", "Mengedit hasil akhir"),
+  Q("Dalam storyboard, setiap kotak gambar disebut...", "Panel", "Frame", "Scene", "Shot", "Clip"),
+  Q("Motion graphic berbeda dari animasi karakter karena...", "Fokus pada pergerakan elemen grafis dan teks", "Menggunakan karakter 3D", "Menggunakan teknik stop motion", "Menggunakan kamera nyata", "Tidak menggunakan komputer"),
+  Q("Software yang umum digunakan untuk membuat motion graphic adalah...", "Adobe After Effects", "Adobe Premiere Pro", "CorelDRAW", "Adobe Lightroom", "Audacity"),
+  Q("Teknik pengambilan gambar dari sudut atas objek disebut...", "High angle", "Low angle", "Eye level", "Dutch angle", "Close up"),
+  Q("Dalam videografi, istilah “B-roll” berarti...", "Video tambahan untuk memperkaya cerita", "Video utama", "Video hasil akhir", "Video dengan efek slow motion", "Video dengan efek transisi"),
+  Q("Fungsi white balance pada kamera adalah...", "Menyesuaikan warna agar tampak natural", "Mengatur ketajaman gambar", "Mengatur kontras", "Mengatur pencahayaan", "Mengatur fokus"),
+  Q("Dalam storyboard, teks yang menjelaskan aksi di dalam adegan disebut...", "Deskripsi", "Dialog", "Narasi", "Subtitle", "Caption"),
+  Q("Gerakan kamera yang menoleh secara horizontal dari kiri ke kanan atau sebaliknya disebut...", "Pan", "Tilt", "Zoom", "Dolly", "Truck"),
+  Q("Dalam motion graphic, istilah “keyframe” digunakan untuk...", "Menentukan titik awal dan akhir perubahan animasi", "Menentukan warna", "Menentukan durasi video", "Menentukan resolusi", "Menentukan format file"),
+  Q("Teknik pencahayaan tiga titik (three-point lighting) terdiri dari...", "Key light, fill light, dan back light", "Main light, side light, dan top light", "Front light, back light, dan bottom light", "Key light, shadow light, dan soft light", "Fill light, hard light, dan rim light"),
+  Q("Dalam fotografi, kedalaman ruang (depth of field) dipengaruhi oleh...", "Aperture dan jarak fokus", "ISO dan shutter speed", "White balance dan ISO", "Shutter speed dan resolusi", "Warna dan kontras"),
+  Q("Format file gambar terkompresi yang paling umum digunakan dalam fotografi digital adalah...", ".jpg", ".mp4", ".mov", ".mp3", ".avi"),
+  Q("Dalam videografi, storyboard membantu tim produksi untuk...", "Menentukan alur visual sebelum proses shooting", "Mengatur pencahayaan di lokasi", "Mengedit video", "Menentukan efek suara", "Menentukan resolusi akhir"),
+  Q("Motion graphic sering dimanfaatkan untuk kebutuhan...", "Opening title dan iklan digital", "Film dokumenter panjang", "Video musik", "Film pendek", "Video vlog harian"),
+  Q("Teknik pengambilan gambar jarak dekat yang menonjolkan ekspresi wajah objek disebut...", "Close up", "Long shot", "Medium shot", "Extreme long shot", "Wide shot"),
+  Q("Dalam editing video, transisi digunakan untuk...", "Menghubungkan perpindahan antara dua klip", "Mengubah warna", "Menambah efek suara", "Menambah teks", "Mengatur pencahayaan"),
+  Q("Dalam storyboard, susunan panel secara berurutan menggambarkan...", "Urutan alur cerita", "Urutan jadwal pengambilan gambar", "Urutan proses editing", "Urutan efek visual", "Urutan musik latar"),
+  Q("Dalam motion graphic, animasi yang berfokus pada pergerakan huruf dan teks disebut...", "Typography animation", "Character animation", "Stop motion", "Frame-by-frame animation", "Vector motion"),
+  Q("Dalam fotografi, sumber pencahayaan alami (natural light) utama berasal dari...", "Matahari", "Lampu studio", "Flash eksternal", "Reflektor", "Lampu LED"),
+  Q("Dalam editing video, istilah “cut” berarti...", "Memotong bagian klip video", "Menambah efek visual", "Menggabungkan dua klip", "Mengatur gradasi warna", "Menambah teks"),
+  Q("Dalam storyboard, simbol panah di dalam maupun di luar kotak gambar biasanya menunjukkan...", "Arah gerakan kamera atau objek", "Dialog tokoh", "Efek suara", "Jenis transisi", "Perubahan warna"),
+  Q("Dalam software motion graphic, layer digunakan untuk...", "Menyusun elemen visual secara terpisah", "Menyimpan efek suara saja", "Menentukan durasi proyek", "Menentukan resolusi layar", "Menentukan format ekspor"),
+  Q("Dalam fotografi, komposisi simetris berarti...", "Objek berada di tengah dengan keseimbangan visual kiri dan kanan", "Objek selalu berada di sisi kiri", "Objek selalu berada di sisi kanan", "Objek ditempatkan secara acak", "Objek diambil dari sudut atas"),
+  Q("Dalam videografi, istilah “rendering” berarti...", "Proses memproses dan menyimpan hasil editing menjadi file video utuh", "Proses pengambilan gambar di lapangan", "Proses menambah efek suara", "Proses mengatur keseimbangan warna", "Proses menambah teks"),
+  Q("Dalam motion graphic, fitur “easing” digunakan untuk...", "Mengatur akselerasi kecepatan animasi agar terlihat lebih halus", "Mengatur saturasi warna", "Mengatur ukuran kanvas", "Mengatur urutan layer", "Mengatur durasi total"),
+  Q("Dalam storyboard, setiap adegan biasanya diberi penanda berupa...", "Nomor scene dan shot", "Kode warna", "Judul musik", "Nama efek", "Jenis transisi"),
+  Q("Dalam fotografi, penggunaan shutter speed yang cepat sangat cocok untuk memotret...", "Objek yang bergerak cepat", "Objek diam di tempat", "Foto jejak cahaya malam hari", "Foto pemandangan berkabut", "Foto potret dalam ruangan redup"),
+  Q("Dalam produksi video, istilah “shot list” berarti...", "Daftar rencana pengambilan gambar yang akan direkam", "Daftar efek transisi", "Daftar musik latar", "Daftar peralatan kamera", "Daftar teks dialog"),
+  Q("Dalam motion graphic, teknik “masking” digunakan untuk...", "Menyembunyikan atau menampilkan bagian tertentu dari sebuah layer", "Mengubah mode warna", "Menambah teks otomatis", "Mengatur durasi klip", "Mengatur resolusi video"),
+  Q("Dalam storyboard, kolom catatan tambahan di bawah panel biasanya berisi keterangan...", "Efek suara, dialog, dan gerakan kamera", "Palet warna desain", "Durasi render", "Ukuran kertas", "Resolusi ekspor"),
+  Q("Dalam fotografi, teknik “panning” digunakan untuk...", "Membuat latar belakang tampak blur bergerak sementara objek utama tetap tajam", "Membuat seluruh gambar diam tajam", "Mengatur suhu warna", "Mengatur pencahayaan studio", "Mengatur kedalaman ruang"),
+  Q("Dalam pascaproduksi video, istilah “color grading” berarti...", "Mengatur nuansa dan tone warna agar sesuai dengan suasana cerita", "Mengatur pencahayaan lampu", "Mengatur ketajaman fokus lensa", "Mengatur resolusi layar", "Mengatur durasi klip"),
+  Q("Dalam motion graphic, animasi yang dibentuk dari pergerakan objek geometris disebut...", "Shape animation", "Typography animation", "Frame animation", "Stop motion", "Character animation")
+];
+
+var N = SOAL.length;
+var POINT = 100 / N;
+
+/* =====================================================================
+   Util & Audio Horor Prosedural (Web Audio API)
+   ===================================================================== */
+function $(id){ return document.getElementById(id); }
+function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+function hashStr(s){ var h=2166136261; for(var i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
+function rng(seed){ var a=seed>>>0; return function(){ a|=0; a=a+0x6D2B79F5|0; var t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function fmtTime(sec){ sec=Math.max(0,Math.floor(sec)); var m=Math.floor(sec/60), s=sec%60; return (m<10?'0':'')+m+':'+(s<10?'0':'')+s; }
+var toastTimer=null;
+function toast(msg){ var t=$('toast'); t.textContent=msg; t.hidden=false; clearTimeout(toastTimer); toastTimer=setTimeout(function(){t.hidden=true;},3000); }
+
+var SFX = {
+  ctx: null,
+  muted: false,
+  windGain: null,
+  init: function(){
+    if(this.ctx) return;
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC) return;
+    this.ctx = new AC();
+    var bufSize = this.ctx.sampleRate * 3;
+    var buf = this.ctx.createBuffer(1, bufSize, this.ctx.sampleRate);
+    var out = buf.getChannelData(0);
+    var b0=0,b1=0,b2=0;
+    for(var i=0;i<bufSize;i++){
+      var white = Math.random()*2-1;
+      b0 = 0.99765*b0 + white*0.099046;
+      b1 = 0.96300*b1 + white*0.2965164;
+      b2 = 0.57000*b2 + white*1.0526913;
+      out[i] = (b0+b1+b2+white*0.1848)*0.08;
+    }
+    var src = this.ctx.createBufferSource();
+    src.buffer = buf; src.loop = true;
+    var filter = this.ctx.createBiquadFilter();
+    filter.type = 'bandpass'; filter.frequency.value = 340; filter.Q.value = 1.6;
+    this.windGain = this.ctx.createGain();
+    this.windGain.gain.value = 0.22;
+    src.connect(filter); filter.connect(this.windGain); this.windGain.connect(this.ctx.destination);
+    src.start();
+  },
+  resume: function(){
+    if(this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
+  },
+  toggleMute: function(){
+    this.muted = !this.muted;
+    if(this.windGain) this.windGain.gain.value = this.muted ? 0 : 0.22;
+    $('btnSound').textContent = this.muted ? '🔇 Bisu' : '🔊 Suara';
+  },
+  heartbeat: function(){
+    if(this.muted || !this.ctx) return;
+    var t = this.ctx.currentTime;
+    [0, 0.16].forEach(function(off, idx){
+      var osc = SFX.ctx.createOscillator();
+      var g = SFX.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(idx===0?65:52, t+off);
+      osc.frequency.exponentialRampToValueAtTime(28, t+off+0.12);
+      g.gain.setValueAtTime(0.35, t+off);
+      g.gain.exponentialRampToValueAtTime(0.001, t+off+0.14);
+      osc.connect(g); g.connect(SFX.ctx.destination);
+      osc.start(t+off); osc.stop(t+off+0.15);
+    });
+  },
+  woodCreak: function(){
+    if(this.muted || !this.ctx) return;
+    var t = this.ctx.currentTime;
+    var osc = this.ctx.createOscillator();
+    var g = this.ctx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(110 + Math.random()*40, t);
+    osc.frequency.linearRampToValueAtTime(75, t+0.25);
+    g.gain.setValueAtTime(0.09, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t+0.28);
+    osc.connect(g); g.connect(SFX.ctx.destination);
+    osc.start(t); osc.stop(t+0.3);
+  },
+  owl: function(){
+    if(this.muted || !this.ctx) return;
+    var t = this.ctx.currentTime;
+    var osc = this.ctx.createOscillator();
+    var g = this.ctx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(420, t);
+    osc.frequency.exponentialRampToValueAtTime(310, t+0.45);
+    g.gain.setValueAtTime(0.001, t);
+    g.gain.linearRampToValueAtTime(0.07, t+0.1);
+    g.gain.exponentialRampToValueAtTime(0.001, t+0.55);
+    osc.connect(g); g.connect(SFX.ctx.destination);
+    osc.start(t); osc.stop(t+0.6);
+  },
+  scareHit: function(){
+    if(this.muted || !this.ctx) return;
+    var t = this.ctx.currentTime;
+    var osc = this.ctx.createOscillator();
+    var g = this.ctx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(220, t);
+    osc.frequency.exponentialRampToValueAtTime(42, t+0.6);
+    g.gain.setValueAtTime(0.35, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t+0.65);
+    osc.connect(g); g.connect(SFX.ctx.destination);
+    osc.start(t); osc.stop(t+0.68);
+  }
+};
+$('btnSound').addEventListener('click',function(){ SFX.init(); SFX.toggleMute(); });
+
+/* =====================================================================
+   Medan Gunung, Sungai Malam, & Jembatan Batang Kayu Lapuk
+   ===================================================================== */
+var R=CFG.R, L=CFG.L, PEAK=CFG.PEAK;
+
+function riverCenterX(z){
+  return Math.sin(z * 0.024) * 32 + Math.cos(z * 0.055) * 10;
+}
+function riverHalfWidth(z){
+  var r = Math.hypot(riverCenterX(z), z);
+  if(r < 24) return 0;
+  var fadeIn = clamp((r - 24) / 22, 0, 1);
+  return (5.4 + Math.sin(z * 0.04) * 1.1) * fadeIn;
+}
+function riverDist(x, z){
+  var hw = riverHalfWidth(z);
+  if(hw <= 0.2) return 999;
+  return Math.abs(x - riverCenterX(z)) - hw;
+}
+function rawMountainHeight(x,z){
+  var r=Math.sqrt(x*x+z*z);
+  var r2=Math.min(1,Math.max(r-6,0)/(R-6));
+  var k=Math.pow(1-r2,1.5);
+  var base=PEAK*k;
+  var n=Math.sin(x*0.07+1.3)*Math.cos(z*0.06)*2.2+Math.sin(x*0.19+z*0.13)*0.8+Math.sin(z*0.31-x*0.11)*0.4;
+  var amp=0.3+Math.min(1,k*6)*0.7;
+  return base+n*amp;
+}
+function waterLevelAt(x,z){
+  var rx = riverCenterX(z);
+  return rawMountainHeight(rx, z) - 0.55;
+}
+function heightAt(x,z){
+  var base = rawMountainHeight(x,z);
+  var hw = riverHalfWidth(z);
+  if(hw > 0.2){
+    var d = Math.abs(x - riverCenterX(z));
+    var bank = hw + 4.5;
+    if(d < bank){
+      var t = clamp(1 - d / bank, 0, 1);
+      var smooth = t * t * (3 - 2 * t);
+      base -= smooth * 2.5;
+    }
+  }
+  return base;
+}
+function spiral(u){
+  var r=R*(0.88-0.80*u/(N-1));
+  var a=u*0.55+0.6;
+  return [Math.cos(a)*r, Math.sin(a)*r];
+}
+var SPAWN_U=-0.9;
+
+var bridges = [];
+function getBridgeHeight(x,z){
+  for(var i=0;i<bridges.length;i++){
+    var b = bridges[i];
+    var dx = x - b.x, dz = z - b.z;
+    var localAlong = dx * b.cos + dz * b.sin;
+    var localCross = -dx * b.sin + dz * b.cos;
+    if(Math.abs(localAlong) <= b.halfLen + 0.6 && Math.abs(localCross) <= b.halfWidth){
+      var arch = Math.cos((localAlong / (b.halfLen + 0.6)) * (Math.PI * 0.5)) * 0.22;
+      return b.y + arch;
+    }
+  }
+  return null;
+}
+function groundAndBridgeHeight(x,z){
+  var gh = heightAt(x,z);
+  var bh = getBridgeHeight(x,z);
+  if(bh !== null && bh >= gh - 0.2) return bh;
+  return gh;
+}
+
+/* =====================================================================
+   Three.js Setup (Atmosfer Malam Berkabut + Senter Kepala)
+   ===================================================================== */
+var canvas=$('gl'), renderer;
+try{
+  renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true});
+}catch(e){
+  document.body.insertAdjacentHTML('beforeend','<div id="nogl">Perangkat atau browser ini belum mendukung grafik 3D (WebGL). Coba buka dengan Chrome terbaru.</div>');
+  return;
+}
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+var scene=new THREE.Scene();
+var NIGHT_SKY=0x060d18;
+scene.background=new THREE.Color(NIGHT_SKY);
+scene.fog=new THREE.FogExp2(0x091322, 0.0145);
+
+var camera=new THREE.PerspectiveCamera(58,1,0.5,650);
+scene.add(new THREE.HemisphereLight(0x3a5a8c, 0x0d1a14, 0.42));
+
+var moonLight=new THREE.DirectionalLight(0x6d93c7, 0.38);
+moonLight.position.set(-140, 220, -110);
+scene.add(moonLight);
+
+(function buildMoon(){
+  var mMesh = new THREE.Mesh(
+    new THREE.SphereGeometry(16, 16, 16),
+    new THREE.MeshBasicMaterial({color: 0xdbeafe, fog: false})
+  );
+  mMesh.position.set(-240, 290, -210);
+  scene.add(mMesh);
+})();
+
+var headlamp = new THREE.SpotLight(0xfff5d6, 2.8, 72, Math.PI * 0.24, 0.48, 1.1);
+var headlampTarget = new THREE.Object3D();
+scene.add(headlamp);
+scene.add(headlampTarget);
+headlamp.target = headlampTarget;
+var flashlightOn = true;
+
+$('btnLight').addEventListener('click', toggleFlashlight);
+function toggleFlashlight(){
+  flashlightOn = !flashlightOn;
+  headlamp.visible = flashlightOn;
+  var b = $('btnLight');
+  b.textContent = flashlightOn ? '🔦 Senter: ON' : '🔦 Senter: OFF';
+  b.classList.toggle('off', !flashlightOn);
+}
+
+function resize(){
+  var w=window.innerWidth,h=window.innerHeight;
+  renderer.setSize(w,h,false);
+  camera.aspect=w/h; camera.updateProjectionMatrix();
+}
+window.addEventListener('resize',resize); resize();
+
+function makeBarkTexture(){
+  var c=document.createElement('canvas'); c.width=128; c.height=128; var x=c.getContext('2d');
+  x.fillStyle='#4a301a'; x.fillRect(0,0,128,128);
+  for(var i=0;i<90;i++){
+    x.fillStyle=i%2===0?'#332010':'#5e3e23';
+    x.fillRect(Math.random()*128, 0, 2+Math.random()*4, 128);
+  }
+  var tex = new THREE.CanvasTexture(c);
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+  return tex;
+}
+var barkTex = makeBarkTexture();
+
+// Tanah Gunung Malam
+(function buildTerrain(){
+  var seg=250;
+  var geo=new THREE.PlaneGeometry(2*L,2*L,seg,seg); geo.rotateX(-Math.PI/2);
+  var pos=geo.attributes.position, col=new Float32Array(pos.count*3);
+  var grass1=new THREE.Color(0x284d2a), grass2=new THREE.Color(0x1a3822), rock=new THREE.Color(0x3a424d), gravel=new THREE.Color(0x4a463f), snow=new THREE.Color(0x9fb4cc), tmp=new THREE.Color();
+  for(var i=0;i<pos.count;i++){
+    var x=pos.getX(i), z=pos.getZ(i), h=heightAt(x,z);
+    pos.setY(i,h);
+    var sl=Math.abs(heightAt(x+1.2,z)-h)+Math.abs(heightAt(x,z+1.2)-h); sl/=1.2;
+    var rd = riverDist(x,z);
+    if(rd < 2.2){
+      tmp.copy(gravel).lerp(rock, clamp((2.2 - rd)/3.5, 0, 0.7));
+    } else if(h<4) tmp.copy(grass1);
+    else if(h<30) tmp.copy(grass1).lerp(grass2,(h-4)/26);
+    else if(h<52) tmp.copy(grass2).lerp(rock,(h-30)/22);
+    else tmp.copy(rock).lerp(snow,clamp((h-52)/12,0,1));
+
+    if(sl>0.55 && h<60 && rd>=2.2) tmp.lerp(rock,clamp((sl-0.55)*1.4,0,0.65));
+    var j=0.92+0.12*(Math.sin(x*1.7)*Math.cos(z*1.3)*0.5+0.5);
+    col[i*3]=tmp.r*j; col[i*3+1]=tmp.g*j; col[i*3+2]=tmp.b*j;
+  }
+  geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+  geo.computeVertexNormals();
+  var mesh = new THREE.Mesh(geo,new THREE.MeshStandardMaterial({vertexColors:true,roughness:0.95,metalness:0.05,flatShading:true}));
+  mesh.receiveShadow = true;
+  scene.add(mesh);
+})();
+
+// Sungai Gelap Berkabut
+var waterMesh = null, waterBaseY = null;
+(function buildRiver(){
+  var segZ = 220, segX = 14;
+  var geo = new THREE.PlaneGeometry(1, 2*L, segX, segZ);
+  geo.rotateX(-Math.PI/2);
+  var pos = geo.attributes.position;
+  waterBaseY = new Float32Array(pos.count);
+
+  for(var i=0;i<pos.count;i++){
+    var u = pos.getX(i);
+    var z = pos.getZ(i);
+    var hw = riverHalfWidth(z);
+    var cx = riverCenterX(z);
+    var w = hw > 0.2 ? (hw + 1.8) * 2 : 0.01;
+    var wx = cx + u * w;
+    var wy = hw > 0.2 ? waterLevelAt(wx, z) : rawMountainHeight(cx, z) - 3.0;
+    pos.setXYZ(i, wx, wy, z);
+    waterBaseY[i] = wy;
+  }
+  geo.computeVertexNormals();
+  var mat = new THREE.MeshStandardMaterial({
+    color: 0x0b3954,
+    emissive: 0x051d2e,
+    emissiveIntensity: 0.55,
+    roughness: 0.15,
+    metalness: 0.4,
+    transparent: true,
+    opacity: 0.88
+  });
+  waterMesh = new THREE.Mesh(geo, mat);
+  scene.add(waterMesh);
+})();
+
+// Jembatan Batang Kayu Lapuk
+(function buildLogBridges(){
+  var prevSign = Math.sign(spiral(SPAWN_U)[0] - riverCenterX(spiral(SPAWN_U)[1]));
+  var lastBridgeU = -99;
+
+  for(var u = SPAWN_U + 0.02; u <= N - 1; u += 0.02){
+    var p = spiral(u);
+    var hw = riverHalfWidth(p[1]);
+    if(hw < 1.5) continue;
+    var diff = p[0] - riverCenterX(p[1]);
+    var sgn = Math.sign(diff);
+    if(sgn !== 0 && sgn !== prevSign && (u - lastBridgeU) > 0.8){
+      lastBridgeU = u;
+      prevSign = sgn;
+
+      var pBefore = spiral(u - 0.06);
+      var pAfter = spiral(u + 0.06);
+      var ang = Math.atan2(pAfter[1] - pBefore[1], pAfter[0] - pBefore[0]);
+      var bx = riverCenterX(p[1]);
+      var bz = p[1];
+      var span = (hw + 2.8) * 2;
+      var by = Math.max(heightAt(bx - Math.cos(ang)*span*0.5, bz - Math.sin(ang)*span*0.5),
+                        heightAt(bx + Math.cos(ang)*span*0.5, bz + Math.sin(ang)*span*0.5),
+                        waterLevelAt(bx, bz) + 0.55);
+
+      bridges.push({
+        x: bx, z: bz, y: by,
+        cos: Math.cos(ang), sin: Math.sin(ang),
+        halfLen: span * 0.5,
+        halfWidth: 1.5
+      });
+
+      var bg = new THREE.Group();
+      bg.position.set(bx, by, bz);
+      bg.rotation.y = -ang;
+
+      var logMat = new THREE.MeshStandardMaterial({map: barkTex, roughness: 0.9});
+      var capMat = new THREE.MeshStandardMaterial({color: 0x8c6d46, roughness: 0.85});
+
+      for(var k = -1; k <= 1; k++){
+        var logGeo = new THREE.CylinderGeometry(0.4, 0.45, span, 9);
+        logGeo.rotateZ(Math.PI / 2);
+        var logMesh = new THREE.Mesh(logGeo, [logMat, capMat, capMat]);
+        logMesh.position.set(0, -0.35 + (k===0?0.04:-0.03), k * 0.84);
+        logMesh.rotation.x = k * 0.12;
+        bg.add(logMesh);
+      }
+
+      [-span*0.44, span*0.44].forEach(function(endX){
+        [-1.35, 1.35].forEach(function(sideZ){
+          var post = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.18, 2.2, 7), logMat);
+          post.position.set(endX, -0.3, sideZ);
+          bg.add(post);
+        });
+      });
+
+      scene.add(bg);
+    }
+  }
+})();
+
+// Batu Pijakan Jalur
+var trailPts=[];
+(function buildTrail(){
+  var pts=[], last=spiral(SPAWN_U), acc=0;
+  pts.push(last);
+  for(var u=SPAWN_U+0.01;u<=N-1;u+=0.01){
+    var p=spiral(u), d=Math.hypot(p[0]-last[0],p[1]-last[1]); acc+=d; last=p;
+    if(acc>=5){
+      if(riverDist(p[0], p[1]) > 1.2 && getBridgeHeight(p[0], p[1]) === null) pts.push(p);
+      acc=0;
+    }
+  }
+  var end=spiral(N-1), steps=Math.floor(Math.hypot(end[0],end[1])/5);
+  for(var s=1;s<=steps;s++){
+    var ep = [end[0]*(1-s/steps),end[1]*(1-s/steps)];
+    if(riverDist(ep[0], ep[1]) > 1.2) pts.push(ep);
+  }
+  trailPts=pts;
+  var g=new THREE.CylinderGeometry(1.1,1.35,0.32,7);
+  var m=new THREE.InstancedMesh(g,new THREE.MeshStandardMaterial({color:0x9aa5b1,emissive:0x162130,roughness:0.9,flatShading:true}),pts.length);
+  var d=new THREE.Object3D();
+  pts.forEach(function(p,i){ d.position.set(p[0],heightAt(p[0],p[1])+0.04,p[1]); d.rotation.y=i*1.7; d.updateMatrix(); m.setMatrixAt(i,d.matrix); });
+  scene.add(m);
+})();
+function nearTrail(x,z,r){ for(var i=0;i<trailPts.length;i++){ if(Math.abs(trailPts[i][0]-x)<r && Math.abs(trailPts[i][1]-z)<r) return true; } return false; }
+
+// Hutan Pinus Gelap & Batu-batu
+(function buildNature(){
+  var rand=rng(77), trees=[], rocks=[];
+  for(var a=0;a<1200 && trees.length<260;a++){
+    var ang=rand()*Math.PI*2, rad=Math.sqrt(rand())*L*0.92, x=Math.cos(ang)*rad, z=Math.sin(ang)*rad, h=heightAt(x,z);
+    if(h<44 && !nearTrail(x,z,5.2) && riverDist(x,z) > 3.5) trees.push([x,z,h,0.9+rand()*1.0,rand()]);
+  }
+  for(var b=0;b<750 && rocks.length<120;b++){
+    var an=rand()*Math.PI*2, ra=Math.sqrt(rand())*R*0.95, rx=Math.cos(an)*ra, rz=Math.sin(an)*ra, rh=heightAt(rx,rz);
+    var rd = riverDist(rx,rz);
+    if((rh>10 || (rd > -0.5 && rd < 2.8)) && !nearTrail(rx,rz,4.5) && getBridgeHeight(rx,rz)===null){
+      rocks.push([rx,rz,rh,0.7+rand()*1.8]);
+    }
+  }
+
+  var trunk=new THREE.InstancedMesh(new THREE.CylinderGeometry(0.35,0.55,2.6,7),new THREE.MeshStandardMaterial({color:0x2b1d12,roughness:0.95}),trees.length);
+  var crown1=new THREE.InstancedMesh(new THREE.ConeGeometry(2.5,5.2,8),new THREE.MeshStandardMaterial({color:0xffffff,roughness:0.9,flatShading:true}),trees.length);
+  var crown2=new THREE.InstancedMesh(new THREE.ConeGeometry(1.8,4.2,8),new THREE.MeshStandardMaterial({color:0xffffff,roughness:0.9,flatShading:true}),trees.length);
+
+  var d=new THREE.Object3D(), c=new THREE.Color();
+  trees.forEach(function(t,i){
+    var sc = t[3];
+    d.position.set(t[0],t[2]+1.3*sc,t[1]); d.scale.set(sc,sc,sc); d.rotation.set(0,t[4]*6,0); d.updateMatrix(); trunk.setMatrixAt(i,d.matrix);
+    d.position.set(t[0],t[2]+3.7*sc,t[1]); d.updateMatrix(); crown1.setMatrixAt(i,d.matrix);
+    d.position.set(t[0],t[2]+6.0*sc,t[1]); d.updateMatrix(); crown2.setMatrixAt(i,d.matrix);
+    c.setHSL(0.36+t[4]*0.05, 0.45, 0.12+t[4]*0.06);
+    crown1.setColorAt(i,c);
+    c.offsetHSL(0, 0, 0.03);
+    crown2.setColorAt(i,c);
+  });
+  crown1.instanceColor.needsUpdate=true;
+  crown2.instanceColor.needsUpdate=true;
+  scene.add(trunk); scene.add(crown1); scene.add(crown2);
+
+  var rk=new THREE.InstancedMesh(new THREE.DodecahedronGeometry(1,0),new THREE.MeshStandardMaterial({color:0x363d47,roughness:0.95,flatShading:true}),rocks.length);
+  rocks.forEach(function(r,i){ d.position.set(r[0],r[2]+r[3]*0.25,r[1]); d.scale.set(r[3],r[3]*0.65,r[3]*0.9); d.rotation.set(i,i*2,i*0.5); d.updateMatrix(); rk.setMatrixAt(i,d.matrix); });
+  scene.add(rk);
+})();
+
+// Sosok Bayangan Penjaga Hutan Berambut Panjang Terurai
+var ghosts = [];
+(function buildGhosts(){
+  var bodyMat = new THREE.MeshStandardMaterial({color: 0x090c10, roughness: 0.95, transparent: true, opacity: 0.92});
+  var paleFaceMat = new THREE.MeshStandardMaterial({color: 0xcbd5e1, roughness: 0.8});
+  var hairMat = new THREE.MeshStandardMaterial({color: 0x050608, roughness: 0.85, side: THREE.DoubleSide});
+  var eyeMat = new THREE.MeshBasicMaterial({color: 0xff1e27, fog: false});
+  var auraMat = new THREE.MeshBasicMaterial({color: 0x7f1d1d, transparent: true, opacity: 0.16, depthWrite: false});
+
+  var patrolIdx = [4, 10, 16, 21, 26, 31, 36];
+  patrolIdx.forEach(function(idx, k){
+    var baseP = spiral(idx);
+    var g = new THREE.Group();
+
+    // Jubah panjang melayang
+    var cloak = new THREE.Mesh(new THREE.ConeGeometry(1.15, 4.5, 9, 1, true), bodyMat);
+    cloak.position.y = 2.45;
+    g.add(cloak);
+
+    // Kepala pucat
+    var head = new THREE.Mesh(new THREE.SphereGeometry(0.62, 10, 10), paleFaceMat);
+    head.position.y = 4.65;
+    g.add(head);
+
+    // Sepasang mata merah menyala
+    var eyeGeo = new THREE.SphereGeometry(0.11, 6, 6);
+    var eyeL = new THREE.Mesh(eyeGeo, eyeMat); eyeL.position.set(-0.21, 4.65, 0.54);
+    var eyeR = new THREE.Mesh(eyeGeo, eyeMat); eyeR.position.set(0.21, 4.65, 0.54);
+    g.add(eyeL); g.add(eyeR);
+
+    // Grup Rambut Hitam Panjang Terurai hingga pinggang
+    var hairGroup = new THREE.Group();
+    hairGroup.position.set(0, 4.75, 0);
+
+    // Mahkota rambut atas kepala
+    var crownHair = new THREE.Mesh(new THREE.SphereGeometry(0.66, 10, 8, 0, Math.PI*2, 0, Math.PI*0.62), hairMat);
+    crownHair.rotation.x = -0.15;
+    hairGroup.add(crownHair);
+
+    // Helaian rambut panjang di belakang dan samping yang menjuntai
+    var strandSpecs = [
+      {x: 0,     z: -0.58, w: 1.15, h: 3.6, ry: 0,    rx: 0.08},
+      {x: -0.46, z: -0.35, w: 0.55, h: 3.4, ry: 0.55, rx: 0.06},
+      {x: 0.46,  z: -0.35, w: 0.55, h: 3.4, ry: -0.55,rx: 0.06},
+      {x: -0.56, z: 0.12,  w: 0.42, h: 3.1, ry: 1.25, rx: 0.04},
+      {x: 0.56,  z: 0.12,  w: 0.42, h: 3.1, ry: -1.25,rx: 0.04},
+      // Poni panjang kusut di sisi wajah (tetap menyisakan celah mata merah)
+      {x: -0.38, z: 0.48,  w: 0.24, h: 1.65, ry: 0.25, rx: -0.05},
+      {x: 0.38,  z: 0.48,  w: 0.24, h: 1.65, ry: -0.25,rx: -0.05},
+      {x: 0,     z: 0.58,  w: 0.14, h: 0.95, ry: 0,    rx: -0.08}
+    ];
+
+    strandSpecs.forEach(function(st){
+      var sGeo = new THREE.PlaneGeometry(st.w, st.h, 1, 3);
+      sGeo.translate(0, -st.h * 0.5, 0); // titik tumpu di atas kepala agar berayun alami
+      var sMesh = new THREE.Mesh(sGeo, hairMat);
+      sMesh.position.set(st.x, 0.25, st.z);
+      sMesh.rotation.set(st.rx, st.ry, 0);
+      hairGroup.add(sMesh);
+    });
+
+    g.add(hairGroup);
+
+    var aura = new THREE.Mesh(new THREE.SphereGeometry(2.2, 10, 10), auraMat);
+    aura.position.y = 3.0;
+    g.add(aura);
+
+    var gx = baseP[0] + Math.cos(k*2)*12;
+    var gz = baseP[1] + Math.sin(k*2)*12;
+    g.position.set(gx, groundAndBridgeHeight(gx,gz), gz);
+    scene.add(g);
+
+    ghosts.push({
+      g: g,
+      hair: hairGroup,
+      homeX: baseP[0], homeZ: baseP[1],
+      x: gx, z: gz,
+      phase: k * 1.4
+    });
+  });
+})();
+
+// Puncak: bendera
+(function buildSummit(){
+  var h=heightAt(0,0), g=new THREE.Group(); g.position.set(0,h,0);
+  var cairn=new THREE.Mesh(new THREE.CylinderGeometry(2.4,3.4,1.5,8),new THREE.MeshStandardMaterial({color:0x525d69,roughness:0.9,flatShading:true})); cairn.position.y=0.5; g.add(cairn);
+  var pole=new THREE.Mesh(new THREE.CylinderGeometry(0.14,0.14,10.5,8),new THREE.MeshStandardMaterial({color:0xe2e8f0})); pole.position.y=5.6; g.add(pole);
+  var c=document.createElement('canvas'); c.width=256; c.height=160; var x=c.getContext('2d');
+  x.fillStyle='#e5383b'; x.fillRect(0,0,256,80); x.fillStyle='#fff'; x.fillRect(0,80,256,80);
+  x.fillStyle='#0d1b2a'; x.font='800 32px sans-serif'; x.textAlign='center'; x.fillText('PUNCAK',128,128);
+  var flag=new THREE.Mesh(new THREE.PlaneGeometry(4.8,3),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(c),side:THREE.DoubleSide,fog:false})); flag.position.set(2.5,8.9,0); g.add(flag);
+  scene.add(g);
+})();
+
+// Kertas soal
+var papers=[];
+(function buildPapers(){
+  var geo=new THREE.PlaneGeometry(1.9,2.4);
+  var beamGeo=new THREE.CylinderGeometry(0.35,0.35,44,10,1,true);
+  for(var i=0;i<N;i++){
+    var p=spiral(i);
+    if(riverDist(p[0], p[1]) < 0.5 && getBridgeHeight(p[0], p[1]) === null){
+      p[0] += (p[0] >= riverCenterX(p[1]) ? 3.5 : -3.5);
+    }
+    var gy=groundAndBridgeHeight(p[0],p[1]);
+    var c=document.createElement('canvas'); c.width=128; c.height=160; var x=c.getContext('2d');
+    x.fillStyle='#fffdf5'; x.fillRect(0,0,128,160); x.strokeStyle='#ffb62b'; x.lineWidth=8; x.strokeRect(4,4,120,152);
+    x.fillStyle='#0d1b2a'; x.font='800 64px sans-serif'; x.textAlign='center'; x.fillText(String(i+1),64,84);
+    x.fillStyle='#94a3b8'; for(var l=0;l<3;l++){ x.fillRect(22,106+l*14,84,6); }
+    var mesh=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(c),side:THREE.DoubleSide,fog:false}));
+    var beam=new THREE.Mesh(beamGeo,new THREE.MeshBasicMaterial({color:0xffd166,transparent:true,opacity:0.35,depthWrite:false,side:THREE.DoubleSide,fog:false}));
+    beam.position.y=21;
+    var g=new THREE.Group(); g.position.set(p[0],gy,p[1]);
+    mesh.position.y=2.6; g.add(mesh); g.add(beam); scene.add(g);
+    papers.push({g:g,mesh:mesh,x:p[0],z:p[1],y:gy});
+  }
+})();
+
+// Karakter blok + lampu senter di kepala
+var avatar=null, limbs={};
+function makeFace(){
+  var c=document.createElement('canvas'); c.width=64; c.height=64; var x=c.getContext('2d');
+  x.fillStyle='#ffd24a'; x.fillRect(0,0,64,64);
+  x.fillStyle='#12263a'; x.beginPath(); x.ellipse(21,26,4,6,0,0,7); x.ellipse(43,26,4,6,0,0,7); x.fill();
+  x.strokeStyle='#12263a'; x.lineWidth=4; x.lineCap='round'; x.beginPath(); x.arc(32,38,12,Math.PI+0.3,Math.PI*2-0.3); x.stroke();
+  return new THREE.CanvasTexture(c);
+}
+var faceTex=makeFace();
+function makeAvatar(shirt,name){
+  var g=new THREE.Group(), L_=function(c){return new THREE.MeshStandardMaterial({color:c,roughness:0.7});};
+  var skin=0xffd24a;
+  var torso=new THREE.Mesh(new THREE.BoxGeometry(1.6,1.7,0.9),L_(shirt)); torso.position.y=2.05; g.add(torso);
+  var head=new THREE.Mesh(new THREE.BoxGeometry(1.1,1.1,1.1),[L_(skin),L_(skin),L_(skin),L_(skin),new THREE.MeshStandardMaterial({map:faceTex}),L_(skin)]); head.position.y=3.6; g.add(head);
+  var lamp = new THREE.Mesh(new THREE.BoxGeometry(0.45,0.28,0.25), new THREE.MeshBasicMaterial({color:0xfffbeb,fog:false}));
+  lamp.position.set(0, 3.9, 0.58); g.add(lamp);
+
+  var pack=new THREE.Mesh(new THREE.BoxGeometry(1.2,1.3,0.55),L_(0xe5505c)); pack.position.set(0,2.2,-0.75); g.add(pack);
+  function limb(w,h,d,color,px,py,oy){ var piv=new THREE.Group(); piv.position.set(px,py,0); var m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),L_(color)); m.position.y=oy; piv.add(m); g.add(piv); return piv; }
+  limbs.legL=limb(0.7,1.2,0.7,0x2f4b7c,-0.4,1.2,-0.6);
+  limbs.legR=limb(0.7,1.2,0.7,0x2f4b7c,0.4,1.2,-0.6);
+  limbs.armL=limb(0.5,1.5,0.5,skin,-1.05,2.8,-0.62);
+  limbs.armR=limb(0.5,1.5,0.5,skin,1.05,2.8,-0.62);
+  var c=document.createElement('canvas'); c.width=256; c.height=64; var x=c.getContext('2d');
+  x.fillStyle='rgba(8,16,28,.85)'; x.fillRect(0,8,256,48); x.fillStyle='#fff'; x.font='800 28px sans-serif'; x.textAlign='center'; x.textBaseline='middle'; x.fillText(name.length>16?name.slice(0,15)+'…':name,128,33);
+  var sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),fog:false,transparent:true})); sp.scale.set(5,1.25,1); sp.position.y=5.5; g.add(sp);
+  return g;
+}
+
+/* =====================================================================
+   Status permainan & Keamanan Lockdown
+   ===================================================================== */
+var mode='login';
+var paused=false;
+var P={x:0,y:0,z:0,vy:0,ground:true,face:0,phase:0,inWater:false,safeX:0,safeZ:0};
+var cam={yaw:0,pitch:0.38,dist:13};
+var S=null;
+var COLORS=['#e5505c','#2f7de1','#2d9d63','#ffb62b','#8a55d6','#334155'];
+var chosenColor=COLORS[0];
+var orders={};
+
+function optOrder(i){
+  if(orders[i]) return orders[i];
+  var r=rng(S.seed+i*131), a=[]; for(var z=0;z<SOAL[i].o.length;z++) a.push(z);
+  for(var k=a.length-1;k>0;k--){ var j=Math.floor(r()*(k+1)); var t=a[k]; a[k]=a[j]; a[j]=t; }
+  orders[i]=a; return a;
+}
+function answeredCount(){ return Object.keys(S.answers).length; }
+function collectedCount(){ return Object.keys(S.collected).length; }
+function save(){
+  if(!S) return;
+  try{
+    localStorage.setItem(S.key,JSON.stringify({
+      name:S.name,kelas:S.kelas,color:S.color,
+      collected:S.collected,answers:S.answers,
+      sec:elapsed(),submitted:S.submitted,
+      violations:S.violations||0
+    }));
+  }catch(e){}
+}
+function elapsed(){ return S.submitted ? S.sec : (Date.now()-S.startTs)/1000; }
+
+/* ---------- Lockdown & Anti-Curang ---------- */
+function enterFullscreen(){
+  if(!CFG.LOCKDOWN) return;
+  var el=document.documentElement;
+  try{
+    if(el.requestFullscreen) el.requestFullscreen();
+    else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  }catch(e){}
+}
+function exitFullscreen(){
+  try{
+    if(document.fullscreenElement && document.exitFullscreen) document.exitFullscreen();
+    else if(document.webkitFullscreenElement && document.webkitExitFullscreen) document.webkitExitFullscreen();
+  }catch(e){}
+}
+function updateWarnBadge(){
+  if(!S || !CFG.LOCKDOWN) return;
+  var b=$('warnBadge');
+  b.hidden=false;
+  b.textContent='Pelanggaran: '+S.violations+'/'+CFG.MAX_VIOLATIONS;
+}
+var lastViolationTs=0;
+function registerViolation(reason){
+  if(!CFG.LOCKDOWN || mode!=='play' || !S || S.submitted) return;
+  var now=Date.now();
+  if(now-lastViolationTs<1500) return;
+  lastViolationTs=now;
+  S.violations=(S.violations||0)+1;
+  save();
+  updateWarnBadge();
+  clearInput();
+
+  if(S.violations>=CFG.MAX_VIOLATIONS){
+    $('lockModal').hidden=true;
+    $('qModal').hidden=true;
+    $('bagModal').hidden=true;
+    $('confirmModal').hidden=true;
+    S.sec=elapsed();
+    S.submitted=true;
+    save();
+    exitFullscreen();
+    showResult(true);
+    return;
+  }
+
+  paused=true;
+  $('lkText').innerHTML='Terdeteksi aktivitas meninggalkan layar ujian (<b>'+esc(reason)+'</b>).<br><br>Peringatan ke-<b>'+S.violations+' dari '+CFG.MAX_VIOLATIONS+'</b>. Jika mencapai batas maksimal, ujian akan otomatis dikumpulkan!';
+  $('lockModal').hidden=false;
+}
+
+document.addEventListener('visibilitychange',function(){
+  if(document.hidden) registerViolation('Berpindah tab atau meminimalkan browser');
+});
+window.addEventListener('blur',function(){
+  if(mode==='play' && !paused) registerViolation('Membuka jendela/aplikasi lain');
+});
+document.addEventListener('fullscreenchange',function(){
+  if(CFG.LOCKDOWN && mode==='play' && !document.fullscreenElement && !S.submitted){
+    registerViolation('Keluar dari mode layar penuh');
+  }
+});
+document.addEventListener('contextmenu',function(e){
+  if(CFG.LOCKDOWN && mode==='play') e.preventDefault();
+});
+$('lkResume').addEventListener('click',function(){
+  enterFullscreen();
+  $('lockModal').hidden=true;
+  if($('qModal').hidden && $('bagModal').hidden && $('confirmModal').hidden){
+    paused=false;
+  }
+});
+
+/* ---------- Login ---------- */
+var sw=$('swatches');
+COLORS.forEach(function(c,i){
+  var b=document.createElement('button'); b.type='button'; b.className='sw'; b.style.background=c; b.setAttribute('role','radio'); b.setAttribute('aria-label','Warna baju '+(i+1)); b.setAttribute('aria-checked',i===0?'true':'false');
+  b.addEventListener('click',function(){ chosenColor=c; Array.prototype.forEach.call(sw.children,function(x){x.setAttribute('aria-checked','false');}); b.setAttribute('aria-checked','true'); });
+  sw.appendChild(b);
+});
+if(CFG.ACCESS_CODE){ $('codeWrap').hidden=false; }
+try{ var lastU=JSON.parse(localStorage.getItem('pks:last')||'null'); if(lastU){ $('inName').value=lastU.name||''; $('inClass').value=lastU.kelas||''; } }catch(e){}
+
+$('loginForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  var name=$('inName').value.trim().replace(/\s+/g,' '), kelas=$('inClass').value.trim();
+  var err=$('loginErr'); err.textContent='';
+  if(name.length<3){ err.textContent='Tulis nama lengkapmu (minimal 3 huruf).'; $('inName').focus(); return; }
+  if(!kelas){ err.textContent='Isi kelasmu dulu.'; $('inClass').focus(); return; }
+  if(CFG.ACCESS_CODE && $('inCode').value.trim().toLowerCase()!==CFG.ACCESS_CODE.toLowerCase()){ err.textContent='Kode ujian belum tepat. Tanyakan pada gurumu.'; $('inCode').focus(); return; }
+  SFX.init(); SFX.resume();
+  enterFullscreen();
+  startSession(name,kelas,chosenColor);
+});
+
+function startSession(name,kelas,color){
+  var key='pks:'+hashStr(name.toLowerCase()+'|'+kelas.toLowerCase());
+  var saved=null; try{ saved=JSON.parse(localStorage.getItem(key)||'null'); }catch(e){}
+  orders={};
+  S={name:name,kelas:kelas,color:saved&&saved.color?saved.color:color,collected:{},answers:{},startTs:Date.now(),sec:0,submitted:false,violations:0,key:key,seed:hashStr(name.toLowerCase()+'|'+kelas.toLowerCase())};
+  if(saved){
+    S.collected=saved.collected||{};
+    S.answers=saved.answers||{};
+    S.sec=saved.sec||0;
+    S.submitted=!!saved.submitted;
+    S.violations=saved.violations||0;
+    S.startTs=Date.now()-S.sec*1000;
+  }
+  try{ localStorage.setItem('pks:last',JSON.stringify({name:name,kelas:kelas})); }catch(e){}
+  papers.forEach(function(p,i){ p.g.visible=!S.collected[i]; });
+  if(avatar){ scene.remove(avatar); }
+  avatar=makeAvatar(new THREE.Color(S.color).getHex(),name); scene.add(avatar);
+  $('login').hidden=true;
+  if(S.submitted){ showResult(false); return; }
+
+  var lastIdx=-1; Object.keys(S.collected).forEach(function(k){ lastIdx=Math.max(lastIdx,+k); });
+  var sp=spiral(lastIdx>=0?lastIdx-0.35:SPAWN_U);
+  P.x=sp[0]; P.z=sp[1]; P.safeX=P.x; P.safeZ=P.z;
+  P.y=groundAndBridgeHeight(P.x,P.z); P.vy=0; P.ground=true;
+  var tgt=nextTarget(); var dx=tgt.x-P.x, dz=tgt.z-P.z; cam.yaw=Math.atan2(-dx,-dz); P.face=Math.atan2(dx,dz); cam.pitch=0.38; cam.dist=13;
+  $('whoName').textContent=name; $('whoClass').textContent='Kelas '+kelas;
+  updateWarnBadge();
+  $('hud').hidden=false; mode='play'; paused=false; hudTick(true);
+  toast(saved&&lastIdx>=0?'Pendakian malam dilanjutkan, '+name.split(' ')[0]+'. Waspada bayangan berambut panjang!':'Nyalakan senter, lewati jembatan kayu, dan hindari sosok berambut panjang!');
+}
+
+/* ---------- Kertas, soal, tas ---------- */
+function nextTarget(){
+  for(var i=0;i<N;i++){ if(!S.collected[i]) return {x:papers[i].x,z:papers[i].z,i:i,kind:'paper'}; }
+  for(var j=0;j<N;j++){ if(S.answers[j]===undefined) return {x:papers[j].x,z:papers[j].z,i:j,kind:'bag'}; }
+  return {x:0,z:0,i:-1,kind:'summit'};
+}
+var curQ=-1;
+function openQ(i){
+  curQ=i; paused=true; clearInput();
+  $('fearVignette').style.opacity = '0';
+  $('ghostWarn').hidden = true;
+  $('qTitle').textContent='Soal '+(i+1)+' / '+N;
+  $('qText').textContent=SOAL[i].q;
+  var wrap=$('qOpts'); wrap.innerHTML='';
+  var ord=optOrder(i);
+  ord.forEach(function(orig,k){
+    var b=document.createElement('button'); b.type='button'; b.className='opt'; b.dataset.orig=orig;
+    b.innerHTML='<span class="ltr">'+'ABCDE'[k]+'</span><span>'+esc(SOAL[i].o[orig])+'</span>';
+    b.setAttribute('aria-pressed',S.answers[i]===orig?'true':'false');
+    b.addEventListener('click',function(){
+      S.answers[i]=orig; save();
+      Array.prototype.forEach.call(wrap.children,function(x){ x.setAttribute('aria-pressed',x===b?'true':'false'); });
+      qState(); hudTick(true);
+    });
+    wrap.appendChild(b);
+  });
+  qState();
+  $('qModal').hidden=false;
+  var f=wrap.querySelector('.opt'); if(f) f.focus({preventScroll:true});
+}
+function qState(){
+  var ok=S.answers[curQ]!==undefined, c=$('qState');
+  c.textContent=ok?'Jawaban tersimpan':'Belum dijawab'; c.className='chip'+(ok?' ok':'');
+  $('qNote').textContent=ok?'Aman dari gangguan saat membaca soal.':'Pilih satu jawaban.';
+}
+$('qClose').addEventListener('click',closeQ);
+function closeQ(){
+  $('qModal').hidden=true; paused=false;
+  if(S.answers[curQ]===undefined) toast('Soal '+(curQ+1)+' belum dijawab. Buka lagi lewat Tas soal.');
+  curQ=-1; checkSummit(false);
+}
+function collect(i){
+  S.collected[i]=true; papers[i].g.visible=false;
+  P.safeX = P.x; P.safeZ = P.z;
+  save();
+  toast('Kertas soal '+(i+1)+' diamankan');
+  openQ(i);
+}
+function openBag(){
+  paused=true; clearInput();
+  $('fearVignette').style.opacity = '0';
+  var grid=$('bagGrid'); grid.innerHTML='';
+  for(var i=0;i<N;i++){
+    var b=document.createElement('button'); b.type='button'; b.textContent=i+1;
+    if(!S.collected[i]){ b.className='lock'; b.disabled=true; b.setAttribute('aria-label','Soal '+(i+1)+' belum ditemukan'); }
+    else { b.className=S.answers[i]!==undefined?'done':''; b.setAttribute('aria-label','Soal '+(i+1)+(S.answers[i]!==undefined?', sudah dijawab':', belum dijawab')); (function(ii){ b.addEventListener('click',function(){ $('bagModal').hidden=true; openQ(ii); }); })(i); }
+    grid.appendChild(b);
+  }
+  $('bagLead').textContent='Ditemukan '+collectedCount()+' dari '+N+' soal. Terjawab '+answeredCount()+'. Ketuk nomor untuk membuka atau mengganti jawaban.';
+  $('bagModal').hidden=false;
+}
+function closeBag(){ $('bagModal').hidden=true; paused=false; }
+$('btnBag').addEventListener('click',openBag);
+$('bagClose').addEventListener('click',closeBag);
+
+/* ---------- Kumpulkan & Pengiriman ke Google Sheets ---------- */
+var summitAsked=false;
+function checkSummit(){
+  if(mode!=='play'||paused) return;
+  if(Math.hypot(P.x,P.z)<7 && answeredCount()===N && !summitAsked){ summitAsked=true; openConfirm(); }
+  if(Math.hypot(P.x,P.z)>14) summitAsked=false;
+}
+function openConfirm(){
+  paused=true; clearInput();
+  var un=N-answeredCount(), nf=N-collectedCount();
+  var t='Kamu sudah menjawab '+answeredCount()+' dari '+N+' soal.';
+  if(un>0){ t+=' Masih ada '+un+' soal tanpa jawaban'+(nf>0?' ('+nf+' kertas belum ditemukan)':'')+'. Soal kosong dihitung salah.'; }
+  t+=' Setelah dikumpulkan, jawaban tidak bisa diubah.';
+  $('cfText').textContent=t; $('confirmModal').hidden=false;
+}
+$('btnFinish').addEventListener('click',openConfirm);
+$('cfNo').addEventListener('click',function(){ $('confirmModal').hidden=true; paused=false; });
+$('cfYes').addEventListener('click',function(){
+  S.sec=elapsed(); S.submitted=true; save(); $('confirmModal').hidden=true;
+  exitFullscreen();
+  showResult(false);
+});
+
+function summary(){
+  var ok=[],bad=[],blank=[],detailArr=[];
+  for(var i=0;i<N;i++){
+    if(S.answers[i]===undefined){
+      blank.push(i+1);
+      detailArr.push((i+1)+':-');
+    } else if(S.answers[i]===0){
+      ok.push(i+1);
+      detailArr.push((i+1)+':B');
+    } else {
+      bad.push(i+1);
+      detailArr.push((i+1)+':S');
+    }
+  }
+  return {ok:ok,bad:bad,blank:blank,score:Math.round(ok.length*POINT*10)/10,detail:detailArr.join(',')};
+}
+
+function sendToSpreadsheet(){
+  if(!CFG.GAS_URL) return;
+  var st=$('syncStatus'), retry=$('rsRetrySync');
+  st.hidden=false; retry.hidden=true;
+  st.className='sync-status';
+  st.textContent='Mengirim nilai otomatis ke rekap guru...';
+
+  var s=summary();
+  var payload={
+    nama: S.name,
+    kelas: S.kelas,
+    nilai: s.score,
+    benar: s.ok.length,
+    salah: s.bad.length,
+    kosong: s.blank.length,
+    waktu: fmtTime(S.sec),
+    pelanggaran: S.violations||0,
+    detail: s.detail
+  };
+
+  fetch(CFG.GAS_URL,{
+    method:'POST',
+    mode:'no-cors',
+    headers:{'Content-Type':'text/plain'},
+    body:JSON.stringify(payload)
+  }).then(function(){
+    st.className='sync-status ok';
+    st.textContent='Nilai berhasil dikirim ke rekap Google Sheets guru.';
+  }).catch(function(){
+    st.className='sync-status err';
+    st.textContent='Gagal mengirim otomatis (periksa koneksi internet). Gunakan tombol "Salin hasil untuk guru" atau klik Kirim ulang.';
+    retry.hidden=false;
+  });
+}
+
+$('rsRetrySync').addEventListener('click',sendToSpreadsheet);
+
+function showResult(forcedByViolation){
+  mode='result'; paused=false; clearInput();
+  $('hud').hidden=true; $('waterWarn').hidden=true; $('ghostWarn').hidden=true;
+  $('fearVignette').style.opacity='0';
+  var s=summary();
+  $('rsName').textContent=S.name;
+  $('rsMeta').textContent='Kelas '+S.kelas+(S.violations>0?' · Pelanggaran keluar layar: '+S.violations+'x':'');
+  $('rsScore').textContent=String(s.score).replace('.',',');
+  var msg=forcedByViolation
+    ?'Ujian otomatis dihentikan dan dikumpulkan karena melebihi batas meninggalkan layar ujian.'
+    :s.score>=85?'Pendakian malam yang luar biasa. Kamu menaklukkan kegelapan sampai puncak.'
+    :s.score>=70?'Bagus. Kamu berhasil melewati rintangan malam dengan baik.'
+    :s.score>=55?'Cukup baik. Pelajari lagi materi yang masih salah.'
+    :'Pendakian selesai. Ayo belajar lagi dan tingkatkan nilaimu.';
+  $('rsMsg').textContent=msg;
+  $('rsOk').textContent=s.ok.length; $('rsBad').textContent=s.bad.length+s.blank.length; $('rsTime').textContent=fmtTime(S.sec);
+
+  sendToSpreadsheet();
+
+  var det=$('rsDetails'); det.hidden=!CFG.SHOW_REVIEW;
+  if(CFG.SHOW_REVIEW){
+    var h='';
+    for(var i=0;i<N;i++){
+      var a=S.answers[i], st=a===undefined?'<span class="bad">Tidak dijawab</span>':a===0?'<span class="good">Benar</span>':'<span class="bad">Salah</span>';
+      h+='<li><div class="t">'+(i+1)+'. '+esc(SOAL[i].q)+'</div><div>'+st+(a===undefined?'':' · Jawabanmu: '+esc(SOAL[i].o[a]))+(a===0?'':' · Kunci: '+esc(SOAL[i].o[0]))+'</div></li>';
+    }
+    $('rsList').innerHTML=h;
+  }
+  $('copyBox').hidden=true;
+  $('result').hidden=false;
+}
+
+$('rsCopy').addEventListener('click',function(){
+  var s=summary();
+  var txt='HASIL PENDAKIAN SOAL\nNama: '+S.name+'\nKelas: '+S.kelas+'\nNilai: '+String(s.score).replace('.',',')+' ('+s.ok.length+' benar dari '+N+')\nTerjawab: '+(N-s.blank.length)+'/'+N+'\nWaktu: '+fmtTime(S.sec)+'\nPelanggaran Layar: '+(S.violations||0)+'\nNomor benar: '+(s.ok.join(', ')||'-')+'\nNomor salah: '+(s.bad.join(', ')||'-')+'\nNomor kosong: '+(s.blank.join(', ')||'-');
+  var box=$('copyBox'); box.value=txt; box.hidden=false;
+  function fallback(){ box.focus(); box.select(); toast('Salin teks di kotak ini lalu kirim ke gurumu'); }
+  try{ navigator.clipboard.writeText(txt).then(function(){ toast('Hasil disalin. Kirim ke gurumu.'); },fallback); }catch(e){ fallback(); }
+});
+$('rsExit').addEventListener('click',function(){
+  $('result').hidden=true; S=null; if(avatar){ scene.remove(avatar); avatar=null; } mode='login'; $('login').hidden=false;
+});
+
+/* =====================================================================
+   Input
+   ===================================================================== */
+var keys={}, joy={x:0,y:0}, jumpReq=false;
+function clearInput(){ keys={}; joy.x=joy.y=0; jumpReq=false; var k=$('knob'); if(k) k.style.transform='translate(-50%,-50%)'; }
+window.addEventListener('keydown',function(e){
+  if(CFG.LOCKDOWN && mode==='play'){
+    if(e.key==='F12' || (e.ctrlKey && e.shiftKey && /[IJC]/i.test(e.key)) || (e.ctrlKey && /[UuSsPp]/.test(e.key))){
+      e.preventDefault();
+      return;
+    }
+  }
+  if(e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return;
+  if(mode!=='play') return;
+  if(e.code==='Escape'){ if(!$('qModal').hidden) closeQ(); else if(!$('bagModal').hidden) closeBag(); else if(!$('confirmModal').hidden){ $('confirmModal').hidden=true; paused=false; } return; }
+  if(paused) return;
+  if(e.code==='KeyB'){ openBag(); return; }
+  if(e.code==='KeyF'){ toggleFlashlight(); return; }
+  if(e.code==='Space'){ jumpReq=true; e.preventDefault(); }
+  keys[e.code]=true;
+  if(/^Arrow/.test(e.code)) e.preventDefault();
+});
+window.addEventListener('keyup',function(e){ keys[e.code]=false; });
+
+var drag=null;
+canvas.addEventListener('pointerdown',function(e){ drag={id:e.pointerId,x:e.clientX,y:e.clientY}; try{canvas.setPointerCapture(e.pointerId);}catch(_){} });
+canvas.addEventListener('pointermove',function(e){
+  if(!drag||e.pointerId!==drag.id) return;
+  if(mode==='play'&&!paused){ cam.yaw-=(e.clientX-drag.x)*0.006; cam.pitch=clamp(cam.pitch+(e.clientY-drag.y)*0.005,0.05,1.25); }
+  drag.x=e.clientX; drag.y=e.clientY;
+});
+['pointerup','pointercancel'].forEach(function(ev){ canvas.addEventListener(ev,function(e){ if(drag&&e.pointerId===drag.id) drag=null; }); });
+canvas.addEventListener('wheel',function(e){ if(mode==='play'){ cam.dist=clamp(cam.dist+e.deltaY*0.01,7,24); e.preventDefault(); } },{passive:false});
+
+var touchy=(window.matchMedia&&matchMedia('(pointer:coarse)').matches)||('ontouchstart' in window);
+if(touchy) $('hud').classList.add('touchy');
+var stick=$('stick'), knob=$('knob'), stickId=null;
+function moveStick(e){
+  var r=stick.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2, dx=e.clientX-cx, dy=e.clientY-cy, max=r.width/2-8, d=Math.hypot(dx,dy);
+  if(d>max){ dx*=max/d; dy*=max/d; }
+  joy.x=dx/max; joy.y=dy/max; knob.style.transform='translate(calc(-50% + '+dx+'px),calc(-50% + '+dy+'px))';
+}
+stick.addEventListener('pointerdown',function(e){ stickId=e.pointerId; try{stick.setPointerCapture(e.pointerId);}catch(_){} moveStick(e); });
+stick.addEventListener('pointermove',function(e){ if(e.pointerId===stickId) moveStick(e); });
+['pointerup','pointercancel'].forEach(function(ev){ stick.addEventListener(ev,function(e){ if(e.pointerId===stickId){ stickId=null; joy.x=joy.y=0; knob.style.transform='translate(-50%,-50%)'; } }); });
+$('jumpBtn').addEventListener('pointerdown',function(e){ e.preventDefault(); if(!paused) jumpReq=true; });
+
+/* =====================================================================
+   Loop Utama (Senter, Sungai, Jembatan Kayu, & Sosok Berambut Panjang)
+   ===================================================================== */
+var tNow=0, last=performance.now(), hudAcc=0;
+var heartAcc=0, owlAcc=0, creakAcc=0, wasOnBridge=false;
+
+function update(dt){
+  var ix=((keys.KeyD||keys.ArrowRight)?1:0)-((keys.KeyA||keys.ArrowLeft)?1:0)+joy.x;
+  var iz=((keys.KeyW||keys.ArrowUp)?1:0)-((keys.KeyS||keys.ArrowDown)?1:0)-joy.y;
+  if(keys.KeyQ) cam.yaw+=1.8*dt; if(keys.KeyE) cam.yaw-=1.8*dt;
+  var fx=-Math.sin(cam.yaw), fz=-Math.cos(cam.yaw), rx=-fz, rz=fx;
+  var mx=rx*ix+fx*iz, mz=rz*ix+fz*iz, len=Math.hypot(mx,mz), moving=false, sp=0;
+
+  var onBridge = getBridgeHeight(P.x, P.z) !== null;
+  if(onBridge && !wasOnBridge && creakAcc <= 0){
+    SFX.woodCreak();
+    creakAcc = 2.5;
+  }
+  wasOnBridge = onBridge;
+  if(creakAcc > 0) creakAcc -= dt;
+
+  var wLevel = waterLevelAt(P.x, P.z);
+  P.inWater = (!onBridge && riverDist(P.x, P.z) < 0.4 && P.y < wLevel + 0.15);
+  $('waterWarn').hidden = !P.inWater;
+
+  if(len>0.05){
+    moving=true; var m=Math.min(1,len), nx=mx/len, nz=mz/len;
+    var hh=groundAndBridgeHeight(P.x,P.z), ahead=groundAndBridgeHeight(P.x+nx*0.8,P.z+nz*0.8), sl=(ahead-hh)/0.8;
+    var f=P.ground?clamp(1-Math.max(0,sl)*0.45,0.45,1):1;
+    var waterPenalty = P.inWater ? 0.35 : 1.0;
+    sp=11*m*f*waterPenalty;
+    P.x+=nx*sp*dt; P.z+=nz*sp*dt; P.face=Math.atan2(nx,nz);
+    if(P.inWater){
+      P.z += (P.z >= 0 ? 1.9 : -1.9) * dt;
+    }
+  }
+  var rr=Math.hypot(P.x,P.z), lim=L-15; if(rr>lim){ P.x*=lim/rr; P.z*=lim/rr; }
+  if(jumpReq && P.ground){ P.vy = P.inWater ? 7.2 : 9.5; P.ground=false; } jumpReq=false;
+  P.vy-=26*dt; P.y+=P.vy*dt;
+  var gh=groundAndBridgeHeight(P.x,P.z);
+  if(P.y<=gh+(P.ground?0.5:0) && P.vy<=0){ P.y=gh; P.vy=0; P.ground=true; } else P.ground=false;
+
+  P.phase+=dt*(moving?sp*0.85:0);
+  var sw_=moving&&P.ground?Math.sin(P.phase)*0.85:(P.ground?0:0.5);
+  limbs.legL.rotation.x=sw_; limbs.legR.rotation.x=-sw_; limbs.armL.rotation.x=-sw_; limbs.armR.rotation.x=sw_;
+  var da=P.face-avatar.rotation.y; da=Math.atan2(Math.sin(da),Math.cos(da)); avatar.rotation.y+=da*Math.min(1,dt*12);
+  avatar.position.set(P.x,P.y,P.z);
+
+  var lookDirX = Math.sin(avatar.rotation.y);
+  var lookDirZ = Math.cos(avatar.rotation.y);
+  headlamp.position.set(P.x + lookDirX*0.6, P.y + 4.1, P.z + lookDirZ*0.6);
+  headlampTarget.position.set(P.x + lookDirX*22, P.y + 1.2, P.z + lookDirZ*22);
+
+  // Logika Sosok Berambut Panjang
+  var minGhostDist = 999;
+  var detectRadius = flashlightOn ? 24 : 9;
+  for(var gi=0; gi<ghosts.length; gi++){
+    var ghObj = ghosts[gi];
+    var distToP = Math.hypot(P.x - ghObj.x, P.z - ghObj.z);
+    if(distToP < minGhostDist) minGhostDist = distToP;
+
+    var chasing = distToP < detectRadius;
+    if(chasing){
+      var angToP = Math.atan2(P.x - ghObj.x, P.z - ghObj.z);
+      var chaseSpd = flashlightOn ? 5.2 : 3.2;
+      ghObj.x += Math.sin(angToP) * chaseSpd * dt;
+      ghObj.z += Math.cos(angToP) * chaseSpd * dt;
+      ghObj.g.rotation.y = angToP;
+    } else {
+      ghObj.phase += dt * 0.65;
+      var tx = ghObj.homeX + Math.cos(ghObj.phase) * 14;
+      var tz = ghObj.homeZ + Math.sin(ghObj.phase) * 14;
+      ghObj.g.rotation.y = Math.atan2(tx - ghObj.x, tz - ghObj.z);
+      ghObj.x += (tx - ghObj.x) * dt * 0.8;
+      ghObj.z += (tz - ghObj.z) * dt * 0.8;
+    }
+    var gy = groundAndBridgeHeight(ghObj.x, ghObj.z);
+    ghObj.g.position.set(ghObj.x, gy + Math.sin(tNow*3 + gi)*0.25, ghObj.z);
+
+    // Animasi rambut panjang tertiup angin & berkibar saat mengejar
+    if(ghObj.hair){
+      var swaySpeed = chasing ? 6.5 : 2.6;
+      var swayAmp = chasing ? 0.18 : 0.08;
+      ghObj.hair.rotation.x = (chasing ? 0.22 : 0.05) + Math.sin(tNow * swaySpeed + gi) * swayAmp;
+      ghObj.hair.rotation.z = Math.cos(tNow * (swaySpeed * 0.8) + gi) * (swayAmp * 0.8);
+    }
+
+    if(distToP < 2.2){
+      SFX.scareHit();
+      toast('Tertangkap sosok berambut panjang! Kamu mundur ke titik aman sebelumnya.');
+      P.x = P.safeX; P.z = P.safeZ;
+      P.y = groundAndBridgeHeight(P.x, P.z);
+      ghObj.x = ghObj.homeX + 12;
+      ghObj.z = ghObj.homeZ + 12;
+      minGhostDist = 999;
+      break;
+    }
+  }
+
+  var fearLevel = clamp(1 - (minGhostDist - 3) / 18, 0, 1);
+  $('fearVignette').style.opacity = (fearLevel * 0.85).toFixed(2);
+  $('ghostWarn').hidden = (minGhostDist > 18);
+  if(fearLevel > 0.25){
+    heartAcc -= dt;
+    if(heartAcc <= 0){
+      SFX.heartbeat();
+      heartAcc = clamp(1.1 - fearLevel * 0.65, 0.42, 1.1);
+    }
+  }
+
+  owlAcc += dt;
+  if(owlAcc > 18){
+    owlAcc = 0;
+    if(Math.random() < 0.7) SFX.owl();
+  }
+
+  for(var i=0;i<N;i++){
+    var p=papers[i]; if(S.collected[i]) continue;
+    var dx=p.x-P.x, dz=p.z-P.z;
+    if(dx*dx+dz*dz<12 && P.y<p.y+5){ collect(i); break; }
+  }
+  checkSummit();
+}
+
+function camUpdate(){
+  var cp=Math.cos(cam.pitch);
+  var cx=P.x+Math.sin(cam.yaw)*cp*cam.dist, cz=P.z+Math.cos(cam.yaw)*cp*cam.dist, cy=P.y+3+Math.sin(cam.pitch)*cam.dist;
+  cy=Math.max(cy,groundAndBridgeHeight(cx,cz)+1.6);
+  camera.position.set(cx,cy,cz); camera.lookAt(P.x,P.y+2.8,P.z);
+}
+function hudTick(force){
+  if(!S) return;
+  $('clock').textContent=fmtTime(elapsed());
+  var alt=clamp(P.y/PEAK,0,1);
+  $('altFill').style.width=(alt*100)+'%'; $('altTxt').textContent=Math.round(P.y/PEAK*2700).toLocaleString('id-ID')+' m';
+  $('bagCount').textContent=answeredCount()+'/'+N;
+  var t=nextTarget(), dx=t.x-P.x, dz=t.z-P.z, d=Math.hypot(dx,dz);
+  var fx=-Math.sin(cam.yaw), fz=-Math.cos(cam.yaw), rx=-fz, rz=fx;
+  var a=Math.atan2(dx*rx+dz*rz, dx*fx+dz*fz);
+  $('arrow').style.transform='rotate('+a+'rad)';
+  var txt=t.kind==='paper'?'Kertas '+(t.i+1)+' · '+Math.round(d)+' m':t.kind==='bag'?'Soal '+(t.i+1)+' belum dijawab. Buka Tas soal':'Semua soal terjawab. Menuju puncak · '+Math.round(d)+' m';
+  if($('compTxt').textContent!==txt) $('compTxt').textContent=txt;
+}
+function frame(now){
+  var dt=Math.min(0.05,(now-last)/1000); last=now; tNow+=dt;
+  if(mode==='play'){
+    if(!paused) update(dt);
+    camUpdate();
+    hudAcc+=dt; if(hudAcc>0.1){ hudAcc=0; hudTick(); }
+  } else {
+    var a=tNow*0.06+1;
+    camera.position.set(Math.cos(a)*215,78+Math.sin(tNow*0.2)*6,Math.sin(a)*215); camera.lookAt(0,34,0);
+  }
+  if(waterMesh && waterBaseY){
+    var pos = waterMesh.geometry.attributes.position;
+    for(var w=0; w<pos.count; w++){
+      var wz = pos.getZ(w);
+      var wx = pos.getX(w);
+      pos.setY(w, waterBaseY[w] + Math.sin(tNow * 3.2 + wz * 0.35 + wx * 0.5) * 0.08);
+    }
+    pos.needsUpdate = true;
+  }
+  for(var i=0;i<papers.length;i++){ var p=papers[i]; if(p.g.visible){ p.mesh.position.y=2.6+Math.sin(tNow*2+i)*0.25; p.mesh.rotation.y+=dt*1.4; } }
+  renderer.render(scene,camera);
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
