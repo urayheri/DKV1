@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Pendakian Soal Audio Multiplayer - SMKN 1 Semparuk</title>
+<title>Pendakian 3 Bukit Terpisah & Peti Harta Karun - SMKN 1 Semparuk</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800&display=swap">
 <style>
@@ -61,7 +61,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--sun);outline-of
 #arrow{width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;border-bottom:22px solid var(--sun);transition:transform .1s linear}
 .compass span{background:var(--glass);border-radius:10px;padding:6px 12px;font-size:.85rem;font-weight:800;border:1px solid rgba(255,255,255,.14)}
 .alert-banner{position:absolute;left:50%;top:calc(env(safe-area-inset-top,0px) + 78px);transform:translateX(-50%);padding:6px 14px;border-radius:10px;font-size:.82rem;font-weight:800;pointer-events:none;border:1px solid rgba(255,255,255,.3);box-shadow:0 4px 12px rgba(0,0,0,.4);white-space:nowrap}
-.alert-banner.water{background:rgba(14,116,144,.94);color:#fff}
+.alert-banner.bridge{background:rgba(180,83,9,.95);color:#fff}
 .alert-banner.ghost{background:rgba(185,28,28,.94);color:#fff;animation:pulseWarn .7s infinite alternate}
 @keyframes pulseWarn{from{transform:translateX(-50%) scale(1)}to{transform:translateX(-50%) scale(1.04)}}
 .hint{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 12px);background:var(--glass);border-radius:10px;padding:6px 12px;font-size:.8rem;font-weight:700;white-space:nowrap;pointer-events:none}
@@ -78,7 +78,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--sun);outline-of
 .card{background:var(--paper);color:var(--ink);border:3px solid var(--ink);border-radius:16px;box-shadow:0 10px 25px rgba(0,0,0,.55);width:min(100%,520px);padding:22px;box-sizing:border-box;margin:auto}
 .card.wide{width:min(100%,640px)}
 h1,h2{font-family:var(--display);margin:0;line-height:1.05;text-wrap:balance}
-h1{font-size:2.3rem;font-weight:800}
+h1{font-size:2.2rem;font-weight:800}
 h2{font-size:1.5rem;font-weight:700}
 .lead{margin:8px 0 16px;font-size:1rem;line-height:1.5;color:var(--ink-2)}
 label.f{display:block;font-weight:800;font-size:.85rem;margin:12px 0 5px;letter-spacing:.03em;text-transform:uppercase}
@@ -95,7 +95,6 @@ input[type=text]{width:100%;box-sizing:border-box;border:2px solid var(--ink);bo
 .chip{background:var(--ink);color:var(--snow);border-radius:8px;padding:4px 10px;font-weight:800;font-size:.85rem;font-variant-numeric:tabular-nums}
 .chip.ok{background:var(--pine)}
 
-/* Panel Soal Khusus Suara (Tanpa Teks Soal) */
 .audio-stage{
   background:#0d1b2a;
   color:var(--snow);
@@ -140,7 +139,6 @@ input[type=text]{width:100%;box-sizing:border-box;border:2px solid var(--ink);bo
   color:#cbd5e1;
 }
 
-/* Pilihan Jawaban Hanya Huruf A-E */
 .opts-audio{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
 @media (max-width:420px){.opts-audio{grid-template-columns:repeat(3,1fr)}}
 .opt-ltr{
@@ -162,6 +160,47 @@ input[type=text]{width:100%;box-sizing:border-box;border:2px solid var(--ink);bo
 
 .qfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:18px;flex-wrap:wrap}
 .qfoot small{color:var(--ink-2);font-weight:700}
+
+.treasure-box{
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+  color:#fff;
+  border:3px solid #fbbf24;
+  border-radius:14px;
+  padding:18px;
+  margin:14px 0;
+  text-align:center;
+}
+.voucher-card{
+  background:linear-gradient(135deg,#118eea,#0c6ebd);
+  border:2px dashed #bae6fd;
+  border-radius:12px;
+  padding:14px;
+  margin:12px 0;
+  color:#fff;
+}
+.voucher-code{
+  display:inline-block;
+  background:#0f172a;
+  color:#fbbf24;
+  font-family:monospace;
+  font-size:1.15rem;
+  font-weight:800;
+  padding:6px 14px;
+  border-radius:8px;
+  margin-top:6px;
+  letter-spacing:.08em;
+  -webkit-user-select:text;
+  user-select:text;
+}
+.treasure-locked{
+  background:#fef2f2;
+  border:2px solid #fca5a5;
+  color:#991b1b;
+  border-radius:12px;
+  padding:14px;
+  margin:12px 0;
+  font-weight:700;
+}
 
 .bag{display:grid;grid-template-columns:repeat(8,1fr);gap:7px;margin:14px 0}
 .bag button{aspect-ratio:1;border-radius:9px;border:2px solid var(--ink);font:800 .95rem var(--display);padding:0;background:var(--sun);color:var(--ink);font-variant-numeric:tabular-nums}
@@ -195,7 +234,7 @@ textarea#copyBox{width:100%;box-sizing:border-box;height:120px;margin-top:10px;f
 </head>
 <body>
 
-<canvas id="gl" aria-label="Pemandangan gunung malam 3D"></canvas>
+<canvas id="gl" aria-label="Pemandangan 3 bukit terpisah jurang dalam 3D"></canvas>
 <div id="fearVignette"></div>
 
 <div id="hud" hidden>
@@ -207,7 +246,7 @@ textarea#copyBox{width:100%;box-sizing:border-box;height:120px;margin-top:10px;f
       <span class="online-badge" id="onlineBadge">👥 1 Pendaki</span>
       <span class="warn-badge" id="warnBadge" hidden>Pelanggaran: 0/3</span>
     </div>
-    <div class="panel alt"><div class="lbl"><span>Ketinggian</span><span id="altTxt">0 m</span></div><div class="altbar"><i id="altFill"></i></div></div>
+    <div class="panel alt"><div class="lbl"><span id="hillLbl">Bukit 1/3</span><span id="altTxt">0 m</span></div><div class="altbar"><i id="altFill"></i></div></div>
     <div class="btns">
       <button class="btn dark" id="btnLight" type="button" title="Tekan F">🔦 Senter: ON</button>
       <button class="btn dark" id="btnSound" type="button">🔊 Suara</button>
@@ -216,7 +255,7 @@ textarea#copyBox{width:100%;box-sizing:border-box;height:120px;margin-top:10px;f
     </div>
   </div>
   <div class="compass"><div class="dial"><div id="arrow"></div></div><span id="compTxt">Cari kertas soal</span></div>
-  <div class="alert-banner water" id="waterWarn" hidden>🌊 Tercebur sungai malam! Naik ke jembatan batang kayu</div>
+  <div class="alert-banner bridge" id="bridgeWarn" hidden>🪵 Hati-hati! Meniti jembatan 1 batang kayu di atas jurang dalam!</div>
   <div class="alert-banner ghost" id="ghostWarn" hidden>👁️ Bahaya mendekat! Matikan senter (F) atau menghindar!</div>
   <div class="hint">WASD/Panah: jalan · Spasi: lompat · F: senter · B: tas soal · Seret mouse/Q/E: kamera</div>
   <div id="stick"><div id="knob"></div></div>
@@ -225,8 +264,8 @@ textarea#copyBox{width:100%;box-sizing:border-box;height:120px;margin-top:10px;f
 
 <div class="overlay" id="login">
   <form class="card" id="loginForm" autocomplete="off" novalidate>
-    <h1>Pendakian Malam</h1>
-    <p class="lead">Tembus hutan rimba berkabut bersama teman sekelasmu, waspadai hantu berambut panjang dan binatang buas malam, lalu dengarkan & jawab 40 soal audio di puncak.</p>
+    <h1>Ekspedisi 3 Bukit</h1>
+    <p class="lead">Taklukkan 3 bukit berliku yang terpisah <b>jurang dalam</b> melalui <b>jembatan 1 batang kayu</b>, hindari hantu & binatang buas, lalu buka <b>Peti Harta Karun</b> di puncak tertinggi!</p>
     <label class="f" for="inName">Nama lengkap (Ketik GURU untuk Mode Pengawas)</label>
     <input type="text" id="inName" maxlength="32" placeholder="mis. Siti Rahma">
     <label class="f" for="inClass">Kelas</label>
@@ -238,12 +277,12 @@ textarea#copyBox{width:100%;box-sizing:border-box;height:120px;margin-top:10px;f
     <label class="f" id="swLbl">Warna jaketmu</label>
     <div class="swatches" id="swatches" role="radiogroup" aria-labelledby="swLbl"></div>
     <p class="err" id="loginErr" role="alert"></p>
-    <button class="btn sun start" type="submit">Mulai Pendakian Malam</button>
+    <button class="btn sun start" type="submit">Mulai Pendakian 3 Bukit</button>
     <div class="rules">
-      <b>Panduan Bertahan & Aturan Ujian Audio:</b><br>
-      1. <b>Soal Tanpa Teks (100% Suara):</b> Saat kertas soal ditemukan, suara otomatis membacakan pertanyaan dan pilihan A–E. Aktifkan volume perangkat atau gunakan headset.<br>
-      2. Gunakan <b>Senter (F)</b> di hutan rimba. Matikan senter jika berpapasan dengan <b>Hantu Hutan</b> atau <b>Binatang Buas (Serigala & Beruang)</b>.<br>
-      3. Ujian berjalan dalam <b>Mode Layar Penuh (Lockdown)</b> (maksimal 3 peringatan keluar layar).
+      <b>Misi & Hadiah Peti Harta Karun:</b><br>
+      1. <b>3 Bukit Terpisah Jurang Dalam:</b> Ikuti jalan setapak berlentera menuju jembatan <b>1 batang kayu</b> di atas jurang dari Bukit 1 → Bukit 2 → Bukit 3.<br>
+      2. <b>Soal 100% Audio:</b> Dengarkan suara pertanyaan & pilihan A–E saat menemukan kertas soal.<br>
+      3. <b>Peti Harta Karun (Nilai ≥ 80):</b> Di puncak Bukit 3 terdapat Peti Harta Karun berisi <b>Voucher DANA Rp 5.000</b> & <b>Download Kisi-Kisi Ulangan (PDF)</b> khusus bagi pendaki dengan nilai minimal 80!
     </div>
   </form>
 </div>
@@ -251,7 +290,7 @@ textarea#copyBox{width:100%;box-sizing:border-box;height:120px;margin-top:10px;f
 <div class="overlay dim" id="qModal" hidden>
   <div class="card" role="dialog" aria-modal="true" aria-labelledby="qTitle">
     <div class="qhead">
-      <span class="chip" id="qTitle">Soal 1 / 40</span>
+      <span class="chip" id="qTitle">Soal Audio 1 / 40</span>
       <span class="chip" id="qState">Belum dijawab</span>
     </div>
     <div class="audio-stage" id="audioStage">
@@ -263,6 +302,35 @@ textarea#copyBox{width:100%;box-sizing:border-box;height:120px;margin-top:10px;f
     </div>
     <div class="opts-audio" id="qOpts"></div>
     <div class="qfoot"><small id="qNote">Pilih huruf A, B, C, D, atau E sesuai suara</small><button class="btn go" id="qClose" type="button">Lanjut mendaki</button></div>
+  </div>
+</div>
+
+<!-- Modal Peti Harta Karun di Puncak Bukit 3 -->
+<div class="overlay dim" id="chestModal" hidden>
+  <div class="card wide" role="dialog" aria-modal="true" aria-labelledby="chTitle">
+    <h2 id="chTitle">🏆 Peti Harta Karun Puncak Tertinggi</h2>
+    <p class="lead" id="chLead"></p>
+    <div id="chestUnlocked" hidden>
+      <div class="treasure-box">
+        <div style="font-size:1.1rem;font-weight:800;color:#fbbf24">✨ SELAMAT! NILAI KAMU MEMENUHI SYARAT (≥ 80) ✨</div>
+        <div class="voucher-card">
+          <div style="font-size:.85rem;font-weight:800;letter-spacing:.05em">VOUCHER SALDO DANA</div>
+          <div style="font-family:var(--display);font-size:2.1rem;font-weight:800;line-height:1.1">Rp 5.000</div>
+          <div style="font-size:.8rem;opacity:.9">Tunjukkan kode & screenshot ini ke Pak U. Heri Mukti</div>
+          <div class="voucher-code" id="voucherCodeTxt">DANA5K-XXXX</div>
+        </div>
+        <button class="btn sun" id="btnDownloadPdf" type="button" style="width:100%;font-size:1rem;padding:12px">
+          📄 Download Kisi-Kisi Ulangan (PDF)
+        </button>
+      </div>
+    </div>
+    <div id="chestLocked" hidden>
+      <div class="treasure-locked" id="chestLockedMsg"></div>
+    </div>
+    <div class="actions">
+      <button class="btn go" id="chFinishBtn" type="button">Kumpulkan Ujian Sekarang</button>
+      <button class="btn ghost" id="chCloseBtn" type="button">Tutup & Cek Tas Soal</button>
+    </div>
   </div>
 </div>
 
@@ -305,6 +373,7 @@ textarea#copyBox{width:100%;box-sizing:border-box;height:120px;margin-top:10px;f
       <div class="stat"><b id="rsBad">0</b><span>Salah</span></div>
       <div class="stat"><b id="rsTime">0</b><span>Waktu</span></div>
     </div>
+    <div id="rsRewardZone"></div>
     <div class="sync-status" id="syncStatus" hidden>Mengirim nilai ke server guru...</div>
     <details id="rsDetails"><summary>Lihat ringkasan nomor soal</summary><ul class="rev" id="rsList"></ul></details>
     <textarea id="copyBox" readonly hidden aria-label="Ringkasan hasil"></textarea>
@@ -332,7 +401,8 @@ var CFG = {
   LOCKDOWN: true,
   MAX_VIOLATIONS: 3,
   SHOW_REVIEW: true,
-  R: 200, L: 250, PEAK: 85
+  WORLD_SIZE: 360,
+  PEAK: 92
 };
 
 function Q(q){ return {q:q,o:Array.prototype.slice.call(arguments,1)}; }
@@ -384,7 +454,7 @@ var N = SOAL.length;
 var POINT = 100 / N;
 
 /* =====================================================================
-   Util, Pembaca Soal Otomatis (TTS Tanpa Teks), & Audio Horor Prosedural
+   Util, Generator PDF Kisi-Kisi Ulangan, TTS Audio, & SFX Horor
    ===================================================================== */
 function $(id){ return document.getElementById(id); }
 function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
@@ -393,9 +463,89 @@ function hashStr(s){ var h=2166136261; for(var i=0;i<s.length;i++){ h^=s.charCod
 function rng(seed){ var a=seed>>>0; return function(){ a|=0; a=a+0x6D2B79F5|0; var t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
 function fmtTime(sec){ sec=Math.max(0,Math.floor(sec)); var m=Math.floor(sec/60), s=sec%60; return (m<10?'0':'')+m+':'+(s<10?'0':'')+s; }
 var toastTimer=null;
-function toast(msg){ var t=$('toast'); t.textContent=msg; t.hidden=false; clearTimeout(toastTimer); toastTimer=setTimeout(function(){t.hidden=true;},3000); }
+function toast(msg){ var t=$('toast'); t.textContent=msg; t.hidden=false; clearTimeout(toastTimer); toastTimer=setTimeout(function(){t.hidden=true;},3200); }
 
-// Pembaca Soal Otomatis (100% Suara Tanpa Teks Soal)
+function getVoucherCode(){
+  if(!S) return 'DANA5K-0000';
+  var h = hashStr(S.name.toLowerCase() + '|' + S.kelas.toLowerCase() + '|SMKN1SEMPARUK2026');
+  return 'DANA5K-' + h.toString(36).toUpperCase().slice(0, 6);
+}
+
+function downloadKisiKisiPDF(){
+  var lines = [
+    'KISI-KISI ULANGAN AKHIR SEMESTER - DESAIN KOMUNIKASI VISUAL',
+    'SMKN 1 SEMPARUK | GURU PENGAMPU: U. HERI MUKTI, S.TR.KOM',
+    'PEMENANG PETI HARTA KARUN: ' + (S ? S.name.toUpperCase() + ' (' + S.kelas.toUpperCase() + ')' : 'SISWA'),
+    '--------------------------------------------------------------------------',
+    '1. DESAIN GRAFIS PERCETAKAN (PRINT DESIGN):',
+    '   - Perbedaan mode warna CMYK (cetak) vs RGB (layar digital).',
+    '   - Standar resolusi cetak tajam minimal 300 dpi.',
+    '   - Ukuran standar kertas internasional seri A (A3, A4: 210x297 mm, A5).',
+    '2. FOTOGRAFI DASAR & KOMPOSISI:',
+    '   - Penerapan Rule of Thirds dan komposisi simetris.',
+    '   - Pengaturan White Balance, Aperture (Depth of Field), dan Shutter Speed.',
+    '   - Teknik Panning untuk objek bergerak dan jenis sudut pengambilan (High/Close Up).',
+    '3. VIDEOGRAFI & STORYBOARD PRODUKSI:',
+    '   - Fungsi Storyboard (Panel, Scene, Shot, Deskripsi Aksi, Panah Gerak).',
+    '   - Istilah produksi: Frame Rate, B-Roll, Shot List, Three-Point Lighting.',
+    '   - Pascaproduksi: Cut, Transisi, Color Grading, dan Rendering video.',
+    '4. MOTION GRAPHIC & ANIMASI:',
+    '   - Perbedaan Motion Graphic dengan animasi karakter tradisional.',
+    '   - Penggunaan Software (Adobe After Effects), Layer, Keyframe, Easing, Masking.',
+    '   - Jenis animasi grafis: Typography Animation dan Shape Animation.',
+    '--------------------------------------------------------------------------',
+    'CATATAN: Pelajari seluruh indikator di atas untuk menghadapi ujian utama!'
+  ];
+
+  function pdfEsc(str){
+    return str.replace(/[^\x20-\x7E]/g, '-').replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
+  }
+
+  var stream = 'BT\n/F1 11 Tf\n42 785 Td\n16 TL\n';
+  lines.forEach(function(ln, idx){
+    if(idx === 0) stream += '/F2 13 Tf\n(' + pdfEsc(ln) + ') Tj\nT*\n/F1 10 Tf\n';
+    else if(ln.indexOf(':') === ln.length - 1 && /^\d\./.test(ln)) stream += 'T*\n/F2 10.5 Tf\n(' + pdfEsc(ln) + ') Tj\nT*\n/F1 10 Tf\n';
+    else stream += '(' + pdfEsc(ln) + ') Tj\nT*\n';
+  });
+  stream += 'ET';
+
+  var objs = [
+    '1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n',
+    '2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n',
+    '3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> >>\nendobj\n',
+    '4 0 obj\n<< /Length ' + stream.length + ' >>\nstream\n' + stream + '\nendstream\nendobj\n',
+    '5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n',
+    '6 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>\nendobj\n'
+  ];
+
+  var pdf = '%PDF-1.4\n';
+  var offsets = [0];
+  for(var i=0; i<objs.length; i++){
+    offsets.push(pdf.length);
+    pdf += objs[i];
+  }
+  var xrefPos = pdf.length;
+  pdf += 'xref\n0 ' + (objs.length + 1) + '\n0000000000 65535 f \n';
+  for(var j=1; j<offsets.length; j++){
+    var off = String(offsets[j]);
+    while(off.length < 10) off = '0' + off;
+    pdf += off + ' 00000 n \n';
+  }
+  pdf += 'trailer\n<< /Size ' + (objs.length + 1) + '\n/Root 1 0 R >>\nstartxref\n' + xrefPos + '\n%%EOF';
+
+  var blob = new Blob([pdf], {type: 'application/pdf'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'Kisi-Kisi-Ulangan-DKV-SMKN1Semparuk.pdf';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
+  toast('File PDF Kisi-Kisi Ulangan berhasil diunduh!');
+}
+$('btnDownloadPdf').addEventListener('click', downloadKisiKisiPDF);
+
 var TTS = {
   speaking: false,
   stop: function(){
@@ -528,25 +678,25 @@ var SFX = {
     osc.connect(g); g.connect(SFX.ctx.destination);
     osc.start(t); osc.stop(t+0.3);
   },
-  owl: function(){
+  chestFanfare: function(){
     if(this.muted || !this.ctx) return;
     var t = this.ctx.currentTime;
-    var osc = this.ctx.createOscillator();
-    var g = this.ctx.createGain();
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(420, t);
-    osc.frequency.exponentialRampToValueAtTime(310, t+0.45);
-    g.gain.setValueAtTime(0.001, t);
-    g.gain.linearRampToValueAtTime(0.07, t+0.1);
-    g.gain.exponentialRampToValueAtTime(0.001, t+0.55);
-    osc.connect(g); g.connect(SFX.ctx.destination);
-    osc.start(t); osc.stop(t+0.6);
+    [523.25, 659.25, 783.99, 1046.5].forEach(function(freq, idx){
+      var osc = SFX.ctx.createOscillator();
+      var g = SFX.ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, t + idx*0.1);
+      g.gain.setValueAtTime(0.2, t + idx*0.1);
+      g.gain.exponentialRampToValueAtTime(0.001, t + idx*0.1 + 0.45);
+      osc.connect(g); g.connect(SFX.ctx.destination);
+      osc.start(t + idx*0.1); osc.stop(t + idx*0.1 + 0.48);
+    });
   },
   beastGrowl: function(){
     if(this.muted || !this.ctx) return;
     var t = this.ctx.currentTime;
     var osc = this.ctx.createOscillator();
-    var g = this.ctx.createGain();
+    var g = SFX.ctx.createGain();
     osc.type = 'sawtooth';
     osc.frequency.setValueAtTime(95, t);
     osc.frequency.linearRampToValueAtTime(62, t+0.45);
@@ -559,7 +709,7 @@ var SFX = {
     if(this.muted || !this.ctx) return;
     var t = this.ctx.currentTime;
     var osc = this.ctx.createOscillator();
-    var g = this.ctx.createGain();
+    var g = SFX.ctx.createGain();
     osc.type = 'sine';
     osc.frequency.setValueAtTime(520, t);
     osc.frequency.exponentialRampToValueAtTime(280, t+0.7);
@@ -573,7 +723,7 @@ var SFX = {
     if(this.muted || !this.ctx) return;
     var t = this.ctx.currentTime;
     var osc = this.ctx.createOscillator();
-    var g = this.ctx.createGain();
+    var g = SFX.ctx.createGain();
     osc.type = 'sawtooth';
     osc.frequency.setValueAtTime(220, t);
     osc.frequency.exponentialRampToValueAtTime(42, t+0.6);
@@ -586,71 +736,106 @@ var SFX = {
 $('btnSound').addEventListener('click',function(){ SFX.init(); SFX.toggleMute(); });
 
 /* =====================================================================
-   Medan Gunung, Sungai Malam, & Jembatan Batang Kayu Lapuk
+   Medan 3 Bukit Terpisah Jurang Dalam (-28m) + Jalan Landai ke Jembatan
    ===================================================================== */
-var R=CFG.R, L=CFG.L, PEAK=CFG.PEAK;
+var WORLD_SIZE = CFG.WORLD_SIZE;
+var PEAK = CFG.PEAK;
+var ABYSS_Y = -28;
 
-function riverCenterX(z){ return Math.sin(z * 0.024) * 32 + Math.cos(z * 0.055) * 10; }
-function riverHalfWidth(z){
-  var r = Math.hypot(riverCenterX(z), z);
-  if(r < 24) return 0;
-  var fadeIn = clamp((r - 24) / 22, 0, 1);
-  return (5.4 + Math.sin(z * 0.04) * 1.1) * fadeIn;
+// 3 Bukit Terpisah Jauh dengan Jurang Lebar di antaranya
+var HILLS = [
+  { id: 1, name: 'Bukit 1 (Rimba)',     cx: -195, cz:  175, rad: 106, peak: 38, qStart: 0,  qEnd: 13 },
+  { id: 2, name: 'Bukit 2 (Kabut)',     cx:   -5, cz:   15, rad: 108, peak: 64, qStart: 14, qEnd: 27 },
+  { id: 3, name: 'Bukit 3 (Tertinggi)', cx:  185, cz: -165, rad: 112, peak: 92, qStart: 28, qEnd: 39 }
+];
+
+// Titik pangkal & ujung jembatan kayu (berada pas di dalam tepi tebing bukit agar landai & mudah dinaiki)
+var BRIDGE_DEFS = [
+  { ax: -124, az: 119, bx: -76, bz: 77, halfWidth: 0.78 },  // Jembatan 1 Batang Kayu melintasi Jurang 1
+  { ax:   66, az: -46, bx: 113, bz: -91, halfWidth: 0.78 } // Jembatan 1 Batang Kayu melintasi Jurang 2
+];
+
+function singleHillHeight(x, z, h){
+  var dx = x - h.cx, dz = z - h.cz;
+  var dist = Math.hypot(dx, dz);
+  if(dist >= h.rad) return ABYSS_Y;
+  var t = 1 - (dist / h.rad);
+  var cliff = Math.min(1, t / 0.12);
+  var climb = Math.pow(t, 1.32);
+  var ridge = Math.sin(dist * 0.09 + h.id * 1.5) * 3.5 + Math.cos((dx - dz) * 0.06) * 2.2;
+  return ABYSS_Y + cliff * 28 + climb * h.peak + ridge * Math.sin(t * Math.PI);
 }
-function riverDist(x, z){
-  var hw = riverHalfWidth(z);
-  if(hw <= 0.2) return 999;
-  return Math.abs(x - riverCenterX(z)) - hw;
-}
-function rawMountainHeight(x,z){
-  var r=Math.sqrt(x*x+z*z);
-  var r2=Math.min(1,Math.max(r-6,0)/(R-6));
-  var k=Math.pow(1-r2,1.5);
-  var base=PEAK*k;
-  var n=Math.sin(x*0.07+1.3)*Math.cos(z*0.06)*2.2+Math.sin(x*0.19+z*0.13)*0.8+Math.sin(z*0.31-x*0.11)*0.4;
-  var amp=0.3+Math.min(1,k*6)*0.7;
-  return base+n*amp;
-}
-function waterLevelAt(x,z){ var rx = riverCenterX(z); return rawMountainHeight(rx, z) - 0.55; }
-function heightAt(x,z){
-  var base = rawMountainHeight(x,z);
-  var hw = riverHalfWidth(z);
-  if(hw > 0.2){
-    var d = Math.abs(x - riverCenterX(z));
-    var bank = hw + 4.5;
-    if(d < bank){
-      var t = clamp(1 - d / bank, 0, 1);
-      var smooth = t * t * (3 - 2 * t);
-      base -= smooth * 2.5;
+
+// Meratakan & melandaikan tanah di area masuk/keluar jembatan agar jalan kaki mulus ke atas batang kayu
+function bridgeApproachBlend(x, z, baseH){
+  var pts = [
+    [BRIDGE_DEFS[0].ax, BRIDGE_DEFS[0].az, 15.5],
+    [BRIDGE_DEFS[0].bx, BRIDGE_DEFS[0].bz, 16.0],
+    [BRIDGE_DEFS[1].ax, BRIDGE_DEFS[1].az, 23.0],
+    [BRIDGE_DEFS[1].bx, BRIDGE_DEFS[1].bz, 24.0]
+  ];
+  for(var i=0; i<pts.length; i++){
+    var d = Math.hypot(x - pts[i][0], z - pts[i][1]);
+    if(d < 13){
+      var w = 1 - (d / 13);
+      w = w * w * (3 - 2 * w);
+      baseH = baseH * (1 - w) + pts[i][2] * w;
     }
   }
-  return base;
+  return baseH;
 }
+
+function heightAt(x, z){
+  var h1 = singleHillHeight(x, z, HILLS[0]);
+  var h2 = singleHillHeight(x, z, HILLS[1]);
+  var h3 = singleHillHeight(x, z, HILLS[2]);
+  var base = Math.max(h1, h2, h3, ABYSS_Y);
+  if(base <= ABYSS_Y + 0.5) return ABYSS_Y;
+  var micro = Math.sin(x * 0.14) * Math.cos(z * 0.13) * 0.85;
+  return bridgeApproachBlend(x, z, base + micro);
+}
+
+// Jalur pendakian berliku (serpentine zigzag) di masing-masing dari 3 bukit
 function spiral(u){
-  var r=R*(0.88-0.80*u/(N-1));
-  var a=u*0.55+0.6;
-  return [Math.cos(a)*r, Math.sin(a)*r];
+  if(u < 0){
+    return [-242, 225];
+  }
+  var hillIdx = u <= 13 ? 0 : (u <= 27 ? 1 : 2);
+  var h = HILLS[hillIdx];
+  var localCount = (h.qEnd - h.qStart + 1);
+  var localT = (u - h.qStart) / Math.max(1, localCount - 1);
+
+  var r = h.rad * (0.74 * (1 - localT) + 0.12);
+  var baseAng = hillIdx === 0 ? 2.35 : (hillIdx === 1 ? 2.55 : 2.35);
+  var zigzag = Math.sin(localT * Math.PI * 3.2) * 1.15;
+  var ang = baseAng + localT * 3.6 + zigzag;
+
+  return [h.cx + Math.cos(ang) * r, h.cz + Math.sin(ang) * r];
 }
-var SPAWN_U=-0.9;
+var SPAWN_U = -0.9;
 
 var bridges = [];
-function getBridgeHeight(x,z){
-  for(var i=0;i<bridges.length;i++){
+function getBridgeHeight(x, z){
+  for(var i=0; i<bridges.length; i++){
     var b = bridges[i];
     var dx = x - b.x, dz = z - b.z;
     var localAlong = dx * b.cos + dz * b.sin;
     var localCross = -dx * b.sin + dz * b.cos;
-    if(Math.abs(localAlong) <= b.halfLen + 0.6 && Math.abs(localCross) <= b.halfWidth){
-      var arch = Math.cos((localAlong / (b.halfLen + 0.6)) * (Math.PI * 0.5)) * 0.22;
-      return b.y + arch;
+    if(Math.abs(localAlong) <= b.halfLen + 1.2 && Math.abs(localCross) <= b.halfWidth){
+      var t = (localAlong + b.halfLen) / (2 * b.halfLen);
+      t = clamp(t, 0, 1);
+      var slopeY = b.ya + (b.yb - b.ya) * t;
+      var arch = Math.sin(t * Math.PI) * 0.28;
+      return slopeY + arch;
     }
   }
   return null;
 }
-function groundAndBridgeHeight(x,z){
-  var gh = heightAt(x,z);
-  var bh = getBridgeHeight(x,z);
-  if(bh !== null && bh >= gh - 0.2) return bh;
+
+function groundAndBridgeHeight(x, z){
+  var gh = heightAt(x, z);
+  var bh = getBridgeHeight(x, z);
+  if(bh !== null && bh >= gh - 1.2) return bh;
   return gh;
 }
 
@@ -671,25 +856,25 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 var scene=new THREE.Scene();
 var NIGHT_SKY=0x060d18;
 scene.background=new THREE.Color(NIGHT_SKY);
-scene.fog=new THREE.FogExp2(0x091322, 0.0135);
+scene.fog=new THREE.FogExp2(0x091322, 0.0102);
 
-var camera=new THREE.PerspectiveCamera(58,1,0.5,650);
-scene.add(new THREE.HemisphereLight(0x3a5a8c, 0x0d1a14, 0.48));
+var camera=new THREE.PerspectiveCamera(58,1,0.5,950);
+scene.add(new THREE.HemisphereLight(0x3a5a8c, 0x0d1a14, 0.58));
 
-var moonLight=new THREE.DirectionalLight(0x6d93c7, 0.42);
-moonLight.position.set(-140, 220, -110);
+var moonLight=new THREE.DirectionalLight(0x6d93c7, 0.48);
+moonLight.position.set(-200, 290, -160);
 scene.add(moonLight);
 
 (function buildMoon(){
   var mMesh = new THREE.Mesh(
-    new THREE.SphereGeometry(16, 16, 16),
+    new THREE.SphereGeometry(20, 16, 16),
     new THREE.MeshBasicMaterial({color: 0xdbeafe, fog: false})
   );
-  mMesh.position.set(-240, 290, -210);
+  mMesh.position.set(-320, 340, -280);
   scene.add(mMesh);
 })();
 
-var headlamp = new THREE.SpotLight(0xfff5d6, 2.9, 78, Math.PI * 0.25, 0.48, 1.1);
+var headlamp = new THREE.SpotLight(0xfff5d6, 3.0, 86, Math.PI * 0.25, 0.46, 1.05);
 var headlampTarget = new THREE.Object3D();
 scene.add(headlamp);
 scene.add(headlampTarget);
@@ -714,9 +899,9 @@ window.addEventListener('resize',resize); resize();
 
 function makeBarkTexture(){
   var c=document.createElement('canvas'); c.width=128; c.height=128; var x=c.getContext('2d');
-  x.fillStyle='#4a301a'; x.fillRect(0,0,128,128);
+  x.fillStyle='#5c3a1e'; x.fillRect(0,0,128,128);
   for(var i=0;i<90;i++){
-    x.fillStyle=i%2===0?'#332010':'#5e3e23';
+    x.fillStyle=i%2===0?'#3b2411':'#784d2a';
     x.fillRect(Math.random()*128, 0, 2+Math.random()*4, 128);
   }
   var tex = new THREE.CanvasTexture(c);
@@ -725,26 +910,26 @@ function makeBarkTexture(){
 }
 var barkTex = makeBarkTexture();
 
-// Tanah Gunung Malam
+// Tanah 3 Bukit Terpisah + Tebing Curam & Jurang Dalam (-28m)
 (function buildTerrain(){
-  var seg=250;
-  var geo=new THREE.PlaneGeometry(2*L,2*L,seg,seg); geo.rotateX(-Math.PI/2);
+  var seg=290;
+  var geo=new THREE.PlaneGeometry(2*WORLD_SIZE,2*WORLD_SIZE,seg,seg); geo.rotateX(-Math.PI/2);
   var pos=geo.attributes.position, col=new Float32Array(pos.count*3);
-  var grass1=new THREE.Color(0x284d2a), grass2=new THREE.Color(0x1a3822), rock=new THREE.Color(0x3a424d), gravel=new THREE.Color(0x4a463f), snow=new THREE.Color(0x9fb4cc), tmp=new THREE.Color();
+  var chasm=new THREE.Color(0x03070f), cliffRock=new THREE.Color(0x272e38), grass1=new THREE.Color(0x284d2a), grass2=new THREE.Color(0x1b3b24), rock=new THREE.Color(0x3f4854), peakCol=new THREE.Color(0xa6bdd6), tmp=new THREE.Color();
   for(var i=0;i<pos.count;i++){
     var x=pos.getX(i), z=pos.getZ(i), h=heightAt(x,z);
     pos.setY(i,h);
-    var sl=Math.abs(heightAt(x+1.2,z)-h)+Math.abs(heightAt(x,z+1.2)-h); sl/=1.2;
-    var rd = riverDist(x,z);
-    if(rd < 2.2){
-      tmp.copy(gravel).lerp(rock, clamp((2.2 - rd)/3.5, 0, 0.7));
-    } else if(h<4) tmp.copy(grass1);
-    else if(h<30) tmp.copy(grass1).lerp(grass2,(h-4)/26);
-    else if(h<52) tmp.copy(grass2).lerp(rock,(h-30)/22);
-    else tmp.copy(rock).lerp(snow,clamp((h-52)/12,0,1));
+    var sl=Math.abs(heightAt(x+1.5,z)-h)+Math.abs(heightAt(x,z+1.5)-h); sl/=1.5;
 
-    if(sl>0.55 && h<60 && rd>=2.2) tmp.lerp(rock,clamp((sl-0.55)*1.4,0,0.65));
-    var j=0.92+0.12*(Math.sin(x*1.7)*Math.cos(z*1.3)*0.5+0.5);
+    if(h < -16) tmp.copy(chasm);
+    else if(h < 0) tmp.copy(cliffRock);
+    else if(h < 20) tmp.copy(grass1);
+    else if(h < 46) tmp.copy(grass1).lerp(grass2, (h-20)/26);
+    else if(h < 72) tmp.copy(grass2).lerp(rock, (h-46)/26);
+    else tmp.copy(rock).lerp(peakCol, clamp((h-72)/18, 0, 1));
+
+    if(sl > 0.7 && h >= 0 && h < 76) tmp.lerp(rock, clamp((sl-0.7)*1.1, 0, 0.75));
+    var j=0.92+0.12*(Math.sin(x*1.5)*Math.cos(z*1.2)*0.5+0.5);
     col[i*3]=tmp.r*j; col[i*3+1]=tmp.g*j; col[i*3+2]=tmp.b*j;
   }
   geo.setAttribute('color',new THREE.BufferAttribute(col,3));
@@ -752,141 +937,189 @@ var barkTex = makeBarkTexture();
   var mesh = new THREE.Mesh(geo,new THREE.MeshStandardMaterial({vertexColors:true,roughness:0.95,metalness:0.05,flatShading:true}));
   mesh.receiveShadow = true;
   scene.add(mesh);
+
+  // Lapisan kabut tebal di dasar jurang dalam (-21 meter)
+  var abyssMist = new THREE.Mesh(
+    new THREE.PlaneGeometry(2*WORLD_SIZE, 2*WORLD_SIZE),
+    new THREE.MeshBasicMaterial({color: 0x0d1b30, transparent: true, opacity: 0.88})
+  );
+  abyssMist.rotation.x = -Math.PI / 2;
+  abyssMist.position.y = -21;
+  scene.add(abyssMist);
 })();
 
-// Sungai Gelap Berkabut
-var waterMesh = null, waterBaseY = null;
-(function buildRiver(){
-  var segZ = 220, segX = 14;
-  var geo = new THREE.PlaneGeometry(1, 2*L, segX, segZ);
-  geo.rotateX(-Math.PI/2);
-  var pos = geo.attributes.position;
-  waterBaseY = new Float32Array(pos.count);
+// Jembatan Kayu 1 Batang Tunggal + Papan Pijakan Masuk yang Tampak Jelas
+(function buildSingleLogBridges(){
+  var logMat = new THREE.MeshStandardMaterial({map: barkTex, roughness: 0.88});
+  var capMat = new THREE.MeshStandardMaterial({color: 0x9c7a4c, roughness: 0.85});
+  var torchMat = new THREE.MeshBasicMaterial({color: 0xffb62b, fog: false});
+  var plankMat = new THREE.MeshStandardMaterial({color: 0xc89d66, emissive: 0x3b240b, roughness: 0.85});
 
-  for(var i=0;i<pos.count;i++){
-    var u = pos.getX(i);
-    var z = pos.getZ(i);
-    var hw = riverHalfWidth(z);
-    var cx = riverCenterX(z);
-    var w = hw > 0.2 ? (hw + 1.8) * 2 : 0.01;
-    var wx = cx + u * w;
-    var wy = hw > 0.2 ? waterLevelAt(wx, z) : rawMountainHeight(cx, z) - 3.0;
-    pos.setXYZ(i, wx, wy, z);
-    waterBaseY[i] = wy;
-  }
-  geo.computeVertexNormals();
-  var mat = new THREE.MeshStandardMaterial({
-    color: 0x0b3954,
-    emissive: 0x051d2e,
-    emissiveIntensity: 0.55,
-    roughness: 0.15,
-    metalness: 0.4,
-    transparent: true,
-    opacity: 0.88
+  BRIDGE_DEFS.forEach(function(def){
+    var ya = heightAt(def.ax, def.az) + 0.12;
+    var yb = heightAt(def.bx, def.bz) + 0.12;
+    var cx = (def.ax + def.bx) * 0.5;
+    var cz = (def.az + def.bz) * 0.5;
+    var dx = def.bx - def.ax;
+    var dz = def.bz - def.az;
+    var span = Math.hypot(dx, dz) + 6.0;
+    var ang = Math.atan2(dz, dx);
+    var pitch = Math.atan2(yb - ya, Math.hypot(dx, dz));
+
+    bridges.push({
+      x: cx, z: cz, ya: ya, yb: yb,
+      cos: Math.cos(ang), sin: Math.sin(ang),
+      halfLen: span * 0.5,
+      halfWidth: def.halfWidth
+    });
+
+    var bg = new THREE.Group();
+    bg.position.set(cx, (ya + yb) * 0.5, cz);
+    bg.rotation.y = -ang;
+
+    // 1 Batang Pohon Bulat Tunggal membentang di atas jurang -28m
+    var logGeo = new THREE.CylinderGeometry(0.62, 0.68, span, 12);
+    logGeo.rotateZ(Math.PI / 2);
+    var logMesh = new THREE.Mesh(logGeo, [logMat, capMat, capMat]);
+    logMesh.rotation.z = pitch;
+    logMesh.position.y = -0.52;
+    bg.add(logMesh);
+
+    // Papan landasan kayu lebar di kedua ujung daratan agar pintu masuk ke batang kayu sangat jelas
+    [[-span*0.47, -0.47*span*Math.sin(pitch)], [span*0.47, 0.47*span*Math.sin(pitch)]].forEach(function(pt){
+      var ramp = new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.25, 2.4), plankMat);
+      ramp.position.set(pt[0], pt[1] - 0.05, 0);
+      bg.add(ramp);
+
+      [-1.15, 1.15].forEach(function(sideZ){
+        var post = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.17, 2.8, 7), logMat);
+        post.position.set(pt[0], pt[1] + 1.0, sideZ);
+        bg.add(post);
+
+        var flame = new THREE.Mesh(new THREE.SphereGeometry(0.24, 6, 6), torchMat);
+        flame.position.set(pt[0], pt[1] + 2.5, sideZ);
+        bg.add(flame);
+      });
+    });
+
+    scene.add(bg);
   });
-  waterMesh = new THREE.Mesh(geo, mat);
-  scene.add(waterMesh);
 })();
 
-// Jembatan Batang Kayu Lapuk
-(function buildLogBridges(){
-  var prevSign = Math.sign(spiral(SPAWN_U)[0] - riverCenterX(spiral(SPAWN_U)[1]));
-  var lastBridgeU = -99;
-
-  for(var u = SPAWN_U + 0.02; u <= N - 1; u += 0.02){
-    var p = spiral(u);
-    var hw = riverHalfWidth(p[1]);
-    if(hw < 1.5) continue;
-    var diff = p[0] - riverCenterX(p[1]);
-    var sgn = Math.sign(diff);
-    if(sgn !== 0 && sgn !== prevSign && (u - lastBridgeU) > 0.8){
-      lastBridgeU = u;
-      prevSign = sgn;
-
-      var pBefore = spiral(u - 0.06);
-      var pAfter = spiral(u + 0.06);
-      var ang = Math.atan2(pAfter[1] - pBefore[1], pAfter[0] - pBefore[0]);
-      var bx = riverCenterX(p[1]);
-      var bz = p[1];
-      var span = (hw + 2.8) * 2;
-      var by = Math.max(heightAt(bx - Math.cos(ang)*span*0.5, bz - Math.sin(ang)*span*0.5),
-                        heightAt(bx + Math.cos(ang)*span*0.5, bz + Math.sin(ang)*span*0.5),
-                        waterLevelAt(bx, bz) + 0.55);
-
-      bridges.push({
-        x: bx, z: bz, y: by,
-        cos: Math.cos(ang), sin: Math.sin(ang),
-        halfLen: span * 0.5,
-        halfWidth: 1.5
-      });
-
-      var bg = new THREE.Group();
-      bg.position.set(bx, by, bz);
-      bg.rotation.y = -ang;
-
-      var logMat = new THREE.MeshStandardMaterial({map: barkTex, roughness: 0.9});
-      var capMat = new THREE.MeshStandardMaterial({color: 0x8c6d46, roughness: 0.85});
-
-      for(var k = -1; k <= 1; k++){
-        var logGeo = new THREE.CylinderGeometry(0.4, 0.45, span, 9);
-        logGeo.rotateZ(Math.PI / 2);
-        var logMesh = new THREE.Mesh(logGeo, [logMat, capMat, capMat]);
-        logMesh.position.set(0, -0.35 + (k===0?0.04:-0.03), k * 0.84);
-        logMesh.rotation.x = k * 0.12;
-        bg.add(logMesh);
-      }
-
-      [-span*0.44, span*0.44].forEach(function(endX){
-        [-1.35, 1.35].forEach(function(sideZ){
-          var post = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.18, 2.2, 7), logMat);
-          post.position.set(endX, -0.3, sideZ);
-          bg.add(post);
-        });
-      });
-
-      scene.add(bg);
-    }
-  }
-})();
-
-// Batu Pijakan Jalur
+// Batu Pijakan Jalur Berliku + Jalan Setapak Berlentera Menuju Jembatan Kayu
 var trailPts=[];
+var approachPts=[];
 (function buildTrail(){
   var pts=[], last=spiral(SPAWN_U), acc=0;
   pts.push(last);
-  for(var u=SPAWN_U+0.01;u<=N-1;u+=0.01){
-    var p=spiral(u), d=Math.hypot(p[0]-last[0],p[1]-last[1]); acc+=d; last=p;
-    if(acc>=5){
-      if(riverDist(p[0], p[1]) > 1.2 && getBridgeHeight(p[0], p[1]) === null) pts.push(p);
+  for(var u=SPAWN_U+0.02; u<=N-1; u+=0.02){
+    var p=spiral(u);
+    if(heightAt(p[0], p[1]) < 0) continue;
+    var d=Math.hypot(p[0]-last[0],p[1]-last[1]); acc+=d; last=p;
+    if(acc>=5.2){
+      pts.push(p);
       acc=0;
     }
   }
-  var end=spiral(N-1), steps=Math.floor(Math.hypot(end[0],end[1])/5);
-  for(var s=1;s<=steps;s++){
-    var ep = [end[0]*(1-s/steps),end[1]*(1-s/steps)];
-    if(riverDist(ep[0], ep[1]) > 1.2) pts.push(ep);
+
+  // Bangun jalan setapak jelas & rapat menghubungkan jalur bukit ke pangkal jembatan kayu
+  function addConnectorPath(x1, z1, x2, z2, step, withLanterns){
+    var dist = Math.hypot(x2 - x1, z2 - z1);
+    var steps = Math.max(2, Math.floor(dist / step));
+    for(var s=0; s<=steps; s++){
+      var t = s / steps;
+      var px = x1 + (x2 - x1) * t;
+      var pz = z1 + (z2 - z1) * t;
+      if(heightAt(px, pz) > -2){
+        approachPts.push([px, pz, withLanterns && (s % 2 === 0)]);
+      }
+    }
   }
-  trailPts=pts;
-  var g=new THREE.CylinderGeometry(1.1,1.35,0.32,7);
-  var m=new THREE.InstancedMesh(g,new THREE.MeshStandardMaterial({color:0x9aa5b1,emissive:0x162130,roughness:0.9,flatShading:true}),pts.length);
+
+  // Penghubung dari sekitar Soal 14 (puncak Bukit 1) -> Pangkal Jembatan 1
+  var p13 = spiral(13);
+  addConnectorPath(p13[0], p13[1], -155, 148, 2.8, true);
+  addConnectorPath(-155, 148, BRIDGE_DEFS[0].ax, BRIDGE_DEFS[0].az, 2.6, true);
+
+  // Penghubung dari Ujung Jembatan 1 -> Awal jalur Bukit 2 (Soal 15)
+  var p14 = spiral(14);
+  addConnectorPath(BRIDGE_DEFS[0].bx, BRIDGE_DEFS[0].bz, p14[0], p14[1], 2.8, true);
+
+  // Penghubung dari sekitar Soal 28 (puncak Bukit 2) -> Pangkal Jembatan 2
+  var p27 = spiral(27);
+  addConnectorPath(p27[0], p27[1], 34, -18, 2.8, true);
+  addConnectorPath(34, -18, BRIDGE_DEFS[1].ax, BRIDGE_DEFS[1].az, 2.6, true);
+
+  // Penghubung dari Ujung Jembatan 2 -> Awal jalur Bukit 3 (Soal 29)
+  var p28 = spiral(28);
+  addConnectorPath(BRIDGE_DEFS[1].bx, BRIDGE_DEFS[1].bz, p28[0], p28[1], 2.8, true);
+
+  trailPts = pts.concat(approachPts.map(function(a){ return [a[0], a[1]]; }));
+
+  // Batu pijakan utama bukit
+  var g=new THREE.CylinderGeometry(1.15,1.4,0.34,7);
+  var m=new THREE.InstancedMesh(g,new THREE.MeshStandardMaterial({color:0x9aa5b1,emissive:0x1b293d,roughness:0.9,flatShading:true}),pts.length);
   var d=new THREE.Object3D();
-  pts.forEach(function(p,i){ d.position.set(p[0],heightAt(p[0],p[1])+0.04,p[1]); d.rotation.y=i*1.7; d.updateMatrix(); m.setMatrixAt(i,d.matrix); });
+  pts.forEach(function(p,i){
+    d.position.set(p[0], groundAndBridgeHeight(p[0],p[1])+0.05, p[1]);
+    d.rotation.y=i*1.7; d.updateMatrix();
+    m.setMatrixAt(i,d.matrix);
+  });
   scene.add(m);
+
+  // Jalan setapak khusus ke jembatan (batu lebih lebar, terang, & bertonggak lentera hangat)
+  var appGeo = new THREE.CylinderGeometry(1.65, 1.95, 0.36, 8);
+  var appMat = new THREE.MeshStandardMaterial({color: 0xe2e8f0, emissive: 0x3b2f1e, roughness: 0.85, flatShading: true});
+  var appMesh = new THREE.InstancedMesh(appGeo, appMat, approachPts.length);
+  var postMat = new THREE.MeshStandardMaterial({map: barkTex, roughness: 0.9});
+  var lanternMat = new THREE.MeshBasicMaterial({color: 0xffc857, fog: false});
+
+  approachPts.forEach(function(ap, idx){
+    var gy = heightAt(ap[0], ap[1]);
+    d.position.set(ap[0], gy + 0.08, ap[1]);
+    d.rotation.y = idx * 0.8;
+    d.updateMatrix();
+    appMesh.setMatrixAt(idx, d.matrix);
+
+    if(ap[2]){
+      // Tonggak lentera kecil di tepi jalan setapak menuju jembatan
+      var side = (idx % 4 === 0) ? 2.1 : -2.1;
+      var lPost = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.1, 1.5, 6), postMat);
+      lPost.position.set(ap[0] + side*0.7, gy + 0.75, ap[1] - side*0.7);
+      scene.add(lPost);
+
+      var lBulb = new THREE.Mesh(new THREE.SphereGeometry(0.16, 6, 6), lanternMat);
+      lBulb.position.set(ap[0] + side*0.7, gy + 1.55, ap[1] - side*0.7);
+      scene.add(lBulb);
+    }
+  });
+  scene.add(appMesh);
 })();
 function nearTrail(x,z,r){ for(var i=0;i<trailPts.length;i++){ if(Math.abs(trailPts[i][0]-x)<r && Math.abs(trailPts[i][1]-z)<r) return true; } return false; }
 
-// Hutan Pinus Rimba & Batu-batu (520 Pohon Lebat)
+// Hutan Pinus Rimba & Batu-batu di Lereng 3 Bukit (dijauhkan dari jalan setapak & jembatan)
 (function buildNature(){
-  var rand=rng(77), trees=[], rocks=[];
-  for(var a=0;a<2400 && trees.length<520;a++){
-    var ang=rand()*Math.PI*2, rad=Math.sqrt(rand())*L*0.95, x=Math.cos(ang)*rad, z=Math.sin(ang)*rad, h=heightAt(x,z);
-    if(h<48 && !nearTrail(x,z,4.2) && riverDist(x,z) > 3.2) trees.push([x,z,h,0.85+rand()*1.25,rand()]);
+  var rand=rng(99), trees=[], rocks=[];
+  for(var a=0;a<3500 && trees.length<600;a++){
+    var hill = HILLS[a % 3];
+    var ang = rand() * Math.PI * 2;
+    var rad = (0.16 + Math.sqrt(rand()) * 0.72) * hill.rad;
+    var x = hill.cx + Math.cos(ang) * rad;
+    var z = hill.cz + Math.sin(ang) * rad;
+    var h = heightAt(x,z);
+    if(h > 2 && h < 78 && !nearTrail(x,z,5.6) && getBridgeHeight(x,z) === null){
+      trees.push([x,z,h,0.85+rand()*1.3,rand()]);
+    }
   }
-  for(var b=0;b<900 && rocks.length<150;b++){
-    var an=rand()*Math.PI*2, ra=Math.sqrt(rand())*R*0.95, rx=Math.cos(an)*ra, rz=Math.sin(an)*ra, rh=heightAt(rx,rz);
-    var rd = riverDist(rx,rz);
-    if((rh>10 || (rd > -0.5 && rd < 2.8)) && !nearTrail(rx,rz,4.5) && getBridgeHeight(rx,rz)===null){
-      rocks.push([rx,rz,rh,0.7+rand()*1.8]);
+  for(var b=0;b<1300 && rocks.length<180;b++){
+    var bh = HILLS[b % 3];
+    var an = rand() * Math.PI * 2;
+    var ra = (0.14 + Math.sqrt(rand()) * 0.74) * bh.rad;
+    var rx = bh.cx + Math.cos(an) * ra;
+    var rz = bh.cz + Math.sin(an) * ra;
+    var rh = heightAt(rx,rz);
+    if(rh > 2 && !nearTrail(rx,rz,5.8) && getBridgeHeight(rx,rz) === null){
+      rocks.push([rx,rz,rh,0.7+rand()*1.9]);
     }
   }
 
@@ -914,7 +1147,7 @@ function nearTrail(x,z,r){ for(var i=0;i<trailPts.length;i++){ if(Math.abs(trail
   scene.add(rk);
 })();
 
-// Sosok Hantu Hutan Lebih Hidup
+// Sosok Hantu Hutan
 var ghosts = [];
 (function buildGhosts(){
   var bodyMat = new THREE.MeshStandardMaterial({color: 0x0b0e14, roughness: 0.92, transparent: true, opacity: 0.94});
@@ -923,7 +1156,7 @@ var ghosts = [];
   var eyeMat = new THREE.MeshBasicMaterial({color: 0xff1e27, fog: false});
   var mistMat = new THREE.MeshBasicMaterial({color: 0x1e293b, transparent: true, opacity: 0.25, depthWrite: false});
 
-  var patrolIdx = [4, 9, 14, 19, 24, 29, 34, 38];
+  var patrolIdx = [4, 9, 12, 17, 22, 26, 31, 36];
   patrolIdx.forEach(function(idx, k){
     var baseP = spiral(idx);
     var root = new THREE.Group();
@@ -997,8 +1230,8 @@ var ghosts = [];
     });
     headGroup.add(hairGroup);
 
-    var gx = baseP[0] + Math.cos(k*2)*12;
-    var gz = baseP[1] + Math.sin(k*2)*12;
+    var gx = baseP[0];
+    var gz = baseP[1];
     root.position.set(gx, groundAndBridgeHeight(gx,gz), gz);
     scene.add(root);
 
@@ -1019,7 +1252,7 @@ var beasts = [];
   var fangMat = new THREE.MeshBasicMaterial({color: 0xf8fafc});
   var wolfEye = new THREE.MeshBasicMaterial({color: 0xfacc15, fog: false});
 
-  var beastSpots = [2, 5, 7, 11, 13, 15, 18, 20, 23, 25, 28, 32];
+  var beastSpots = [2, 5, 8, 11, 15, 18, 21, 24, 29, 32, 35, 38];
   beastSpots.forEach(function(idx, k){
     var isBear = (k % 3 === 0);
     var furMat = isBear ? bearFur : wolfFur;
@@ -1071,8 +1304,8 @@ var beasts = [];
     var legBR = makeBeastLeg(0.38, -0.75);
 
     var baseP = spiral(idx);
-    var bx = baseP[0] - Math.cos(k*1.7)*14;
-    var bz = baseP[1] - Math.sin(k*1.7)*14;
+    var bx = baseP[0];
+    var bz = baseP[1];
     bGroup.position.set(bx, groundAndBridgeHeight(bx, bz), bz);
     scene.add(bGroup);
 
@@ -1085,16 +1318,64 @@ var beasts = [];
   });
 })();
 
-// Puncak: bendera
-(function buildSummit(){
-  var h=heightAt(0,0), g=new THREE.Group(); g.position.set(0,h,0);
-  var cairn=new THREE.Mesh(new THREE.CylinderGeometry(2.4,3.4,1.5,8),new THREE.MeshStandardMaterial({color:0x525d69,roughness:0.9,flatShading:true})); cairn.position.y=0.5; g.add(cairn);
-  var pole=new THREE.Mesh(new THREE.CylinderGeometry(0.14,0.14,10.5,8),new THREE.MeshStandardMaterial({color:0xe2e8f0})); pole.position.y=5.6; g.add(pole);
-  var c=document.createElement('canvas'); c.width=256; c.height=160; var x=c.getContext('2d');
-  x.fillStyle='#e5383b'; x.fillRect(0,0,256,80); x.fillStyle='#fff'; x.fillRect(0,80,256,80);
-  x.fillStyle='#0d1b2a'; x.font='800 32px sans-serif'; x.textAlign='center'; x.fillText('PUNCAK',128,128);
-  var flag=new THREE.Mesh(new THREE.PlaneGeometry(4.8,3),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(c),side:THREE.DoubleSide,fog:false})); flag.position.set(2.5,8.9,0); g.add(flag);
-  scene.add(g);
+// Peti Harta Karun Emas di Puncak Bukit Tertinggi (Bukit 3)
+var CHEST_POS = { x: HILLS[2].cx, z: HILLS[2].cz };
+var chestGroup = new THREE.Group(), chestLid = null, chestGlow = null;
+(function buildTreasureChest(){
+  var cx = CHEST_POS.x, cz = CHEST_POS.z;
+  var ch = heightAt(cx, cz);
+  chestGroup.position.set(cx, ch, cz);
+
+  var altar = new THREE.Mesh(
+    new THREE.CylinderGeometry(4.2, 5.5, 1.4, 10),
+    new THREE.MeshStandardMaterial({color: 0x475569, roughness: 0.9, flatShading: true})
+  );
+  altar.position.y = 0.5;
+  chestGroup.add(altar);
+
+  var woodMat = new THREE.MeshStandardMaterial({color: 0x5c2d16, roughness: 0.7});
+  var goldMat = new THREE.MeshStandardMaterial({color: 0xfbbf24, emissive: 0x92400e, emissiveIntensity: 0.45, metalness: 0.7, roughness: 0.25});
+
+  var baseBox = new THREE.Mesh(new THREE.BoxGeometry(2.6, 1.35, 1.7), woodMat);
+  baseBox.position.y = 1.85;
+  chestGroup.add(baseBox);
+
+  var trim = new THREE.Mesh(new THREE.BoxGeometry(2.72, 0.22, 1.82), goldMat);
+  trim.position.y = 2.45;
+  chestGroup.add(trim);
+
+  var lockPlate = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.55, 0.18), goldMat);
+  lockPlate.position.set(0, 2.35, 0.88);
+  chestGroup.add(lockPlate);
+
+  chestLid = new THREE.Group();
+  chestLid.position.set(0, 2.52, -0.82);
+  var lidMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.85, 0.85, 2.64, 10, 1, false, 0, Math.PI), woodMat);
+  lidMesh.rotation.z = Math.PI / 2;
+  lidMesh.position.set(0, 0, 0.82);
+  chestLid.add(lidMesh);
+  chestGroup.add(chestLid);
+
+  chestGlow = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.55, 1.4, 65, 12, 1, true),
+    new THREE.MeshBasicMaterial({color: 0xfbbf24, transparent: true, opacity: 0.34, depthWrite: false, side: THREE.DoubleSide, fog: false})
+  );
+  chestGlow.position.y = 33;
+  chestGroup.add(chestGlow);
+
+  var c = document.createElement('canvas'); c.width = 360; c.height = 96; var ctx = c.getContext('2d');
+  ctx.fillStyle = 'rgba(13,27,42,0.92)'; ctx.fillRect(4, 8, 352, 80);
+  ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 4; ctx.strokeRect(4, 8, 352, 80);
+  ctx.fillStyle = '#fbbf24'; ctx.font = '800 26px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('🏆 PETI HARTA KARUN', 180, 42);
+  ctx.fillStyle = '#e2e8f0'; ctx.font = '700 20px sans-serif';
+  ctx.fillText('Syarat Buka: Nilai ≥ 80', 180, 72);
+  var sp = new THREE.Sprite(new THREE.SpriteMaterial({map: new THREE.CanvasTexture(c), fog: false, transparent: true}));
+  sp.scale.set(7.5, 2.0, 1);
+  sp.position.y = 5.4;
+  chestGroup.add(sp);
+
+  scene.add(chestGroup);
 })();
 
 // Kertas soal (Ikon Suara + Nomor Soal)
@@ -1104,9 +1385,6 @@ var papers=[];
   var beamGeo=new THREE.CylinderGeometry(0.35,0.35,44,10,1,true);
   for(var i=0;i<N;i++){
     var p=spiral(i);
-    if(riverDist(p[0], p[1]) < 0.5 && getBridgeHeight(p[0], p[1]) === null){
-      p[0] += (p[0] >= riverCenterX(p[1]) ? 3.5 : -3.5);
-    }
     var gy=groundAndBridgeHeight(p[0],p[1]);
     var c=document.createElement('canvas'); c.width=128; c.height=160; var x=c.getContext('2d');
     x.fillStyle='#0d1b2a'; x.fillRect(0,0,128,160); x.strokeStyle='#ffb62b'; x.lineWidth=8; x.strokeRect(4,4,120,152);
@@ -1287,7 +1565,7 @@ function updateRemotePlayers(dt){
 var mode='login';
 var paused=false;
 var isTeacherMode=false;
-var P={x:0,y:0,z:0,vy:0,ground:true,face:0,phase:0,inWater:false,safeX:0,safeZ:0};
+var P={x:0,y:0,z:0,vy:0,ground:true,face:0,phase:0,safeX:0,safeZ:0};
 var cam={yaw:0,pitch:0.38,dist:13};
 var S=null;
 var COLORS=['#e5505c','#2f7de1','#2d9d63','#ffb62b','#8a55d6','#334155'];
@@ -1309,13 +1587,13 @@ function save(){
       name:S.name,kelas:S.kelas,color:S.color,
       collected:S.collected,answers:S.answers,
       sec:elapsed(),submitted:S.submitted,
-      violations:S.violations||0
+      violations:S.violations||0,
+      chestOpened:!!S.chestOpened
     }));
   }catch(e){}
 }
 function elapsed(){ return S.submitted ? S.sec : (Date.now()-S.startTs)/1000; }
 
-/* ---------- Lockdown & Anti-Curang ---------- */
 function enterFullscreen(){
   if(!CFG.LOCKDOWN || isTeacherMode) return;
   var el=document.documentElement;
@@ -1353,6 +1631,7 @@ function registerViolation(reason){
     $('qModal').hidden=true;
     $('bagModal').hidden=true;
     $('confirmModal').hidden=true;
+    $('chestModal').hidden=true;
     S.sec=elapsed();
     S.submitted=true;
     save();
@@ -1384,12 +1663,11 @@ document.addEventListener('contextmenu',function(e){
 $('lkResume').addEventListener('click',function(){
   enterFullscreen();
   $('lockModal').hidden=true;
-  if($('qModal').hidden && $('bagModal').hidden && $('confirmModal').hidden){
+  if($('qModal').hidden && $('bagModal').hidden && $('confirmModal').hidden && $('chestModal').hidden){
     paused=false;
   }
 });
 
-/* ---------- Login ---------- */
 var sw=$('swatches');
 COLORS.forEach(function(c,i){
   var b=document.createElement('button'); b.type='button'; b.className='sw'; b.style.background=c; b.setAttribute('role','radio'); b.setAttribute('aria-label','Warna baju '+(i+1)); b.setAttribute('aria-checked',i===0?'true':'false');
@@ -1419,15 +1697,18 @@ function startSession(name,kelas,color){
     try{ saved=JSON.parse(localStorage.getItem(key)||'null'); }catch(e){}
   }
   orders={};
-  S={name:name,kelas:kelas,color:saved&&saved.color?saved.color:color,collected:{},answers:{},startTs:Date.now(),sec:0,submitted:false,violations:0,key:key,seed:hashStr(name.toLowerCase()+'|'+kelas.toLowerCase())};
+  S={name:name,kelas:kelas,color:saved&&saved.color?saved.color:color,collected:{},answers:{},startTs:Date.now(),sec:0,submitted:false,violations:0,chestOpened:false,key:key,seed:hashStr(name.toLowerCase()+'|'+kelas.toLowerCase())};
   if(saved){
     S.collected=saved.collected||{};
     S.answers=saved.answers||{};
     S.sec=saved.sec||0;
     S.submitted=!!saved.submitted;
     S.violations=saved.violations||0;
+    S.chestOpened=!!saved.chestOpened;
     S.startTs=Date.now()-S.sec*1000;
   }
+  if(chestLid) chestLid.rotation.x = S.chestOpened ? -1.1 : 0;
+
   try{ localStorage.setItem('pks:last',JSON.stringify({name:name,kelas:kelas})); }catch(e){}
   papers.forEach(function(p,i){ p.g.visible=!S.collected[i]; });
   if(avatar){ scene.remove(avatar); }
@@ -1437,7 +1718,7 @@ function startSession(name,kelas,color){
   if(S.submitted){ showResult(false); return; }
 
   var lastIdx=-1; Object.keys(S.collected).forEach(function(k){ lastIdx=Math.max(lastIdx,+k); });
-  var sp=spiral(lastIdx>=0?lastIdx-0.35:SPAWN_U);
+  var sp=spiral(lastIdx>=0?lastIdx:SPAWN_U);
   P.x=sp[0]; P.z=sp[1]; P.safeX=P.x; P.safeZ=P.z;
   P.y=groundAndBridgeHeight(P.x,P.z); P.vy=0; P.ground=true;
   var tgt=nextTarget(); var dx=tgt.x-P.x, dz=tgt.z-P.z; cam.yaw=Math.atan2(-dx,-dz); P.face=Math.atan2(dx,dz); cam.pitch=0.38; cam.dist=13;
@@ -1450,18 +1731,45 @@ function startSession(name,kelas,color){
   startMultiplayerSync();
 
   if(isTeacherMode){
-    toast('Mode Pengawas aktif! Anda bebas berkeliling memantau siswa.');
+    toast('Mode Pengawas aktif! Anda bebas memantau 3 bukit terpisah & jalan setapak ke jembatan.');
   } else {
-    toast(saved&&lastIdx>=0?'Pendakian malam dilanjutkan, '+name.split(' ')[0]+'.':'Nyalakan suara HP/laptop! Soal akan dibacakan otomatis.');
+    toast('Ikuti jalan batu berlentera menuju jembatan 1 batang kayu antar-bukit!');
   }
 }
 
-/* ---------- Kertas, soal audio (tanpa teks), tas ---------- */
-function nextTarget(){
-  for(var i=0;i<N;i++){ if(!S.collected[i]) return {x:papers[i].x,z:papers[i].z,i:i,kind:'paper'}; }
-  for(var j=0;j<N;j++){ if(S.answers[j]===undefined) return {x:papers[j].x,z:papers[j].z,i:j,kind:'bag'}; }
-  return {x:0,z:0,i:-1,kind:'summit'};
+/* ---------- Navigasi Target (Kertas Soal -> Jembatan -> Peti Harta Karun) ---------- */
+function getPlayerHill(){
+  var d0 = Math.hypot(P.x - HILLS[0].cx, P.z - HILLS[0].cz);
+  var d1 = Math.hypot(P.x - HILLS[1].cx, P.z - HILLS[1].cz);
+  var d2 = Math.hypot(P.x - HILLS[2].cx, P.z - HILLS[2].cz);
+  if(d0 <= d1 && d0 <= d2) return 0;
+  if(d1 <= d0 && d1 <= d2) return 1;
+  return 2;
 }
+
+function nextTarget(){
+  var curHill = getPlayerHill();
+  for(var i=0; i<N; i++){
+    if(!S.collected[i]){
+      var targetHill = i <= 13 ? 0 : (i <= 27 ? 1 : 2);
+      if(curHill === 0 && targetHill >= 1){
+        return {x: BRIDGE_DEFS[0].ax, z: BRIDGE_DEFS[0].az, i: i, kind: 'bridge1'};
+      }
+      if(curHill <= 1 && targetHill === 2){
+        return {x: BRIDGE_DEFS[1].ax, z: BRIDGE_DEFS[1].az, i: i, kind: 'bridge2'};
+      }
+      return {x: papers[i].x, z: papers[i].z, i: i, kind: 'paper'};
+    }
+  }
+  for(var j=0; j<N; j++){
+    if(S.answers[j]===undefined) return {x: papers[j].x, z: papers[j].z, i: j, kind: 'bag'};
+  }
+  if(curHill === 0) return {x: BRIDGE_DEFS[0].ax, z: BRIDGE_DEFS[0].az, i: -1, kind: 'bridge1'};
+  if(curHill === 1) return {x: BRIDGE_DEFS[1].ax, z: BRIDGE_DEFS[1].az, i: -1, kind: 'bridge2'};
+  return {x: CHEST_POS.x, z: CHEST_POS.z, i: -1, kind: 'chest'};
+}
+
+/* ---------- Modal Soal Audio (Tanpa Teks) ---------- */
 var curQ=-1;
 function openQ(i){
   curQ=i; paused=true; clearInput();
@@ -1488,7 +1796,6 @@ function openQ(i){
   });
   qState();
   $('qModal').hidden=false;
-  // Otomatis memutar suara soal begitu kartu terbuka
   setTimeout(function(){
     if(curQ === i && !$('qModal').hidden){
       TTS.speakQuestion(i);
@@ -1505,7 +1812,7 @@ function closeQ(){
   TTS.stop();
   $('qModal').hidden=true; paused=false;
   if(S.answers[curQ]===undefined) toast('Soal '+(curQ+1)+' belum dijawab. Buka lagi lewat Tas soal.');
-  curQ=-1; checkSummit(false);
+  curQ=-1;
 }
 function collect(i){
   S.collected[i]=true; papers[i].g.visible=false;
@@ -1513,6 +1820,51 @@ function collect(i){
   save();
   openQ(i);
 }
+
+/* ---------- Modal Peti Harta Karun (Voucher DANA 5000 + PDF Kisi-Kisi) ---------- */
+var chestAsked = false;
+function checkChest(){
+  if(mode!=='play' || paused || isTeacherMode) return;
+  var d = Math.hypot(P.x - CHEST_POS.x, P.z - CHEST_POS.z);
+  if(d < 4.5 && !chestAsked){
+    chestAsked = true;
+    openChestModal();
+  }
+  if(d > 9) chestAsked = false;
+}
+
+function openChestModal(){
+  paused = true; clearInput(); TTS.stop();
+  var s = summary();
+  var eligible = (s.score >= 80);
+
+  $('chLead').textContent = 'Kamu telah mencapai puncak Bukit 3 (Bukit Tertinggi)! Nilai sementara kamu: ' + String(s.score).replace('.', ',') + ' (' + s.ok.length + ' benar dari ' + N + ' soal).';
+
+  if(eligible){
+    S.chestOpened = true;
+    save();
+    if(chestLid) chestLid.rotation.x = -1.1;
+    SFX.chestFanfare();
+    $('voucherCodeTxt').textContent = getVoucherCode();
+    $('chestUnlocked').hidden = false;
+    $('chestLocked').hidden = true;
+  } else {
+    $('chestUnlocked').hidden = true;
+    $('chestLocked').hidden = false;
+    $('chestLockedMsg').innerHTML = '🔒 <b>Peti Harta Karun Masih Terkunci!</b><br>Syarat membuka peti adalah nilai minimal <b>80</b>.<br>Nilai kamu saat ini baru <b>' + String(s.score).replace('.', ',') + '</b> (terjawab ' + answeredCount() + '/' + N + ' soal). Cek kembali Tas Soal jika masih ada nomor yang kosong atau belum yakin!';
+  }
+  $('chestModal').hidden = false;
+}
+
+$('chCloseBtn').addEventListener('click', function(){
+  $('chestModal').hidden = true;
+  paused = false;
+});
+$('chFinishBtn').addEventListener('click', function(){
+  $('chestModal').hidden = true;
+  openConfirm();
+});
+
 function openBag(){
   paused=true; clearInput();
   TTS.stop();
@@ -1532,12 +1884,6 @@ $('btnBag').addEventListener('click',openBag);
 $('bagClose').addEventListener('click',closeBag);
 
 /* ---------- Kumpulkan & Pengiriman ke Google Sheets ---------- */
-var summitAsked=false;
-function checkSummit(){
-  if(mode!=='play'||paused||isTeacherMode) return;
-  if(Math.hypot(P.x,P.z)<7 && answeredCount()===N && !summitAsked){ summitAsked=true; openConfirm(); }
-  if(Math.hypot(P.x,P.z)>14) summitAsked=false;
-}
 function openConfirm(){
   paused=true; clearInput();
   TTS.stop();
@@ -1575,7 +1921,8 @@ function summary(){
       detailArr.push((i+1)+':S');
     }
   }
-  return {ok:ok,bad:bad,blank:blank,score:Math.round(ok.length*POINT*10)/10,detail:detailArr.join(',')};
+  var sc = Math.round(ok.length*POINT*10)/10;
+  return {ok:ok,bad:bad,blank:blank,score:sc,detail:detailArr.join(',')};
 }
 
 function sendToSpreadsheet(){
@@ -1586,6 +1933,7 @@ function sendToSpreadsheet(){
   st.textContent='Mengirim nilai otomatis ke rekap guru...';
 
   var s=summary();
+  var voucherInfo = s.score >= 80 ? ' [VOUCHER DANA 5K: ' + getVoucherCode() + ']' : '';
   var payload={
     type: 'submit',
     nama: S.name,
@@ -1596,7 +1944,7 @@ function sendToSpreadsheet(){
     kosong: s.blank.length,
     waktu: fmtTime(S.sec),
     pelanggaran: S.violations||0,
-    detail: s.detail
+    detail: s.detail + voucherInfo
   };
 
   fetch(CFG.GAS_URL,{
@@ -1619,7 +1967,7 @@ $('rsRetrySync').addEventListener('click',sendToSpreadsheet);
 function showResult(forcedByViolation){
   mode='result'; paused=false; clearInput();
   TTS.stop();
-  $('hud').hidden=true; $('waterWarn').hidden=true; $('ghostWarn').hidden=true;
+  $('hud').hidden=true; $('bridgeWarn').hidden=true; $('ghostWarn').hidden=true;
   $('fearVignette').style.opacity='0';
   var s=summary();
   $('rsName').textContent=S.name;
@@ -1627,12 +1975,23 @@ function showResult(forcedByViolation){
   $('rsScore').textContent=String(s.score).replace('.',',');
   var msg=forcedByViolation
     ?'Ujian otomatis dihentikan dan dikumpulkan karena melebihi batas meninggalkan layar ujian.'
-    :s.score>=85?'Pendakian malam yang luar biasa. Kamu menaklukkan kegelapan sampai puncak.'
-    :s.score>=70?'Bagus. Kamu berhasil melewati rintangan malam dengan baik.'
+    :s.score>=80?'Luar biasa! Nilai kamu ≥ 80 dan berhak atas hadiah Peti Harta Karun Puncak Tertinggi!'
+    :s.score>=70?'Bagus. Kamu berhasil melewati 3 bukit malam dengan baik.'
     :s.score>=55?'Cukup baik. Pelajari lagi materi yang masih salah.'
     :'Pendakian selesai. Ayo belajar lagi dan tingkatkan nilaimu.';
   $('rsMsg').textContent=msg;
   $('rsOk').textContent=s.ok.length; $('rsBad').textContent=s.bad.length+s.blank.length; $('rsTime').textContent=fmtTime(S.sec);
+
+  var rz = $('rsRewardZone');
+  if(s.score >= 80 && !forcedByViolation){
+    rz.innerHTML = '<div class="treasure-box"><div style="font-weight:800;color:#fbbf24">🏆 HADIAH PETI HARTA KARUN TERBUKA (NILAI ≥ 80)</div><div class="voucher-card"><div style="font-size:.8rem;font-weight:800">VOUCHER DANA RP 5.000</div><div class="voucher-code">'+esc(getVoucherCode())+'</div></div><button class="btn sun" id="rsPdfBtn" type="button" style="width:100%">📄 Download Kisi-Kisi Ulangan (PDF)</button></div>';
+    setTimeout(function(){
+      var b = $('rsPdfBtn');
+      if(b) b.addEventListener('click', downloadKisiKisiPDF);
+    }, 0);
+  } else {
+    rz.innerHTML = '';
+  }
 
   sendToSpreadsheet();
 
@@ -1651,7 +2010,8 @@ function showResult(forcedByViolation){
 
 $('rsCopy').addEventListener('click',function(){
   var s=summary();
-  var txt='HASIL PENDAKIAN SOAL\nNama: '+S.name+'\nKelas: '+S.kelas+'\nNilai: '+String(s.score).replace('.',',')+' ('+s.ok.length+' benar dari '+N+')\nTerjawab: '+(N-s.blank.length)+'/'+N+'\nWaktu: '+fmtTime(S.sec)+'\nPelanggaran Layar: '+(S.violations||0)+'\nNomor benar: '+(s.ok.join(', ')||'-')+'\nNomor salah: '+(s.bad.join(', ')||'-')+'\nNomor kosong: '+(s.blank.join(', ')||'-');
+  var vLine = s.score >= 80 ? '\nKode Voucher DANA 5K: '+getVoucherCode() : '';
+  var txt='HASIL EKSPEDISI 3 BUKIT\nNama: '+S.name+'\nKelas: '+S.kelas+'\nNilai: '+String(s.score).replace('.',',')+' ('+s.ok.length+' benar dari '+N+')'+vLine+'\nTerjawab: '+(N-s.blank.length)+'/'+N+'\nWaktu: '+fmtTime(S.sec)+'\nPelanggaran Layar: '+(S.violations||0)+'\nNomor benar: '+(s.ok.join(', ')||'-')+'\nNomor salah: '+(s.bad.join(', ')||'-')+'\nNomor kosong: '+(s.blank.join(', ')||'-');
   var box=$('copyBox'); box.value=txt; box.hidden=false;
   function fallback(){ box.focus(); box.select(); toast('Salin teks di kotak ini lalu kirim ke gurumu'); }
   try{ navigator.clipboard.writeText(txt).then(function(){ toast('Hasil disalin. Kirim ke gurumu.'); },fallback); }catch(e){ fallback(); }
@@ -1675,7 +2035,7 @@ window.addEventListener('keydown',function(e){
   }
   if(e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return;
   if(mode!=='play') return;
-  if(e.code==='Escape'){ if(!$('qModal').hidden) closeQ(); else if(!$('bagModal').hidden) closeBag(); else if(!$('confirmModal').hidden){ $('confirmModal').hidden=true; paused=false; } return; }
+  if(e.code==='Escape'){ if(!$('qModal').hidden) closeQ(); else if(!$('bagModal').hidden) closeBag(); else if(!$('chestModal').hidden){ $('chestModal').hidden=true; paused=false; } else if(!$('confirmModal').hidden){ $('confirmModal').hidden=true; paused=false; } return; }
   if(paused) return;
   if(e.code==='KeyB'){ openBag(); return; }
   if(e.code==='KeyF'){ toggleFlashlight(); return; }
@@ -1709,10 +2069,10 @@ stick.addEventListener('pointermove',function(e){ if(e.pointerId===stickId) move
 $('jumpBtn').addEventListener('pointerdown',function(e){ e.preventDefault(); if(!paused) jumpReq=true; });
 
 /* =====================================================================
-   Loop Utama (Senter, Sungai, Jembatan, Hantu Hidup, Binatang Buas, & Pemain)
+   Loop Utama (3 Bukit Terpisah Jurang Dalam, Jembatan 1 Batang Kayu, & Peti)
    ===================================================================== */
 var tNow=0, last=performance.now(), hudAcc=0;
-var heartAcc=0, owlAcc=0, creakAcc=0, wasOnBridge=false;
+var heartAcc=0, creakAcc=0, wasOnBridge=false;
 
 function update(dt){
   var ix=((keys.KeyD||keys.ArrowRight)?1:0)-((keys.KeyA||keys.ArrowLeft)?1:0)+joy.x;
@@ -1722,6 +2082,7 @@ function update(dt){
   var mx=rx*ix+fx*iz, mz=rz*ix+fz*iz, len=Math.hypot(mx,mz), moving=false, sp=0;
 
   var onBridge = getBridgeHeight(P.x, P.z) !== null;
+  $('bridgeWarn').hidden = !onBridge;
   if(onBridge && !wasOnBridge && creakAcc <= 0){
     SFX.woodCreak();
     creakAcc = 2.5;
@@ -1729,27 +2090,31 @@ function update(dt){
   wasOnBridge = onBridge;
   if(creakAcc > 0) creakAcc -= dt;
 
-  var wLevel = waterLevelAt(P.x, P.z);
-  P.inWater = (!onBridge && riverDist(P.x, P.z) < 0.4 && P.y < wLevel + 0.15);
-  $('waterWarn').hidden = !P.inWater;
-
   if(len>0.05){
     moving=true; var m=Math.min(1,len), nx=mx/len, nz=mz/len;
     var hh=groundAndBridgeHeight(P.x,P.z), ahead=groundAndBridgeHeight(P.x+nx*0.8,P.z+nz*0.8), sl=(ahead-hh)/0.8;
-    var f=P.ground?clamp(1-Math.max(0,sl)*0.45,0.45,1):1;
-    var waterPenalty = P.inWater ? 0.35 : 1.0;
-    var baseSpeed = isTeacherMode ? 18 : 11;
-    sp=baseSpeed*m*f*waterPenalty;
+    var f=P.ground?clamp(1-Math.max(0,sl)*0.42,0.48,1):1;
+    var bridgeCaution = onBridge ? 0.72 : 1.0;
+    var baseSpeed = isTeacherMode ? 22 : 11.5;
+    sp=baseSpeed*m*f*bridgeCaution;
     P.x+=nx*sp*dt; P.z+=nz*sp*dt; P.face=Math.atan2(nx,nz);
-    if(P.inWater && !isTeacherMode){
-      P.z += (P.z >= 0 ? 1.9 : -1.9) * dt;
-    }
   }
-  var rr=Math.hypot(P.x,P.z), lim=L-15; if(rr>lim){ P.x*=lim/rr; P.z*=lim/rr; }
-  if(jumpReq && P.ground){ P.vy = P.inWater ? 7.2 : 9.5; P.ground=false; } jumpReq=false;
+  P.x = clamp(P.x, -WORLD_SIZE+15, WORLD_SIZE-15);
+  P.z = clamp(P.z, -WORLD_SIZE+15, WORLD_SIZE-15);
+
+  if(jumpReq && P.ground){ P.vy = 9.5; P.ground=false; } jumpReq=false;
   P.vy-=26*dt; P.y+=P.vy*dt;
   var gh=groundAndBridgeHeight(P.x,P.z);
   if(P.y<=gh+(P.ground?0.5:0) && P.vy<=0){ P.y=gh; P.vy=0; P.ground=true; } else P.ground=false;
+
+  // Cek jika jatuh ke jurang dalam pemisah antar-bukit
+  if(!isTeacherMode && P.y < -10){
+    SFX.scareHit();
+    toast('Terpeleset jatuh ke jurang dalam! Kamu kembali ke titik aman bukit.');
+    P.x = P.safeX; P.z = P.safeZ;
+    P.y = groundAndBridgeHeight(P.x, P.z);
+    P.vy = 0; P.ground = true;
+  }
 
   P.phase+=dt*(moving?sp*0.85:0);
   var sw_=moving&&P.ground?Math.sin(P.phase)*0.85:(P.ground?0:0.5);
@@ -1764,9 +2129,9 @@ function update(dt){
 
   var minDangerDist = 999;
   var dangerLabel = '';
-  var detectRadius = flashlightOn ? 24 : 9;
+  var detectRadius = flashlightOn ? 23 : 8.5;
 
-  // 1. Update Hantu Hutan Lebih Hidup
+  // 1. Update Hantu Hutan
   for(var gi=0; gi<ghosts.length; gi++){
     var ghObj = ghosts[gi];
     var distToP = Math.hypot(P.x - ghObj.x, P.z - ghObj.z);
@@ -1775,17 +2140,18 @@ function update(dt){
       dangerLabel = '👁️ Sosok berambut panjang mendekat! Matikan senter (F) atau menghindar!';
     }
 
-    var chasing = !isTeacherMode && (distToP < detectRadius);
+    var chasing = !isTeacherMode && !onBridge && (distToP < detectRadius);
     if(chasing && !ghObj.wasChasing){
       SFX.ghostMoan();
     }
     ghObj.wasChasing = chasing;
 
+    var nextGx = ghObj.x, nextGz = ghObj.z;
     if(chasing){
       var angToP = Math.atan2(P.x - ghObj.x, P.z - ghObj.z);
-      var chaseSpd = flashlightOn ? 5.4 : 3.2;
-      ghObj.x += Math.sin(angToP) * chaseSpd * dt;
-      ghObj.z += Math.cos(angToP) * chaseSpd * dt;
+      var chaseSpd = flashlightOn ? 5.2 : 3.1;
+      nextGx += Math.sin(angToP) * chaseSpd * dt;
+      nextGz += Math.cos(angToP) * chaseSpd * dt;
       ghObj.g.rotation.y = angToP;
       ghObj.body.rotation.x = 0.24 + Math.sin(tNow*8 + gi)*0.05;
       ghObj.armL.rotation.x = -1.25 + Math.sin(tNow*7 + gi)*0.18;
@@ -1793,15 +2159,18 @@ function update(dt){
       ghObj.head.rotation.z = Math.sin(tNow*9 + gi)*0.16;
     } else {
       ghObj.phase += dt * 0.65;
-      var tx = ghObj.homeX + Math.cos(ghObj.phase) * 14;
-      var tz = ghObj.homeZ + Math.sin(ghObj.phase) * 14;
+      var tx = ghObj.homeX + Math.cos(ghObj.phase) * 10;
+      var tz = ghObj.homeZ + Math.sin(ghObj.phase) * 10;
       ghObj.g.rotation.y = Math.atan2(tx - ghObj.x, tz - ghObj.z);
-      ghObj.x += (tx - ghObj.x) * dt * 0.8;
-      ghObj.z += (tz - ghObj.z) * dt * 0.8;
+      nextGx += (tx - ghObj.x) * dt * 0.8;
+      nextGz += (tz - ghObj.z) * dt * 0.8;
       ghObj.body.rotation.x = 0.04;
       ghObj.armL.rotation.x = -0.25 + Math.sin(tNow*2.5 + gi)*0.12;
       ghObj.armR.rotation.x = -0.25 - Math.sin(tNow*2.5 + gi)*0.12;
       ghObj.head.rotation.z = Math.sin(tNow*1.8 + gi)*0.08;
+    }
+    if(heightAt(nextGx, nextGz) > 1){
+      ghObj.x = nextGx; ghObj.z = nextGz;
     }
     var gy = groundAndBridgeHeight(ghObj.x, ghObj.z);
     ghObj.g.position.set(ghObj.x, gy + Math.sin(tNow*3.2 + gi)*0.28, ghObj.z);
@@ -1819,14 +2188,14 @@ function update(dt){
       toast('Tertangkap sosok berambut panjang! Kamu mundur ke titik aman sebelumnya.');
       P.x = P.safeX; P.z = P.safeZ;
       P.y = groundAndBridgeHeight(P.x, P.z);
-      ghObj.x = ghObj.homeX + 12;
-      ghObj.z = ghObj.homeZ + 12;
+      ghObj.x = ghObj.homeX;
+      ghObj.z = ghObj.homeZ;
       minDangerDist = 999;
       break;
     }
   }
 
-  // 2. Update Binatang Buas (Serigala & Beruang Hutan)
+  // 2. Update Binatang Buas
   for(var bi=0; bi<beasts.length; bi++){
     var bObj = beasts[bi];
     var distB = Math.hypot(P.x - bObj.x, P.z - bObj.z);
@@ -1837,26 +2206,31 @@ function update(dt){
         : '🐺 Serigala malam mengintai! Matikan senter (F) atau menghindar!';
     }
 
-    var beastDetect = flashlightOn ? 20 : 8;
-    var bChasing = !isTeacherMode && (distB < beastDetect);
+    var beastDetect = flashlightOn ? 19 : 8;
+    var bChasing = !isTeacherMode && !onBridge && (distB < beastDetect);
     if(bChasing && !bObj.wasChasing){
       SFX.beastGrowl();
     }
     bObj.wasChasing = bChasing;
 
+    var nextBx = bObj.x, nextBz = bObj.z;
     if(bChasing){
       var angB = Math.atan2(P.x - bObj.x, P.z - bObj.z);
-      var moveSpd = bObj.isBear ? 5.6 : 6.8;
-      bObj.x += Math.sin(angB) * moveSpd * dt;
-      bObj.z += Math.cos(angB) * moveSpd * dt;
+      var moveSpd = bObj.isBear ? 5.4 : 6.6;
+      nextBx += Math.sin(angB) * moveSpd * dt;
+      nextBz += Math.cos(angB) * moveSpd * dt;
       bObj.g.rotation.y = angB;
     } else {
       bObj.phase += dt * 0.55;
-      var btx = bObj.homeX + Math.sin(bObj.phase) * 16;
-      var btz = bObj.homeZ + Math.cos(bObj.phase) * 16;
+      var btx = bObj.homeX + Math.sin(bObj.phase) * 11;
+      var btz = bObj.homeZ + Math.cos(bObj.phase) * 11;
       bObj.g.rotation.y = Math.atan2(btx - bObj.x, btz - bObj.z);
-      bObj.x += (btx - bObj.x) * dt * 0.7;
-      bObj.z += (btz - bObj.z) * dt * 0.7;
+      nextBx += (btx - bObj.x) * dt * 0.7;
+      nextBz += (btz - bObj.z) * dt * 0.7;
+    }
+
+    if(heightAt(nextBx, nextBz) > 1){
+      bObj.x = nextBx; bObj.z = nextBz;
     }
 
     bObj.runPhase += dt * (bChasing ? 14 : 6);
@@ -1873,8 +2247,8 @@ function update(dt){
       toast((bObj.isBear ? 'Diserang beruang hutan!' : 'Disergap serigala malam!') + ' Kamu mundur ke titik aman.');
       P.x = P.safeX; P.z = P.safeZ;
       P.y = groundAndBridgeHeight(P.x, P.z);
-      bObj.x = bObj.homeX - 14;
-      bObj.z = bObj.homeZ - 14;
+      bObj.x = bObj.homeX;
+      bObj.z = bObj.homeZ;
       minDangerDist = 999;
       break;
     }
@@ -1894,19 +2268,13 @@ function update(dt){
     }
   }
 
-  owlAcc += dt;
-  if(owlAcc > 18){
-    owlAcc = 0;
-    if(Math.random() < 0.7) SFX.owl();
-  }
-
   if(!isTeacherMode){
     for(var i=0;i<N;i++){
       var p=papers[i]; if(S.collected[i]) continue;
       var dx=p.x-P.x, dz=p.z-P.z;
       if(dx*dx+dz*dz<12 && P.y<p.y+5){ collect(i); break; }
     }
-    checkSummit();
+    checkChest();
   }
 }
 
@@ -1919,14 +2287,25 @@ function camUpdate(){
 function hudTick(force){
   if(!S) return;
   $('clock').textContent=fmtTime(elapsed());
-  var alt=clamp(P.y/PEAK,0,1);
-  $('altFill').style.width=(alt*100)+'%'; $('altTxt').textContent=Math.round(P.y/PEAK*2700).toLocaleString('id-ID')+' m';
+  var curH = getPlayerHill();
+  $('hillLbl').textContent = 'Bukit ' + (curH + 1) + '/3';
+  var alt=clamp(Math.max(0, P.y)/PEAK, 0, 1);
+  $('altFill').style.width=(alt*100)+'%';
+  $('altTxt').textContent=Math.max(0, Math.round(P.y/PEAK*2800)).toLocaleString('id-ID')+' m';
   $('bagCount').textContent=answeredCount()+'/'+N;
+
   var t=nextTarget(), dx=t.x-P.x, dz=t.z-P.z, d=Math.hypot(dx,dz);
   var fx=-Math.sin(cam.yaw), fz=-Math.cos(cam.yaw), rx=-fz, rz=fx;
   var a=Math.atan2(dx*rx+dz*rz, dx*fx+dz*fz);
   $('arrow').style.transform='rotate('+a+'rad)';
-  var txt=isTeacherMode?'Mode Pengawas: Keliling gunung untuk pantau siswa':t.kind==='paper'?'Kertas Audio '+(t.i+1)+' · '+Math.round(d)+' m':t.kind==='bag'?'Soal '+(t.i+1)+' belum dijawab. Buka Tas soal':'Semua soal terjawab. Menuju puncak · '+Math.round(d)+' m';
+
+  var txt = isTeacherMode
+    ? 'Mode Pengawas: Pantau 3 bukit terpisah & jalan setapak jembatan'
+    : t.kind==='bridge1' ? 'Ikuti jalan berlentera ke Jembatan 1 Batang Kayu (Bukit 2) · '+Math.round(d)+' m'
+    : t.kind==='bridge2' ? 'Ikuti jalan berlentera ke Jembatan 1 Batang Kayu (Bukit 3) · '+Math.round(d)+' m'
+    : t.kind==='paper' ? 'Kertas Audio '+(t.i+1)+' · '+Math.round(d)+' m'
+    : t.kind==='bag' ? 'Soal '+(t.i+1)+' belum dijawab. Buka Tas soal'
+    : 'Menuju Peti Harta Karun Bukit 3 · '+Math.round(d)+' m';
   if($('compTxt').textContent!==txt) $('compTxt').textContent=txt;
 }
 function frame(now){
@@ -1937,17 +2316,12 @@ function frame(now){
     camUpdate();
     hudAcc+=dt; if(hudAcc>0.1){ hudAcc=0; hudTick(); }
   } else {
-    var a=tNow*0.06+1;
-    camera.position.set(Math.cos(a)*215,78+Math.sin(tNow*0.2)*6,Math.sin(a)*215); camera.lookAt(0,34,0);
+    var a=tNow*0.05+0.8;
+    camera.position.set(Math.cos(a)*330, 125+Math.sin(tNow*0.2)*8, Math.sin(a)*330);
+    camera.lookAt(0, 28, 0);
   }
-  if(waterMesh && waterBaseY){
-    var pos = waterMesh.geometry.attributes.position;
-    for(var w=0; w<pos.count; w++){
-      var wz = pos.getZ(w);
-      var wx = pos.getX(w);
-      pos.setY(w, waterBaseY[w] + Math.sin(tNow * 3.2 + wz * 0.35 + wx * 0.5) * 0.08);
-    }
-    pos.needsUpdate = true;
+  if(chestGlow){
+    chestGlow.rotation.y += dt * 0.8;
   }
   for(var i=0;i<papers.length;i++){ var p=papers[i]; if(p.g.visible){ p.mesh.position.y=2.6+Math.sin(tNow*2+i)*0.25; p.mesh.rotation.y+=dt*1.4; } }
   renderer.render(scene,camera);
