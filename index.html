@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Pendakian Soal: Malam Berkabut - SMKN 1 Semparuk</title>
+<title>Pendakian Soal Multiplayer - SMKN 1 Semparuk</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800&display=swap">
 <style>
@@ -40,6 +40,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--sun);outline-of
 .who span{font-size:.85rem;opacity:.85}
 .who .clock{font-variant-numeric:tabular-nums;font-weight:800}
 .who .warn-badge{background:var(--berry);color:#fff;padding:2px 7px;border-radius:6px;font-size:.75rem;font-weight:800}
+.who .online-badge{background:#1b4332;color:#7bd88f;border:1px solid #40916c;padding:2px 7px;border-radius:6px;font-size:.75rem;font-weight:800}
 .alt{flex:1 1 160px;max-width:280px;min-width:140px}
 .alt .lbl{display:flex;justify-content:space-between;font-size:.8rem;font-weight:800;margin-bottom:5px;letter-spacing:.03em;text-transform:uppercase}
 .altbar{height:10px;border-radius:6px;background:rgba(255,255,255,.16);overflow:hidden}
@@ -141,6 +142,7 @@ textarea#copyBox{width:100%;box-sizing:border-box;height:120px;margin-top:10px;f
       <b id="whoName"></b>
       <span id="whoClass"></span>
       <span class="clock" id="clock">00:00</span>
+      <span class="online-badge" id="onlineBadge">👥 1 Pendaki</span>
       <span class="warn-badge" id="warnBadge" hidden>Pelanggaran: 0/3</span>
     </div>
     <div class="panel alt"><div class="lbl"><span>Ketinggian</span><span id="altTxt">0 m</span></div><div class="altbar"><i id="altFill"></i></div></div>
@@ -162,8 +164,8 @@ textarea#copyBox{width:100%;box-sizing:border-box;height:120px;margin-top:10px;f
 <div class="overlay" id="login">
   <form class="card" id="loginForm" autocomplete="off" novalidate>
     <h1>Pendakian Malam</h1>
-    <p class="lead">Daki gunung berkabut di malam hari, seberangi sungai lewat jembatan kayu lapuk, hindari sosok berambut panjang di hutan, dan kumpulkan 40 soal di puncak.</p>
-    <label class="f" for="inName">Nama lengkap</label>
+    <p class="lead">Daki gunung berkabut bersama teman sekelasmu, seberangi sungai lewat jembatan kayu lapuk, hindari sosok berambut panjang, dan kumpulkan 40 soal.</p>
+    <label class="f" for="inName">Nama lengkap (Ketik GURU untuk Mode Pengawas)</label>
     <input type="text" id="inName" maxlength="32" placeholder="mis. Siti Rahma">
     <label class="f" for="inClass">Kelas</label>
     <input type="text" id="inClass" maxlength="16" placeholder="mis. XI DKV 1">
@@ -322,9 +324,7 @@ var toastTimer=null;
 function toast(msg){ var t=$('toast'); t.textContent=msg; t.hidden=false; clearTimeout(toastTimer); toastTimer=setTimeout(function(){t.hidden=true;},3000); }
 
 var SFX = {
-  ctx: null,
-  muted: false,
-  windGain: null,
+  ctx: null, muted: false, windGain: null,
   init: function(){
     if(this.ctx) return;
     var AC = window.AudioContext || window.webkitAudioContext;
@@ -350,9 +350,7 @@ var SFX = {
     src.connect(filter); filter.connect(this.windGain); this.windGain.connect(this.ctx.destination);
     src.start();
   },
-  resume: function(){
-    if(this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
-  },
+  resume: function(){ if(this.ctx && this.ctx.state === 'suspended') this.ctx.resume(); },
   toggleMute: function(){
     this.muted = !this.muted;
     if(this.windGain) this.windGain.gain.value = this.muted ? 0 : 0.22;
@@ -421,9 +419,7 @@ $('btnSound').addEventListener('click',function(){ SFX.init(); SFX.toggleMute();
    ===================================================================== */
 var R=CFG.R, L=CFG.L, PEAK=CFG.PEAK;
 
-function riverCenterX(z){
-  return Math.sin(z * 0.024) * 32 + Math.cos(z * 0.055) * 10;
-}
+function riverCenterX(z){ return Math.sin(z * 0.024) * 32 + Math.cos(z * 0.055) * 10; }
 function riverHalfWidth(z){
   var r = Math.hypot(riverCenterX(z), z);
   if(r < 24) return 0;
@@ -444,10 +440,7 @@ function rawMountainHeight(x,z){
   var amp=0.3+Math.min(1,k*6)*0.7;
   return base+n*amp;
 }
-function waterLevelAt(x,z){
-  var rx = riverCenterX(z);
-  return rawMountainHeight(rx, z) - 0.55;
-}
+function waterLevelAt(x,z){ var rx = riverCenterX(z); return rawMountainHeight(rx, z) - 0.55; }
 function heightAt(x,z){
   var base = rawMountainHeight(x,z);
   var hw = riverHalfWidth(z);
@@ -507,12 +500,12 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 var scene=new THREE.Scene();
 var NIGHT_SKY=0x060d18;
 scene.background=new THREE.Color(NIGHT_SKY);
-scene.fog=new THREE.FogExp2(0x091322, 0.0145);
+scene.fog=new THREE.FogExp2(0x091322, 0.0135);
 
 var camera=new THREE.PerspectiveCamera(58,1,0.5,650);
-scene.add(new THREE.HemisphereLight(0x3a5a8c, 0x0d1a14, 0.42));
+scene.add(new THREE.HemisphereLight(0x3a5a8c, 0x0d1a14, 0.48));
 
-var moonLight=new THREE.DirectionalLight(0x6d93c7, 0.38);
+var moonLight=new THREE.DirectionalLight(0x6d93c7, 0.42);
 moonLight.position.set(-140, 220, -110);
 scene.add(moonLight);
 
@@ -525,7 +518,7 @@ scene.add(moonLight);
   scene.add(mMesh);
 })();
 
-var headlamp = new THREE.SpotLight(0xfff5d6, 2.8, 72, Math.PI * 0.24, 0.48, 1.1);
+var headlamp = new THREE.SpotLight(0xfff5d6, 2.8, 75, Math.PI * 0.24, 0.48, 1.1);
 var headlampTarget = new THREE.Object3D();
 scene.add(headlamp);
 scene.add(headlampTarget);
@@ -764,39 +757,32 @@ var ghosts = [];
     var baseP = spiral(idx);
     var g = new THREE.Group();
 
-    // Jubah panjang melayang
     var cloak = new THREE.Mesh(new THREE.ConeGeometry(1.15, 4.5, 9, 1, true), bodyMat);
     cloak.position.y = 2.45;
     g.add(cloak);
 
-    // Kepala pucat
     var head = new THREE.Mesh(new THREE.SphereGeometry(0.62, 10, 10), paleFaceMat);
     head.position.y = 4.65;
     g.add(head);
 
-    // Sepasang mata merah menyala
     var eyeGeo = new THREE.SphereGeometry(0.11, 6, 6);
     var eyeL = new THREE.Mesh(eyeGeo, eyeMat); eyeL.position.set(-0.21, 4.65, 0.54);
     var eyeR = new THREE.Mesh(eyeGeo, eyeMat); eyeR.position.set(0.21, 4.65, 0.54);
     g.add(eyeL); g.add(eyeR);
 
-    // Grup Rambut Hitam Panjang Terurai hingga pinggang
     var hairGroup = new THREE.Group();
     hairGroup.position.set(0, 4.75, 0);
 
-    // Mahkota rambut atas kepala
     var crownHair = new THREE.Mesh(new THREE.SphereGeometry(0.66, 10, 8, 0, Math.PI*2, 0, Math.PI*0.62), hairMat);
     crownHair.rotation.x = -0.15;
     hairGroup.add(crownHair);
 
-    // Helaian rambut panjang di belakang dan samping yang menjuntai
     var strandSpecs = [
       {x: 0,     z: -0.58, w: 1.15, h: 3.6, ry: 0,    rx: 0.08},
       {x: -0.46, z: -0.35, w: 0.55, h: 3.4, ry: 0.55, rx: 0.06},
       {x: 0.46,  z: -0.35, w: 0.55, h: 3.4, ry: -0.55,rx: 0.06},
       {x: -0.56, z: 0.12,  w: 0.42, h: 3.1, ry: 1.25, rx: 0.04},
       {x: 0.56,  z: 0.12,  w: 0.42, h: 3.1, ry: -1.25,rx: 0.04},
-      // Poni panjang kusut di sisi wajah (tetap menyisakan celah mata merah)
       {x: -0.38, z: 0.48,  w: 0.24, h: 1.65, ry: 0.25, rx: -0.05},
       {x: 0.38,  z: 0.48,  w: 0.24, h: 1.65, ry: -0.25,rx: -0.05},
       {x: 0,     z: 0.58,  w: 0.14, h: 0.95, ry: 0,    rx: -0.08}
@@ -804,7 +790,7 @@ var ghosts = [];
 
     strandSpecs.forEach(function(st){
       var sGeo = new THREE.PlaneGeometry(st.w, st.h, 1, 3);
-      sGeo.translate(0, -st.h * 0.5, 0); // titik tumpu di atas kepala agar berayun alami
+      sGeo.translate(0, -st.h * 0.5, 0);
       var sMesh = new THREE.Mesh(sGeo, hairMat);
       sMesh.position.set(st.x, 0.25, st.z);
       sMesh.rotation.set(st.rx, st.ry, 0);
@@ -868,7 +854,7 @@ var papers=[];
   }
 })();
 
-// Karakter blok + lampu senter di kepala
+// Karakter blok + lampu senter di kepala (digunakan untuk pemain utama maupun teman/siswa lain)
 var avatar=null, limbs={};
 function makeFace(){
   var c=document.createElement('canvas'); c.width=64; c.height=64; var x=c.getContext('2d');
@@ -878,7 +864,7 @@ function makeFace(){
   return new THREE.CanvasTexture(c);
 }
 var faceTex=makeFace();
-function makeAvatar(shirt,name){
+function makeAvatar(shirt,name,outLimbs){
   var g=new THREE.Group(), L_=function(c){return new THREE.MeshStandardMaterial({color:c,roughness:0.7});};
   var skin=0xffd24a;
   var torso=new THREE.Mesh(new THREE.BoxGeometry(1.6,1.7,0.9),L_(shirt)); torso.position.y=2.05; g.add(torso);
@@ -888,14 +874,156 @@ function makeAvatar(shirt,name){
 
   var pack=new THREE.Mesh(new THREE.BoxGeometry(1.2,1.3,0.55),L_(0xe5505c)); pack.position.set(0,2.2,-0.75); g.add(pack);
   function limb(w,h,d,color,px,py,oy){ var piv=new THREE.Group(); piv.position.set(px,py,0); var m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),L_(color)); m.position.y=oy; piv.add(m); g.add(piv); return piv; }
-  limbs.legL=limb(0.7,1.2,0.7,0x2f4b7c,-0.4,1.2,-0.6);
-  limbs.legR=limb(0.7,1.2,0.7,0x2f4b7c,0.4,1.2,-0.6);
-  limbs.armL=limb(0.5,1.5,0.5,skin,-1.05,2.8,-0.62);
-  limbs.armR=limb(0.5,1.5,0.5,skin,1.05,2.8,-0.62);
-  var c=document.createElement('canvas'); c.width=256; c.height=64; var x=c.getContext('2d');
-  x.fillStyle='rgba(8,16,28,.85)'; x.fillRect(0,8,256,48); x.fillStyle='#fff'; x.font='800 28px sans-serif'; x.textAlign='center'; x.textBaseline='middle'; x.fillText(name.length>16?name.slice(0,15)+'…':name,128,33);
-  var sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),fog:false,transparent:true})); sp.scale.set(5,1.25,1); sp.position.y=5.5; g.add(sp);
+  var ref = outLimbs || limbs;
+  ref.legL=limb(0.7,1.2,0.7,0x2f4b7c,-0.4,1.2,-0.6);
+  ref.legR=limb(0.7,1.2,0.7,0x2f4b7c,0.4,1.2,-0.6);
+  ref.armL=limb(0.5,1.5,0.5,skin,-1.05,2.8,-0.62);
+  ref.armR=limb(0.5,1.5,0.5,skin,1.05,2.8,-0.62);
+
+  var c=document.createElement('canvas'); c.width=320; c.height=72; var x=c.getContext('2d');
+  x.fillStyle='rgba(8,16,28,.88)'; x.fillRect(0,8,320,56);
+  x.strokeStyle='#ffb62b'; x.lineWidth=3; x.strokeRect(2,10,316,52);
+  x.fillStyle='#fff'; x.font='800 26px sans-serif'; x.textAlign='center'; x.textBaseline='middle';
+  x.fillText(name.length>20?name.slice(0,19)+'…':name,160,36);
+  var sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),fog:false,transparent:true}));
+  sp.scale.set(5.8,1.3,1); sp.position.y=5.6; g.add(sp);
   return g;
+}
+
+/* =====================================================================
+   Sinkronisasi Multiplayer Real-Time (Google Apps Script Polling)
+   ===================================================================== */
+var remotePlayers = {}; // id -> { group, limbs, tx, ty, tz, phase, lastSeen }
+var syncTimer = null;
+
+function pushPositionToCloud(){
+  if(!CFG.GAS_URL || !S || mode !== 'play') return;
+  var payload = {
+    type: 'pos',
+    id: S.key,
+    nama: S.name,
+    kelas: S.kelas,
+    x: Math.round(P.x * 10) / 10,
+    y: Math.round(P.y * 10) / 10,
+    z: Math.round(P.z * 10) / 10,
+    color: S.color,
+    progress: answeredCount() + '/' + N
+  };
+  fetch(CFG.GAS_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {'Content-Type': 'text/plain'},
+    body: JSON.stringify(payload)
+  }).catch(function(){});
+}
+
+function pullPlayersFromCloud(){
+  if(!CFG.GAS_URL || !S || mode !== 'play') return;
+  fetch(CFG.GAS_URL + '?t=' + Date.now())
+    .then(function(r){ return r.json(); })
+    .then(function(list){
+      if(!Array.isArray(list)) return;
+      var activeIds = {};
+      var totalOnline = 1; // diri sendiri
+
+      list.forEach(function(pl){
+        if(!pl.id || pl.id === S.key) return;
+        activeIds[pl.id] = true;
+        totalOnline++;
+
+        var label = pl.nama + ' (' + pl.kelas + ') · ' + (pl.progress || '0/40');
+        var rp = remotePlayers[pl.id];
+        if(!rp){
+          var rLimbs = {};
+          var grp = makeAvatar(new THREE.Color(pl.color || '#2f7de1').getHex(), label, rLimbs);
+          grp.position.set(pl.x, pl.y, pl.z);
+          scene.add(grp);
+          remotePlayers[pl.id] = {
+            group: grp,
+            limbs: rLimbs,
+            tx: pl.x, ty: pl.y, tz: pl.z,
+            phase: 0,
+            lastLabel: label
+          };
+        } else {
+          rp.tx = pl.x;
+          rp.ty = pl.y;
+          rp.tz = pl.z;
+          // Perbarui papan nama jika progres soal bertambah
+          if(rp.lastLabel !== label){
+            scene.remove(rp.group);
+            var newLimbs = {};
+            var newGrp = makeAvatar(new THREE.Color(pl.color || '#2f7de1').getHex(), label, newLimbs);
+            newGrp.position.copy(rp.group.position);
+            scene.add(newGrp);
+            rp.group = newGrp;
+            rp.limbs = newLimbs;
+            rp.lastLabel = label;
+          }
+        }
+      });
+
+      // Hapus karakter siswa yang sudah keluar/offline
+      Object.keys(remotePlayers).forEach(function(id){
+        if(!activeIds[id]){
+          scene.remove(remotePlayers[id].group);
+          delete remotePlayers[id];
+        }
+      });
+
+      $('onlineBadge').textContent = '👥 ' + totalOnline + ' Pendaki';
+    })
+    .catch(function(){});
+}
+
+function startMultiplayerSync(){
+  stopMultiplayerSync();
+  pushPositionToCloud();
+  pullPlayersFromCloud();
+  syncTimer = setInterval(function(){
+    pushPositionToCloud();
+    pullPlayersFromCloud();
+  }, 3000); // sinkronisasi tiap 3 detik
+}
+
+function stopMultiplayerSync(){
+  if(syncTimer){ clearInterval(syncTimer); syncTimer = null; }
+  Object.keys(remotePlayers).forEach(function(id){
+    scene.remove(remotePlayers[id].group);
+  });
+  remotePlayers = {};
+}
+
+function updateRemotePlayers(dt){
+  Object.keys(remotePlayers).forEach(function(id){
+    var rp = remotePlayers[id];
+    var g = rp.group;
+    var dx = rp.tx - g.position.x;
+    var dz = rp.tz - g.position.z;
+    var dist = Math.hypot(dx, dz);
+
+    if(dist > 0.08){
+      g.position.x += dx * Math.min(1, dt * 3.5);
+      g.position.z += dz * Math.min(1, dt * 3.5);
+      g.position.y += (rp.ty - g.position.y) * Math.min(1, dt * 5);
+      var targetYaw = Math.atan2(dx, dz);
+      var da = targetYaw - g.rotation.y;
+      da = Math.atan2(Math.sin(da), Math.cos(da));
+      g.rotation.y += da * Math.min(1, dt * 8);
+
+      rp.phase += dt * 8;
+      var sw = Math.sin(rp.phase) * 0.75;
+      rp.limbs.legL.rotation.x = sw;
+      rp.limbs.legR.rotation.x = -sw;
+      rp.limbs.armL.rotation.x = -sw;
+      rp.limbs.armR.rotation.x = sw;
+    } else {
+      rp.limbs.legL.rotation.x = 0;
+      rp.limbs.legR.rotation.x = 0;
+      rp.limbs.armL.rotation.x = 0;
+      rp.limbs.armR.rotation.x = 0;
+    }
+  });
 }
 
 /* =====================================================================
@@ -903,6 +1031,7 @@ function makeAvatar(shirt,name){
    ===================================================================== */
 var mode='login';
 var paused=false;
+var isTeacherMode=false;
 var P={x:0,y:0,z:0,vy:0,ground:true,face:0,phase:0,inWater:false,safeX:0,safeZ:0};
 var cam={yaw:0,pitch:0.38,dist:13};
 var S=null;
@@ -919,7 +1048,7 @@ function optOrder(i){
 function answeredCount(){ return Object.keys(S.answers).length; }
 function collectedCount(){ return Object.keys(S.collected).length; }
 function save(){
-  if(!S) return;
+  if(!S || isTeacherMode) return;
   try{
     localStorage.setItem(S.key,JSON.stringify({
       name:S.name,kelas:S.kelas,color:S.color,
@@ -933,7 +1062,7 @@ function elapsed(){ return S.submitted ? S.sec : (Date.now()-S.startTs)/1000; }
 
 /* ---------- Lockdown & Anti-Curang ---------- */
 function enterFullscreen(){
-  if(!CFG.LOCKDOWN) return;
+  if(!CFG.LOCKDOWN || isTeacherMode) return;
   var el=document.documentElement;
   try{
     if(el.requestFullscreen) el.requestFullscreen();
@@ -947,14 +1076,14 @@ function exitFullscreen(){
   }catch(e){}
 }
 function updateWarnBadge(){
-  if(!S || !CFG.LOCKDOWN) return;
+  if(!S || !CFG.LOCKDOWN || isTeacherMode) return;
   var b=$('warnBadge');
   b.hidden=false;
   b.textContent='Pelanggaran: '+S.violations+'/'+CFG.MAX_VIOLATIONS;
 }
 var lastViolationTs=0;
 function registerViolation(reason){
-  if(!CFG.LOCKDOWN || mode!=='play' || !S || S.submitted) return;
+  if(!CFG.LOCKDOWN || isTeacherMode || mode!=='play' || !S || S.submitted) return;
   var now=Date.now();
   if(now-lastViolationTs<1500) return;
   lastViolationTs=now;
@@ -972,6 +1101,7 @@ function registerViolation(reason){
     S.submitted=true;
     save();
     exitFullscreen();
+    stopMultiplayerSync();
     showResult(true);
     return;
   }
@@ -988,12 +1118,12 @@ window.addEventListener('blur',function(){
   if(mode==='play' && !paused) registerViolation('Membuka jendela/aplikasi lain');
 });
 document.addEventListener('fullscreenchange',function(){
-  if(CFG.LOCKDOWN && mode==='play' && !document.fullscreenElement && !S.submitted){
+  if(CFG.LOCKDOWN && !isTeacherMode && mode==='play' && !document.fullscreenElement && !S.submitted){
     registerViolation('Keluar dari mode layar penuh');
   }
 });
 document.addEventListener('contextmenu',function(e){
-  if(CFG.LOCKDOWN && mode==='play') e.preventDefault();
+  if(CFG.LOCKDOWN && !isTeacherMode && mode==='play') e.preventDefault();
 });
 $('lkResume').addEventListener('click',function(){
   enterFullscreen();
@@ -1018,16 +1148,20 @@ $('loginForm').addEventListener('submit',function(e){
   var name=$('inName').value.trim().replace(/\s+/g,' '), kelas=$('inClass').value.trim();
   var err=$('loginErr'); err.textContent='';
   if(name.length<3){ err.textContent='Tulis nama lengkapmu (minimal 3 huruf).'; $('inName').focus(); return; }
-  if(!kelas){ err.textContent='Isi kelasmu dulu.'; $('inClass').focus(); return; }
+  if(!kelas){ err.textContent='Isi kelasmu dulu (atau ketik PENGAWAS untuk guru).'; $('inClass').focus(); return; }
   if(CFG.ACCESS_CODE && $('inCode').value.trim().toLowerCase()!==CFG.ACCESS_CODE.toLowerCase()){ err.textContent='Kode ujian belum tepat. Tanyakan pada gurumu.'; $('inCode').focus(); return; }
   SFX.init(); SFX.resume();
+  isTeacherMode = /^(guru|pengawas)$/i.test(name);
   enterFullscreen();
   startSession(name,kelas,chosenColor);
 });
 
 function startSession(name,kelas,color){
   var key='pks:'+hashStr(name.toLowerCase()+'|'+kelas.toLowerCase());
-  var saved=null; try{ saved=JSON.parse(localStorage.getItem(key)||'null'); }catch(e){}
+  var saved=null;
+  if(!isTeacherMode){
+    try{ saved=JSON.parse(localStorage.getItem(key)||'null'); }catch(e){}
+  }
   orders={};
   S={name:name,kelas:kelas,color:saved&&saved.color?saved.color:color,collected:{},answers:{},startTs:Date.now(),sec:0,submitted:false,violations:0,key:key,seed:hashStr(name.toLowerCase()+'|'+kelas.toLowerCase())};
   if(saved){
@@ -1041,7 +1175,8 @@ function startSession(name,kelas,color){
   try{ localStorage.setItem('pks:last',JSON.stringify({name:name,kelas:kelas})); }catch(e){}
   papers.forEach(function(p,i){ p.g.visible=!S.collected[i]; });
   if(avatar){ scene.remove(avatar); }
-  avatar=makeAvatar(new THREE.Color(S.color).getHex(),name); scene.add(avatar);
+  avatar=makeAvatar(new THREE.Color(isTeacherMode ? '#ffb62b' : S.color).getHex(), isTeacherMode ? 'PENGAWAS' : name);
+  scene.add(avatar);
   $('login').hidden=true;
   if(S.submitted){ showResult(false); return; }
 
@@ -1050,10 +1185,19 @@ function startSession(name,kelas,color){
   P.x=sp[0]; P.z=sp[1]; P.safeX=P.x; P.safeZ=P.z;
   P.y=groundAndBridgeHeight(P.x,P.z); P.vy=0; P.ground=true;
   var tgt=nextTarget(); var dx=tgt.x-P.x, dz=tgt.z-P.z; cam.yaw=Math.atan2(-dx,-dz); P.face=Math.atan2(dx,dz); cam.pitch=0.38; cam.dist=13;
-  $('whoName').textContent=name; $('whoClass').textContent='Kelas '+kelas;
+  $('whoName').textContent=isTeacherMode ? 'Mode Pengawas' : name;
+  $('whoClass').textContent=isTeacherMode ? 'Pantau Siswa' : 'Kelas '+kelas;
+  $('warnBadge').hidden = isTeacherMode;
   updateWarnBadge();
   $('hud').hidden=false; mode='play'; paused=false; hudTick(true);
-  toast(saved&&lastIdx>=0?'Pendakian malam dilanjutkan, '+name.split(' ')[0]+'. Waspada bayangan berambut panjang!':'Nyalakan senter, lewati jembatan kayu, dan hindari sosok berambut panjang!');
+
+  startMultiplayerSync();
+
+  if(isTeacherMode){
+    toast('Mode Pengawas aktif! Anda bebas berkeliling memantau siswa tanpa gangguan bayangan.');
+  } else {
+    toast(saved&&lastIdx>=0?'Pendakian malam dilanjutkan, '+name.split(' ')[0]+'.':'Nyalakan senter, lewati jembatan kayu, dan hindari sosok berambut panjang!');
+  }
 }
 
 /* ---------- Kertas, soal, tas ---------- */
@@ -1110,8 +1254,8 @@ function openBag(){
   var grid=$('bagGrid'); grid.innerHTML='';
   for(var i=0;i<N;i++){
     var b=document.createElement('button'); b.type='button'; b.textContent=i+1;
-    if(!S.collected[i]){ b.className='lock'; b.disabled=true; b.setAttribute('aria-label','Soal '+(i+1)+' belum ditemukan'); }
-    else { b.className=S.answers[i]!==undefined?'done':''; b.setAttribute('aria-label','Soal '+(i+1)+(S.answers[i]!==undefined?', sudah dijawab':', belum dijawab')); (function(ii){ b.addEventListener('click',function(){ $('bagModal').hidden=true; openQ(ii); }); })(i); }
+    if(!S.collected[i] && !isTeacherMode){ b.className='lock'; b.disabled=true; b.setAttribute('aria-label','Soal '+(i+1)+' belum ditemukan'); }
+    else { b.className=S.answers[i]!==undefined?'done':''; b.setAttribute('aria-label','Soal '+(i+1)); (function(ii){ b.addEventListener('click',function(){ $('bagModal').hidden=true; openQ(ii); }); })(i); }
     grid.appendChild(b);
   }
   $('bagLead').textContent='Ditemukan '+collectedCount()+' dari '+N+' soal. Terjawab '+answeredCount()+'. Ketuk nomor untuk membuka atau mengganti jawaban.';
@@ -1124,12 +1268,17 @@ $('bagClose').addEventListener('click',closeBag);
 /* ---------- Kumpulkan & Pengiriman ke Google Sheets ---------- */
 var summitAsked=false;
 function checkSummit(){
-  if(mode!=='play'||paused) return;
+  if(mode!=='play'||paused||isTeacherMode) return;
   if(Math.hypot(P.x,P.z)<7 && answeredCount()===N && !summitAsked){ summitAsked=true; openConfirm(); }
   if(Math.hypot(P.x,P.z)>14) summitAsked=false;
 }
 function openConfirm(){
   paused=true; clearInput();
+  if(isTeacherMode){
+    stopMultiplayerSync();
+    $('hud').hidden=true; S=null; if(avatar){ scene.remove(avatar); avatar=null; } mode='login'; $('login').hidden=false;
+    return;
+  }
   var un=N-answeredCount(), nf=N-collectedCount();
   var t='Kamu sudah menjawab '+answeredCount()+' dari '+N+' soal.';
   if(un>0){ t+=' Masih ada '+un+' soal tanpa jawaban'+(nf>0?' ('+nf+' kertas belum ditemukan)':'')+'. Soal kosong dihitung salah.'; }
@@ -1141,6 +1290,7 @@ $('cfNo').addEventListener('click',function(){ $('confirmModal').hidden=true; pa
 $('cfYes').addEventListener('click',function(){
   S.sec=elapsed(); S.submitted=true; save(); $('confirmModal').hidden=true;
   exitFullscreen();
+  stopMultiplayerSync();
   showResult(false);
 });
 
@@ -1162,7 +1312,7 @@ function summary(){
 }
 
 function sendToSpreadsheet(){
-  if(!CFG.GAS_URL) return;
+  if(!CFG.GAS_URL || isTeacherMode) return;
   var st=$('syncStatus'), retry=$('rsRetrySync');
   st.hidden=false; retry.hidden=true;
   st.className='sync-status';
@@ -1170,6 +1320,7 @@ function sendToSpreadsheet(){
 
   var s=summary();
   var payload={
+    type: 'submit',
     nama: S.name,
     kelas: S.kelas,
     nilai: s.score,
@@ -1238,6 +1389,7 @@ $('rsCopy').addEventListener('click',function(){
   try{ navigator.clipboard.writeText(txt).then(function(){ toast('Hasil disalin. Kirim ke gurumu.'); },fallback); }catch(e){ fallback(); }
 });
 $('rsExit').addEventListener('click',function(){
+  stopMultiplayerSync();
   $('result').hidden=true; S=null; if(avatar){ scene.remove(avatar); avatar=null; } mode='login'; $('login').hidden=false;
 });
 
@@ -1247,7 +1399,7 @@ $('rsExit').addEventListener('click',function(){
 var keys={}, joy={x:0,y:0}, jumpReq=false;
 function clearInput(){ keys={}; joy.x=joy.y=0; jumpReq=false; var k=$('knob'); if(k) k.style.transform='translate(-50%,-50%)'; }
 window.addEventListener('keydown',function(e){
-  if(CFG.LOCKDOWN && mode==='play'){
+  if(CFG.LOCKDOWN && !isTeacherMode && mode==='play'){
     if(e.key==='F12' || (e.ctrlKey && e.shiftKey && /[IJC]/i.test(e.key)) || (e.ctrlKey && /[UuSsPp]/.test(e.key))){
       e.preventDefault();
       return;
@@ -1273,7 +1425,7 @@ canvas.addEventListener('pointermove',function(e){
   drag.x=e.clientX; drag.y=e.clientY;
 });
 ['pointerup','pointercancel'].forEach(function(ev){ canvas.addEventListener(ev,function(e){ if(drag&&e.pointerId===drag.id) drag=null; }); });
-canvas.addEventListener('wheel',function(e){ if(mode==='play'){ cam.dist=clamp(cam.dist+e.deltaY*0.01,7,24); e.preventDefault(); } },{passive:false});
+canvas.addEventListener('wheel',function(e){ if(mode==='play'){ cam.dist=clamp(cam.dist+e.deltaY*0.01,7,28); e.preventDefault(); } },{passive:false});
 
 var touchy=(window.matchMedia&&matchMedia('(pointer:coarse)').matches)||('ontouchstart' in window);
 if(touchy) $('hud').classList.add('touchy');
@@ -1289,7 +1441,7 @@ stick.addEventListener('pointermove',function(e){ if(e.pointerId===stickId) move
 $('jumpBtn').addEventListener('pointerdown',function(e){ e.preventDefault(); if(!paused) jumpReq=true; });
 
 /* =====================================================================
-   Loop Utama (Senter, Sungai, Jembatan Kayu, & Sosok Berambut Panjang)
+   Loop Utama (Senter, Sungai, Jembatan Kayu, Hantu, & Pemain Multiplayer)
    ===================================================================== */
 var tNow=0, last=performance.now(), hudAcc=0;
 var heartAcc=0, owlAcc=0, creakAcc=0, wasOnBridge=false;
@@ -1318,9 +1470,10 @@ function update(dt){
     var hh=groundAndBridgeHeight(P.x,P.z), ahead=groundAndBridgeHeight(P.x+nx*0.8,P.z+nz*0.8), sl=(ahead-hh)/0.8;
     var f=P.ground?clamp(1-Math.max(0,sl)*0.45,0.45,1):1;
     var waterPenalty = P.inWater ? 0.35 : 1.0;
-    sp=11*m*f*waterPenalty;
+    var baseSpeed = isTeacherMode ? 18 : 11; // Guru bisa berlari lebih cepat untuk patroli
+    sp=baseSpeed*m*f*waterPenalty;
     P.x+=nx*sp*dt; P.z+=nz*sp*dt; P.face=Math.atan2(nx,nz);
-    if(P.inWater){
+    if(P.inWater && !isTeacherMode){
       P.z += (P.z >= 0 ? 1.9 : -1.9) * dt;
     }
   }
@@ -1341,15 +1494,15 @@ function update(dt){
   headlamp.position.set(P.x + lookDirX*0.6, P.y + 4.1, P.z + lookDirZ*0.6);
   headlampTarget.position.set(P.x + lookDirX*22, P.y + 1.2, P.z + lookDirZ*22);
 
-  // Logika Sosok Berambut Panjang
+  // Logika Sosok Berambut Panjang (tidak mengganggu Mode Pengawas)
   var minGhostDist = 999;
   var detectRadius = flashlightOn ? 24 : 9;
   for(var gi=0; gi<ghosts.length; gi++){
     var ghObj = ghosts[gi];
     var distToP = Math.hypot(P.x - ghObj.x, P.z - ghObj.z);
-    if(distToP < minGhostDist) minGhostDist = distToP;
+    if(!isTeacherMode && distToP < minGhostDist) minGhostDist = distToP;
 
-    var chasing = distToP < detectRadius;
+    var chasing = !isTeacherMode && (distToP < detectRadius);
     if(chasing){
       var angToP = Math.atan2(P.x - ghObj.x, P.z - ghObj.z);
       var chaseSpd = flashlightOn ? 5.2 : 3.2;
@@ -1367,7 +1520,6 @@ function update(dt){
     var gy = groundAndBridgeHeight(ghObj.x, ghObj.z);
     ghObj.g.position.set(ghObj.x, gy + Math.sin(tNow*3 + gi)*0.25, ghObj.z);
 
-    // Animasi rambut panjang tertiup angin & berkibar saat mengejar
     if(ghObj.hair){
       var swaySpeed = chasing ? 6.5 : 2.6;
       var swayAmp = chasing ? 0.18 : 0.08;
@@ -1375,7 +1527,7 @@ function update(dt){
       ghObj.hair.rotation.z = Math.cos(tNow * (swaySpeed * 0.8) + gi) * (swayAmp * 0.8);
     }
 
-    if(distToP < 2.2){
+    if(!isTeacherMode && distToP < 2.2){
       SFX.scareHit();
       toast('Tertangkap sosok berambut panjang! Kamu mundur ke titik aman sebelumnya.');
       P.x = P.safeX; P.z = P.safeZ;
@@ -1404,12 +1556,14 @@ function update(dt){
     if(Math.random() < 0.7) SFX.owl();
   }
 
-  for(var i=0;i<N;i++){
-    var p=papers[i]; if(S.collected[i]) continue;
-    var dx=p.x-P.x, dz=p.z-P.z;
-    if(dx*dx+dz*dz<12 && P.y<p.y+5){ collect(i); break; }
+  if(!isTeacherMode){
+    for(var i=0;i<N;i++){
+      var p=papers[i]; if(S.collected[i]) continue;
+      var dx=p.x-P.x, dz=p.z-P.z;
+      if(dx*dx+dz*dz<12 && P.y<p.y+5){ collect(i); break; }
+    }
+    checkSummit();
   }
-  checkSummit();
 }
 
 function camUpdate(){
@@ -1428,13 +1582,14 @@ function hudTick(force){
   var fx=-Math.sin(cam.yaw), fz=-Math.cos(cam.yaw), rx=-fz, rz=fx;
   var a=Math.atan2(dx*rx+dz*rz, dx*fx+dz*fz);
   $('arrow').style.transform='rotate('+a+'rad)';
-  var txt=t.kind==='paper'?'Kertas '+(t.i+1)+' · '+Math.round(d)+' m':t.kind==='bag'?'Soal '+(t.i+1)+' belum dijawab. Buka Tas soal':'Semua soal terjawab. Menuju puncak · '+Math.round(d)+' m';
+  var txt=isTeacherMode?'Mode Pengawas: Keliling gunung untuk pantau siswa':t.kind==='paper'?'Kertas '+(t.i+1)+' · '+Math.round(d)+' m':t.kind==='bag'?'Soal '+(t.i+1)+' belum dijawab. Buka Tas soal':'Semua soal terjawab. Menuju puncak · '+Math.round(d)+' m';
   if($('compTxt').textContent!==txt) $('compTxt').textContent=txt;
 }
 function frame(now){
   var dt=Math.min(0.05,(now-last)/1000); last=now; tNow+=dt;
   if(mode==='play'){
     if(!paused) update(dt);
+    updateRemotePlayers(dt);
     camUpdate();
     hudAcc+=dt; if(hudAcc>0.1){ hudAcc=0; hudTick(); }
   } else {
